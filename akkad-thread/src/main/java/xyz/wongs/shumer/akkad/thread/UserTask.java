@@ -1,11 +1,13 @@
 package xyz.wongs.shumer.akkad.thread;
 
+import org.springframework.stereotype.Component;
 import xyz.wongs.shumer.akkad.util.ToolUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+@Component
 public class UserTask implements Callable<List<SysUser>> {
 
     public List<SysUser> call() throws Exception {

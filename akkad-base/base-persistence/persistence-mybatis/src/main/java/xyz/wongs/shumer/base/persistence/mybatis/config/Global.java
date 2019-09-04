@@ -27,9 +27,9 @@ public class Global {
 	 */
 	public static synchronized Global getInstance() {
 
-		if (global == null) {
+		if (null== global) {
 			synchronized (Global.class) {
-				if(global == null) {
+				if(null == global) {
 					global = new Global();
 				}
 			}

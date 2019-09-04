@@ -7,14 +7,14 @@
     <artifactId>Shumer</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-<!--
         <module>akkad-thread</module>
--->
         <module>akkad-webmagic</module>
         <module>akkad-base</module>
         <module>akkad-cloud</module>
         <module>akkad-design</module>
         <module>akkad-job</module>
+        <module>akkad-handball</module>
+        <module>akkad-socket</module>
     </modules>
     <packaging>pom</packaging>
 

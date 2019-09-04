@@ -61,11 +61,13 @@ public class FileUtil {
             throw new RuntimeException("");
         } finally {
             try {
-                channel.close();
+                if(null!=channel)
+                    channel.close();
             } catch (IOException e) {
                 throw new RuntimeException("文件读取失败");
             }
             try {
+                if(null!=channel)
                 fs.close();
             } catch (IOException e) {
                 throw new RuntimeException("文件读取失败");
