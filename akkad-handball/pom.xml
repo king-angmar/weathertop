@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>handball-zuuk</module>
+        <module>handball-location</module>
     </modules>
 
 
