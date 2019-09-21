@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.wongs.shumer.akkad.webmagic.mapper.CmsContentMapper">
-  <resultMap id="BaseResultMap" type="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" >
+<mapper namespace="xyz.wongs.weather.akkad.webmagic.mapper.CmsContentMapper">
+  <resultMap id="BaseResultMap" type="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="release_date" property="releaseDate" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -27,13 +27,13 @@
     delete from cms_content
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" >
+  <insert id="insert" parameterType="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" >
     insert into cms_content (id, title, release_date,
     content)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{releaseDate,jdbcType=TIMESTAMP},
     #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" >
+  <insert id="insertSelective" parameterType="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" >
     insert into cms_content
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" >
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" >
     update cms_content
     <set >
       <if test="title != null" >
@@ -79,14 +79,14 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" >
     update cms_content
     set title = #{title,jdbcType=VARCHAR},
     release_date = #{releaseDate,jdbcType=TIMESTAMP},
     content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="xyz.wongs.shumer.akkad.webmagic.entity.CmsContent" >
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weather.akkad.webmagic.entity.CmsContent" >
     update cms_content
     set title = #{title,jdbcType=VARCHAR},
     release_date = #{releaseDate,jdbcType=TIMESTAMP}
