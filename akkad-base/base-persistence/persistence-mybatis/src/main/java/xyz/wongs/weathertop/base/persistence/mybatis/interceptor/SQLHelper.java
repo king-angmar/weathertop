@@ -1,5 +1,5 @@
 //
-//package xyz.wongs.weather.base.persistence.mybatis.interceptor;
+//package xyz.wongs.weathertop.base.persistence.mybatis.interceptor;
 //
 //import org.apache.ibatis.executor.ErrorContext;
 //import org.apache.ibatis.executor.ExecutorException;
@@ -14,12 +14,12 @@
 //import org.apache.ibatis.session.Configuration;
 //import org.apache.ibatis.type.TypeHandler;
 //import org.apache.ibatis.type.TypeHandlerRegistry;
-//import xyz.wongs.weather.base.persistence.mybatis.config.Global;
-//import xyz.wongs.weather.base.persistence.mybatis.dialect.Dialect;
-//import xyz.wongs.weather.base.persistence.mybatis.page.Page;
-//import xyz.wongs.weather.base.persistence.mybatis.stas.Cons;
-//import xyz.wongs.weather.base.utils.Reflections;
-//import xyz.wongs.weather.base.utils.StringUtils;
+//import xyz.wongs.weathertop.base.persistence.mybatis.config.Global;
+//import xyz.wongs.weathertop.base.persistence.mybatis.dialect.Dialect;
+//import xyz.wongs.weathertop.base.persistence.mybatis.page.Page;
+//import xyz.wongs.weathertop.base.persistence.mybatis.stas.Cons;
+//import xyz.wongs.weathertop.base.utils.Reflections;
+//import xyz.wongs.weathertop.base.utils.StringUtils;
 //
 //import java.sql.Connection;
 //import java.sql.PreparedStatement;

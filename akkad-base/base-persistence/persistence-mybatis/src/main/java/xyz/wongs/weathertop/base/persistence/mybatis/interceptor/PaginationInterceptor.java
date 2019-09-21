@@ -1,4 +1,4 @@
-//package xyz.wongs.weather.base.persistence.mybatis.interceptor;
+//package xyz.wongs.weathertop.base.persistence.mybatis.interceptor;
 //
 //import org.apache.ibatis.executor.Executor;
 //import org.apache.ibatis.mapping.BoundSql;
@@ -11,9 +11,9 @@
 //import org.apache.ibatis.reflection.MetaObject;
 //import org.apache.ibatis.session.ResultHandler;
 //import org.apache.ibatis.session.RowBounds;
-//import xyz.wongs.weather.base.persistence.mybatis.page.Page;
-//import xyz.wongs.weather.base.utils.Reflections;
-//import xyz.wongs.weather.base.utils.StringUtils;
+//import xyz.wongs.weathertop.base.persistence.mybatis.page.Page;
+//import xyz.wongs.weathertop.base.utils.Reflections;
+//import xyz.wongs.weathertop.base.utils.StringUtils;
 //
 //import java.util.Properties;
 //

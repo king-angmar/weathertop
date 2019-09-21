@@ -1,7 +1,7 @@
 package xyz.wongs.weathertop.base.persistence.mybatis.mapper;
 
-import xyz.wongs.weather.base.persistence.mybatis.entity.BaseEntity;
-import xyz.wongs.weather.base.persistence.mybatis.page.PaginationInfo;
+import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
+import xyz.wongs.weathertop.base.persistence.mybatis.page.PaginationInfo;
 import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
 
 import java.io.Serializable;

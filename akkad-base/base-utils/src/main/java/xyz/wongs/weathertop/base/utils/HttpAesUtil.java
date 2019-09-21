@@ -1,6 +1,5 @@
 package xyz.wongs.weathertop.base.utils;
 
-import xyz.wongs.weather.base.utils.exception.HttpAesException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

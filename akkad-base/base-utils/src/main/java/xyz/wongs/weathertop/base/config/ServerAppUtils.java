@@ -1,7 +1,7 @@
 package xyz.wongs.weathertop.base.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -17,20 +17,19 @@ import org.springframework.util.Assert;
 */
 @Component
 @Slf4j
-public class ServerAppUtils implements ApplicationListener<EmbeddedServletContainerInitializedEvent> {
+public class ServerAppUtils implements ApplicationListener<WebServerInitializedEvent> {
 
-    private static EmbeddedServletContainerInitializedEvent event;
+    private int serverPort;
 
-    @Override
-    public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
-        ServerAppUtils.event = event;
+    public int getPort() {
+        return this.serverPort;
     }
 
-    public static int getPort() {
+    @Override
+    public void onApplicationEvent(WebServerInitializedEvent event) {
         Assert.notNull(event);
-        int port = event.getEmbeddedServletContainer().getPort();
+        int port = event.getWebServer().getPort();
         Assert.state(port != -1, "端口号获取失败");
-        return port;
     }
 
 }

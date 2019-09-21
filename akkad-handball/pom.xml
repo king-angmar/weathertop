@@ -9,11 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.wongs.shumer</groupId>
     <artifactId>akkad-handball</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>handball-zuuk</module>
         <module>handball-location</module>
     </modules>
 

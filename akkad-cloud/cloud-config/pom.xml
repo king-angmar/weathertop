@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>xyz.wongs.shumer</groupId>
+            <groupId>xyz.wongs.weathertop</groupId>
             <artifactId>persistence-mybatis</artifactId>
         </dependency>
         <dependency>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.wongs.weather.handball.location.mapper.LocationMapper">
-  <resultMap id="BaseResultMap" type="xyz.wongs.weather.handball.location.entity.Location">
+<mapper namespace="xyz.wongs.weathertop.handball.location.mapper.LocationMapper">
+  <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.handball.location.entity.Location">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="flag" jdbcType="VARCHAR" property="flag" />
     <result column="local_code" jdbcType="VARCHAR" property="localCode" />
@@ -21,7 +21,7 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <select id="getList" resultMap="BaseResultMap" parameterType="xyz.wongs.weather.handball.location.entity.Location" >
+  <select id="getList" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.handball.location.entity.Location" >
     select
     <include refid="Base_Column_List" />
     from tb_locations
@@ -47,7 +47,7 @@
     </where>
   </select>
 
-  <select id="getList2" resultMap="BaseResultMap" parameterType="xyz.wongs.weather.handball.location.entity.Location" >
+  <select id="getList2" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.handball.location.entity.Location" >
     select
     <include refid="Base_Column_List" />
     from tb_locations where flag is null and url is not null
@@ -80,7 +80,7 @@
   </insert>
 
 
-  <insert id="insert" parameterType="xyz.wongs.weather.handball.location.entity.Location">
+  <insert id="insert" parameterType="xyz.wongs.weathertop.handball.location.entity.Location">
     insert into tb_locations (id, flag, local_code, 
       local_name, lv, sup_local_code, 
       url)
@@ -88,7 +88,7 @@
       #{localName,jdbcType=VARCHAR}, #{lv,jdbcType=INTEGER}, #{supLocalCode,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="xyz.wongs.weather.handball.location.entity.Location">
+  <insert id="insertSelective" parameterType="xyz.wongs.weathertop.handball.location.entity.Location">
     insert into tb_locations
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -137,7 +137,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weather.handball.location.entity.Location">
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.handball.location.entity.Location">
     update tb_locations
     <set>
       <if test="flag != null">
@@ -161,7 +161,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weather.handball.location.entity.Location">
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.handball.location.entity.Location">
     update tb_locations
     set flag = #{flag,jdbcType=VARCHAR},
       local_code = #{localCode,jdbcType=VARCHAR},

@@ -2,8 +2,8 @@ package xyz.wongs.weathertop.base.persistence.mybatis.config;
 
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Component;
-import xyz.wongs.weather.base.utils.PropertiesLoader;
-import xyz.wongs.weather.base.utils.StringUtils;
+import xyz.wongs.weathertop.base.utils.StringUtils;
+import xyz.wongs.weathertop.base.utils.PropertiesLoader;
 
 import java.util.Map;
 

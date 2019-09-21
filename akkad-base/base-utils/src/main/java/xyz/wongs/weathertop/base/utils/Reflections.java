@@ -1,6 +1,4 @@
-/**
- * Copyright (c) 2005-2012 springside.org.cn
- */
+
 package xyz.wongs.weathertop.base.utils;
 
 import java.lang.reflect.*;
@@ -399,19 +397,19 @@ public class Reflections {
 
 					//判断属性名与属性的类型一致
 					if(targFieldName.equals(sourceFieldName) && targFieldType.equals(sourceFieldType)){
-						String fieldGetName = xyz.wongs.weather.base.utils.StringUtils.parGetName(sourceField.getName());
-						if (!xyz.wongs.weather.base.utils.StringUtils.checkGetMet(sourceMethods, fieldGetName)) {
+						String fieldGetName = xyz.wongs.weathertop.base.utils.StringUtils.parGetName(sourceField.getName());
+						if (!xyz.wongs.weathertop.base.utils.StringUtils.checkGetMet(sourceMethods, fieldGetName)) {
 							continue;
 						}
 						Method sourceFieldGetMet = sourceClz.getMethod(fieldGetName);
 						Object value = sourceFieldGetMet.invoke(source);
-						if(null==value || xyz.wongs.weather.base.utils.StringUtils.isBlank(value.toString())){
+						if(null==value || xyz.wongs.weathertop.base.utils.StringUtils.isBlank(value.toString())){
 							continue;
 						}
 						Object val = getValue(value.toString(),targFieldType);
 						//Set Method
-						String fieldSetName = xyz.wongs.weather.base.utils.StringUtils.parSetName(targField.getName());
-						if (!xyz.wongs.weather.base.utils.StringUtils.checkGetMet(targetMethods, fieldSetName)) {
+						String fieldSetName = xyz.wongs.weathertop.base.utils.StringUtils.parSetName(targField.getName());
+						if (!xyz.wongs.weathertop.base.utils.StringUtils.checkGetMet(targetMethods, fieldSetName)) {
 							continue;
 						}
 						Method fieldSetMet = targetCls.getMethod(fieldSetName, new Class[] {targField.getType()});
@@ -493,9 +491,9 @@ public class Reflections {
 			Object value;
 			try {
 				String fieldType = fields[i].getType().getSimpleName();
-				String fieldGetName = xyz.wongs.weather.base.utils.StringUtils.parGetName(fields[i].getName());
+				String fieldGetName = xyz.wongs.weathertop.base.utils.StringUtils.parGetName(fields[i].getName());
 				//校验是否有GETTER、SETTER的方法
-				if (!xyz.wongs.weather.base.utils.StringUtils.checkGetMet(methods, fieldGetName)) {
+				if (!xyz.wongs.weathertop.base.utils.StringUtils.checkGetMet(methods, fieldGetName)) {
 					continue;
 				}
 				//Type conversion
@@ -519,9 +517,9 @@ public class Reflections {
 			Field[] fields = cls.getDeclaredFields();
 			Method[] methods = cls.getDeclaredMethods();
 			for (int i=0;i<fields.length;i++) {
-				String fieldGetName = xyz.wongs.weather.base.utils.StringUtils.parGetName(fields[i].getName());
+				String fieldGetName = xyz.wongs.weathertop.base.utils.StringUtils.parGetName(fields[i].getName());
 				//校验是否有GETTER、SETTER的方法
-				if (!xyz.wongs.weather.base.utils.StringUtils.checkGetMet(methods, fieldGetName)) {
+				if (!xyz.wongs.weathertop.base.utils.StringUtils.checkGetMet(methods, fieldGetName)) {
 					continue;
 				}
 				Method fieldSetMet = cls.getMethod(fieldGetName);

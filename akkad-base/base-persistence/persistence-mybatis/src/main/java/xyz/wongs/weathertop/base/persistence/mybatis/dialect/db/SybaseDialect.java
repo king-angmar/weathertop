@@ -1,6 +1,6 @@
 package xyz.wongs.weathertop.base.persistence.mybatis.dialect.db;
 
-import xyz.wongs.weather.base.persistence.mybatis.dialect.Dialect;
+import xyz.wongs.weathertop.base.persistence.mybatis.dialect.Dialect;
 import xyz.wongs.weathertop.base.persistence.mybatis.dialect.Dialect;
 
 /**

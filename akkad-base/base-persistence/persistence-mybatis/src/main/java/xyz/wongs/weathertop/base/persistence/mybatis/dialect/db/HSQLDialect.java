@@ -2,7 +2,7 @@
  * Copyright &copy; 2012-2016 <a href="https://wongs.xyz">UECC</a> All rights reserved.
  */
 package xyz.wongs.weathertop.base.persistence.mybatis.dialect.db;
-import xyz.wongs.weather.base.persistence.mybatis.dialect.Dialect;
+import xyz.wongs.weathertop.base.persistence.mybatis.dialect.Dialect;
 import xyz.wongs.weathertop.base.persistence.mybatis.dialect.Dialect;
 
 

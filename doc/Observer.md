@@ -69,7 +69,7 @@ Subject 对象带有绑定观察者到 Client 对象和从 Client 对象解绑�
 
 ~~~
 
-package xyz.wongs.weather.design.observer;
+package xyz.wongs.weathertop.design.observer;
 
 public interface Observer {
 
@@ -81,7 +81,7 @@ public interface Observer {
 
 ~~~
 
-package xyz.wongs.weather.design.observer;
+package xyz.wongs.weathertop.design.observer;
 
 public class ObserverImpl implements Observer {
 
@@ -111,7 +111,7 @@ public class ObserverImpl implements Observer {
 
 ~~~
 
-package xyz.wongs.weather.design.observer;
+package xyz.wongs.weathertop.design.observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +142,7 @@ public abstract class BaseSubject {
 
 ~~~
 
-package xyz.wongs.weather.design.observer;
+package xyz.wongs.weathertop.design.observer;
 
 public class Subject extends BaseSubject {
 
@@ -165,13 +165,13 @@ public class Subject extends BaseSubject {
 
 ~~~
 
-package xyz.wongs.weather;
+package xyz.wongs.weathertop;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import xyz.wongs.weather.design.observer.ObserverImpl;
-import xyz.wongs.weather.design.observer.Subject;
+import xyz.wongs.weathertop.design.observer.ObserverImpl;
+import xyz.wongs.weathertop.design.observer.Subject;
 
 
 public class AppTest {

@@ -1,8 +1,8 @@
 package xyz.wongs.weathertop.base.persistence.mybatis.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import xyz.wongs.weather.base.persistence.mybatis.stas.Cons;
-import xyz.wongs.weather.base.persistence.mybatis.config.Global;
+import xyz.wongs.weathertop.base.persistence.mybatis.stas.Cons;
+import xyz.wongs.weathertop.base.persistence.mybatis.config.Global;
 
 import java.io.Serializable;
 

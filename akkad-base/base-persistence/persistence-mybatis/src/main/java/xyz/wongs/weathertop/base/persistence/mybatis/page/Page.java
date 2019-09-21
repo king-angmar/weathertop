@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import xyz.wongs.weather.base.persistence.mybatis.config.Global;
-import xyz.wongs.weather.base.utils.CookieUtils;
+import xyz.wongs.weathertop.base.persistence.mybatis.config.Global;
+import xyz.wongs.weathertop.base.utils.CookieUtils;
 import xyz.wongs.weathertop.base.persistence.mybatis.config.Global;
 
 /**

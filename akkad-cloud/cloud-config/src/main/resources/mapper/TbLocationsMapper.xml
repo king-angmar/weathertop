@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xyz.wongs.weather.sys.location.mapper.LocationMapper" >
-  <resultMap id="BaseResultMap" type="xyz.wongs.weather.sys.location.entity.Location" >
+<mapper namespace="xyz.wongs.weathertop.sys.location.mapper.LocationMapper" >
+  <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.sys.location.entity.Location" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="flag" property="flag" jdbcType="VARCHAR" />
     <result column="local_code" property="localCode" jdbcType="VARCHAR" />
@@ -14,7 +14,7 @@
     id, flag, local_code, local_name, lv, sup_local_code, url
   </sql>
 
-  <select id="getList" resultMap="BaseResultMap" parameterType="xyz.wongs.weather.sys.location.entity.Location" >
+  <select id="getList" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.sys.location.entity.Location" >
     select
     <include refid="Base_Column_List" />
     from tb_locations
@@ -50,7 +50,7 @@
     delete from tb_locations
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="xyz.wongs.weather.sys.location.entity.Location" >
+  <insert id="insert" parameterType="xyz.wongs.weathertop.sys.location.entity.Location" >
     insert into tb_locations (id, flag, local_code, 
       local_name, lv, sup_local_code, 
       url)
@@ -58,7 +58,7 @@
       #{localName,jdbcType=VARCHAR}, #{lv,jdbcType=INTEGER}, #{supLocalCode,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="xyz.wongs.weather.sys.location.entity.Location" >
+  <insert id="insertSelective" parameterType="xyz.wongs.weathertop.sys.location.entity.Location" >
     insert into tb_locations
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -107,7 +107,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weather.sys.location.entity.Location" >
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.sys.location.entity.Location" >
     update tb_locations
     <set >
       <if test="flag != null" >
@@ -131,7 +131,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weather.sys.location.entity.Location" >
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.sys.location.entity.Location" >
     update tb_locations
     set flag = #{flag,jdbcType=VARCHAR},
       local_code = #{localCode,jdbcType=VARCHAR},

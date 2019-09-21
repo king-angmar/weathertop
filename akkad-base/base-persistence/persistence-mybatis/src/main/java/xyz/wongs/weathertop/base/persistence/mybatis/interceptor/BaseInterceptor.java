@@ -1,15 +1,15 @@
-//package xyz.wongs.weather.base.persistence.mybatis.interceptor;
+//package xyz.wongs.weathertop.base.persistence.mybatis.interceptor;
 //
 //import org.apache.ibatis.logging.Log;
 //import org.apache.ibatis.logging.LogFactory;
 //import org.apache.ibatis.plugin.Interceptor;
 //
-//import xyz.wongs.weather.base.persistence.mybatis.config.Global;
-//import xyz.wongs.weather.base.persistence.mybatis.dialect.Dialect;
-//import xyz.wongs.weather.base.persistence.mybatis.dialect.db.*;
-//import xyz.wongs.weather.base.persistence.mybatis.page.Page;
-//import xyz.wongs.weather.base.persistence.mybatis.stas.Cons;
-//import xyz.wongs.weather.base.utils.Reflections;
+//import xyz.wongs.weathertop.base.persistence.mybatis.config.Global;
+//import xyz.wongs.weathertop.base.persistence.mybatis.dialect.Dialect;
+//import xyz.wongs.weathertop.base.persistence.mybatis.dialect.db.*;
+//import xyz.wongs.weathertop.base.persistence.mybatis.page.Page;
+//import xyz.wongs.weathertop.base.persistence.mybatis.stas.Cons;
+//import xyz.wongs.weathertop.base.utils.Reflections;
 //
 //
 //import java.io.Serializable;

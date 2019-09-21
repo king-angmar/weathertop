@@ -1,4 +1,4 @@
-//package xyz.wongs.weather.base.persistence.mybatis.interceptor;
+//package xyz.wongs.weathertop.base.persistence.mybatis.interceptor;
 //
 //import org.apache.ibatis.executor.statement.BaseStatementHandler;
 //import org.apache.ibatis.executor.statement.RoutingStatementHandler;
@@ -9,8 +9,8 @@
 //import org.apache.ibatis.plugin.Invocation;
 //import org.apache.ibatis.plugin.Plugin;
 //import org.apache.ibatis.plugin.Signature;
-//import xyz.wongs.weather.base.persistence.mybatis.page.Page;
-//import xyz.wongs.weather.base.utils.Reflections;
+//import xyz.wongs.weathertop.base.persistence.mybatis.page.Page;
+//import xyz.wongs.weathertop.base.utils.Reflections;
 //
 //import java.sql.Connection;
 //import java.util.Properties;

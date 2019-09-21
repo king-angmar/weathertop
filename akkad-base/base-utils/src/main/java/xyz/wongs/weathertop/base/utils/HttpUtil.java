@@ -7,9 +7,6 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import xyz.wongs.weather.base.utils.CryptTool;
-import xyz.wongs.weather.base.utils.StrUtil;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
