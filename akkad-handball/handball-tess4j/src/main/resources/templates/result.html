@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>Extracted Content:</h1>
+<h2>><span th:text="${text}"></span></h2>
+
+<p>From the image:</p>
+<img th:src="'/' + ${file.getOriginalFilename()}"/>
+</body>
+</html>

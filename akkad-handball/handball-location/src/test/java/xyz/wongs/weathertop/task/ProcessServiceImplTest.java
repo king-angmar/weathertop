@@ -1,15 +1,12 @@
-package xyz.wongs.weathertop.zonecode.core.area.service.task;
+package xyz.wongs.weathertop.task;
 
 import com.github.pagehelper.PageInfo;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import xyz.wongs.weathertop.LocationApplication;
+import xyz.wongs.weathertop.base.BaseTest;
 import xyz.wongs.weathertop.handball.location.entity.Location;
 import xyz.wongs.weathertop.handball.location.service.LocationService;
 import xyz.wongs.weathertop.handball.task.ProcessService;
@@ -19,10 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-//@WebAppConfiguration
-@SpringBootTest(classes ={LocationApplication.class})
-public class ProcessServiceImplTest {
+
+public class ProcessServiceImplTest extends BaseTest {
     private static final String url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/";
     private final static Logger logger = LoggerFactory.getLogger(ProcessServiceImplTest.class);
 
