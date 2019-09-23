@@ -5,7 +5,7 @@ import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 
 /**
  * @ClassName WeathertopRuntimeException
- * @Description 
+ * @Description 自定义异常
  * @author WCNGS@QQ.COM
  * @Github <a>https://github.com/rothschil</a>
  * @date 2019/9/21 10:07

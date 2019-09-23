@@ -12,13 +12,22 @@ import java.io.Serializable;
 public class Response<T> implements Serializable {
     private static final long serialVersionUID = -4505655308965878999L;
 
-    //请求成功返回码为：0000
+    /**
+     *  请求成功返回码为：0-成功
+     */
     private static final Integer SUCCESS_CODE = 0;
-    //返回数据
+    /**
+     *  返回数据
+     */
     private T data;
-    //返回码
-    private int code=200;
-    //返回描述
+    /**
+     *  返回码
+     */
+    private int code;
+
+    /**
+     *  返回描述
+     */
     private String msg;
 
     private boolean status=true;
@@ -26,6 +35,12 @@ public class Response<T> implements Serializable {
     public Response() {
         this.code = SUCCESS_CODE;
         this.msg = "REQUEST SUCCESS";
+    }
+
+    public Response(boolean status,int code) {
+        this();
+        this.status=status;
+        this.code = code;
     }
 
     public Response(int code, String msg) {

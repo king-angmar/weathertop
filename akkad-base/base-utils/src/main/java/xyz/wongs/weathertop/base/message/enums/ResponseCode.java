@@ -17,9 +17,11 @@ public enum ResponseCode {
     GATEWAY_TIME_OUT_ERROR_CODE(504,"充当网关或代理的服务器，未及时从远端服务器获取请求"),
     HTTP_VERSION_NOT_SUPPORTED_ERROR_CODE(505,"服务器不支持请求的HTTP协议的版本，无法完成处理"),
 
+
     RESOURCE_NOT_EXIST(1001, "资源不存在"),
     INSUFFICIENT_RESOURCE(1002, "资源不符合规范"),
-    NETWORK_ERROR(9999, "网络错误，待会重试"),;
+    NETWORK_ERROR(9999, "网络错误，待会重试"),,
+    DUPLICATEKEY_ERROR_CODE(1003,"数据库中已存在该记录");
 
     private int code;
     private String msg;
