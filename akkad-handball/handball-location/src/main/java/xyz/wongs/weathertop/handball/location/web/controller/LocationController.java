@@ -1,13 +1,12 @@
 package xyz.wongs.weathertop.handball.location.web.controller;
 
 
-import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import xyz.wongs.weathertop.base.message.enums.ErrorCodeAndMsg;
-import xyz.wongs.weathertop.base.message.exception.WeathertopException;
+import xyz.wongs.weathertop.base.message.enums.ResponseCode;
+import xyz.wongs.weathertop.base.message.exception.WeathertopRuntimeException;
 import xyz.wongs.weathertop.handball.location.entity.Location;
 import xyz.wongs.weathertop.handball.location.service.LocationService;
 import xyz.wongs.weathertop.base.message.response.Response;
@@ -27,7 +26,7 @@ public class LocationController {
         Location location = locationService.selectByPrimaryKey(id);
 
         if(null==location){
-            throw new WeathertopException(ErrorCodeAndMsg.Data_number_does_not_exist);
+            throw new WeathertopRuntimeException(ResponseCode.RESOURCE_NOT_EXIST);
         }
         return new Response(location);
     }
@@ -37,7 +36,7 @@ public class LocationController {
         Location location = locationService.selectByPrimaryKey(id);
 
         Optional.ofNullable(location).orElseGet(()->{
-            throw new WeathertopException(ErrorCodeAndMsg.Data_number_does_not_exist);
+            throw new WeathertopRuntimeException(ResponseCode.RESOURCE_NOT_EXIST);
         });
 
         model.addAttribute("fun",location.getUrl());
