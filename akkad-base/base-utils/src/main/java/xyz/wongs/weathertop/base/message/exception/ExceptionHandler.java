@@ -23,7 +23,7 @@ public class ExceptionHandler {
     @ResponseBody
     public Response handleWeathertopException(HttpServletRequest request, WeathertopRuntimeException ex) {
         log.error("WeathertopRuntimeException code:{},msg:{}",ex.getResponse().getCode(),ex.getResponse().getMsg());
-        Response response = new Response(ex.getResponse().getCode(),ex.getResponse().getMsg());
+        Response response = new Response(false,ex.getResponse().getCode(),ex.getResponse().getMsg());
         return response;
     }
 

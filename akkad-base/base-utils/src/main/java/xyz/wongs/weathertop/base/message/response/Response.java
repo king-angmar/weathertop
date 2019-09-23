@@ -34,6 +34,13 @@ public class Response<T> implements Serializable {
         this.msg = msg;
     }
 
+    public Response(boolean status,int code, String msg) {
+        this();
+        this.status=status;
+        this.code = code;
+        this.msg = msg;
+    }
+
     public Response(int code, String msg, T data) {
         this();
         this.code = code;
