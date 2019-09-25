@@ -218,6 +218,39 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return new SimpleDateFormat("yyyyMMdd").format(time);
 	}
 
+	/**
+	 * 日期时间偏移
+	 * offset = 1,date=2018-11-02 16:47:00
+	 * 结果：2018-11-03 16:47:00
+	 * @param date
+	 * @param offset
+	 * @return
+	 */
+	public static Date offset(Date date, int offset) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DAY_OF_MONTH, offset);
+		return cal.getTime();
+	}
+
+	/**日期偏移
+	 * @author WCNGS@QQ.COM
+	 * @See
+	 * @date 2019/9/25 18:01
+	 * @param date
+	 * @param offset
+	 * @param calendar
+	 * @return java.util.Date
+	 * @throws
+	 * @since
+	 */
+	public static Date offset(Date date, int offset,int calendar) {
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(calendar, offset);
+		return cal.getTime();
+	}
 
 	/**
 	 * @Author: WCNGS@QQ.COM

@@ -27,7 +27,6 @@ public class Springboot2Utils implements ApplicationListener<WebServerInitialize
 
     @Override
     public void onApplicationEvent(WebServerInitializedEvent event) {
-        Assert.notNull(event);
         int port = event.getWebServer().getPort();
         Assert.state(port != -1, "端口号获取失败");
     }

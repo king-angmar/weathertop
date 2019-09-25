@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan(basePackages = {"xyz.wongs.weathertop.**.mapper"})
 @SpringBootApplication
 @NacosPropertySource(dataId = "xyz.wongs.weathertop", groupId="SECOND_GROUP", autoRefreshed = true)
-public class App {
+public class ConfigApp {
     public static void main(String[] args) {
-        SpringApplication.run(App.class,args);
+        SpringApplication.run(ConfigApp.class,args);
     }
 }

@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>cloud-config</module>
+        <module>cloud-jwt</module>
     </modules>
 
 
