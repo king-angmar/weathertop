@@ -7,7 +7,7 @@ import xyz.wongs.weathertop.handball.location.entity.Location;
 public interface ProcessService {
 
 
-	void getHTML2(String url, Location location);
+	boolean getHTML2(String url, Location location);
 	/**
 	 *
 	 * @Title: htmlParser
@@ -31,7 +31,7 @@ public interface ProcessService {
 	 * @exception
 	 * @date        2018/6/30 23:29
 	 */
-	void intiRootUrl(String url);
+	boolean intiRootUrl(String url);
 
 
 

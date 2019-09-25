@@ -19,6 +19,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * @ClassName FileUploadController
+ * @Description 
+ * @author WCNGS@QQ.COM
+ * @Github <a>https://github.com/rothschil</a>
+ * @date 2019/9/25 16:36
+ * @Version 1.0.0
+*/
 @Controller
 public class FileUploadController {
 

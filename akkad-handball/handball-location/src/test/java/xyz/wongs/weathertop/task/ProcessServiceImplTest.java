@@ -1,6 +1,7 @@
 package xyz.wongs.weathertop.task;
 
 import com.github.pagehelper.PageInfo;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class ProcessServiceImplTest extends BaseTest {
 
     @Test
     public void initRoot(){
-        processService.intiRootUrl(url);
+        Assert.assertTrue(processService.intiRootUrl(url));
     }
 
 

@@ -11,5 +11,5 @@ import xyz.wongs.weathertop.LocationApplication;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes ={LocationApplication.class})
-public class BaseTest {
+public abstract class BaseTest {
 }

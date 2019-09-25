@@ -56,9 +56,15 @@ public class ProcessServiceImpl implements ProcessService {
 	}
 
 	@Override
-	public void getHTML2(String url,Location location) {
-		List<Location> secondLevelLocas =getLocationSecondLevel(url,location);
-		save(secondLevelLocas);
+	public boolean getHTML2(String url,Location location) {
+		try {
+			List<Location> secondLevelLocas =getLocationSecondLevel(url,location);
+			save(secondLevelLocas);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
 	}
 
 	/**
@@ -73,9 +79,14 @@ public class ProcessServiceImpl implements ProcessService {
 	 * @date        2018/6/30 23:29
 	 */
 	@Override
-	public void intiRootUrl(String url){
-		List<Location> rootLocations = getLocationRoot(url,"0");
-		save(rootLocations);
+	public boolean intiRootUrl(String url){
+		try {
+			List<Location> rootLocations = getLocationRoot(url,"0");
+			save(rootLocations);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public List<Location> getLocationRoot(String url,String pCode){

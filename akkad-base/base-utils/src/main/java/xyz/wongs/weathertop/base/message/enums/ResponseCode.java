@@ -20,8 +20,8 @@ public enum ResponseCode {
 
     RESOURCE_NOT_EXIST(1001, "资源不存在"),
     INSUFFICIENT_RESOURCE(1002, "资源不符合规范"),
-    NETWORK_ERROR(9999, "网络错误，待会重试"),,
-    DUPLICATEKEY_ERROR_CODE(1003,"数据库中已存在该记录");
+    DUPLICATEKEY_ERROR_CODE(1003,"数据库中已存在该记录"),
+    NETWORK_ERROR(9999, "网络错误，待会重试");
 
     private int code;
     private String msg;
