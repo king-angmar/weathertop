@@ -2,12 +2,14 @@ package xyz.wongs.weathertop.base.message.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.Response;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * @ClassName ExceptionHandler
@@ -83,6 +85,54 @@ public class ExceptionHandler {
     public Response handleDuplicateKeyException(HttpServletRequest request, DuplicateKeyException ex){
         log.error("exception error:{}", ex);
         Response response = new Response(false,ResponseCode.DUPLICATEKEY_ERROR_CODE.getCode(),ResponseCode.DUPLICATEKEY_ERROR_CODE.getMsg());
+        return response;
+    }
+
+    @ResponseBody
+    @org.springframework.web.bind.annotation.ExceptionHandler(RuntimeException.class)
+    public Response RuntimeException(RuntimeException ex){
+        log.error(ex.getMessage(),ex);
+        Response response = new Response(false,ResponseCode.ERROR_RUNTION.getCode(),ResponseCode.ERROR_RUNTION.getMsg());
+        return response;
+    }
+
+    @ResponseBody
+    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    public Response exception(Exception ex){
+        log.error(ex.getMessage(),ex);
+        Response response = new Response(false,ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMsg());
+        return response;
+    }
+
+    @ResponseBody
+    @org.springframework.web.bind.annotation.ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Response httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex){
+        log.error(ex.getMessage(),ex);
+        Response response = new Response(false,ResponseCode.ERROR_MOTHODNOTSUPPORT.getCode(),ResponseCode.ERROR_MOTHODNOTSUPPORT.getMsg());
+        return response;
+    }
+
+    @ResponseBody
+    @org.springframework.web.bind.annotation.ExceptionHandler(IOException.class)
+    public Response iOException(IOException ex){
+        log.error(ex.getMessage(),ex);
+        Response response = new Response(false,ResponseCode.ERROR_IO.getCode(),ResponseCode.ERROR_IO.getMsg());
+        return response;
+    }
+
+    @ResponseBody
+    @org.springframework.web.bind.annotation.ExceptionHandler(NullPointerException.class)
+    public Response nullPointer(NullPointerException ex){
+        log.error(ex.getMessage(),ex);
+        Response response = new Response(false,ResponseCode.ERROR_NULL.getCode(),ResponseCode.ERROR_NULL.getMsg());
+        return response;
+    }
+
+    @ResponseBody
+    @org.springframework.web.bind.annotation.ExceptionHandler(ClassCastException.class)
+    public Response classCastException(ClassCastException ex){
+        log.error(ex.getMessage(),ex);
+        Response response = new Response(false,ResponseCode.ERROR_CLASS_CAST.getCode(),ResponseCode.ERROR_CLASS_CAST.getMsg());
         return response;
     }
 

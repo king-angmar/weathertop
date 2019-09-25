@@ -6,6 +6,6 @@ import xyz.wongs.weathertop.base.message.exception.GlobalException;
 public class ServerException extends GlobalException {
 
     public ServerException(String message){
-        super(message, ResponseCode.INTERNAL_SERVER_ERROR_CODE.getCode());
+        super(message, ResponseCode.ERROR.getCode());
     }
 }
