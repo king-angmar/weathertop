@@ -2,9 +2,6 @@ package xyz.wongs.weathertop.base.persistence.mybatis.service;
 
 
 import com.github.pagehelper.PageInfo;
-import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
-import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
-import xyz.wongs.weathertop.base.persistence.mybatis.page.PaginationInfo;
 import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
 import xyz.wongs.weathertop.base.persistence.mybatis.page.PaginationInfo;
 

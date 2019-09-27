@@ -7,9 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
 import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
 import xyz.wongs.weathertop.base.persistence.mybatis.page.PaginationInfo;
-import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
-import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
-import xyz.wongs.weathertop.base.persistence.mybatis.page.PaginationInfo;
 
 import java.io.Serializable;
 import java.util.List;
