@@ -206,7 +206,7 @@ public class ProcessServiceImpl implements ProcessService {
                 //针对市辖区 这种无URL的做特殊处理
                 if(!flag){
 					tempLocation = new Location(e.child(0).text(),e.child(1).text(),location.getLocalCode(),null,2);
-					tempLocation.setId(idClazzUtils.getId());
+					tempLocation.setId(idClazzUtils.getId(Location.class));
                     locas.add(tempLocation);
                     //标识位置为TURE
                     flag=true;
@@ -215,13 +215,13 @@ public class ProcessServiceImpl implements ProcessService {
 				es = e.getElementsByAttribute("href");
 				if(es.size()==0){
 					tempLocation = new Location(e.child(0).text(),e.child(1).text(),location.getLocalCode(),"",2);
-					tempLocation.setId(idClazzUtils.getId());
+					tempLocation.setId(idClazzUtils.getId(Location.class));
 					locas.add(tempLocation);
 					continue;
 				}
 				List<Attribute> attrs = es.get(0).attributes().asList();
 				tempLocation = new Location(es.get(0).text(),es.get(1).text(),location.getLocalCode(),attrs.get(0).getValue(),2);
-				tempLocation.setId(idClazzUtils.getId());
+				tempLocation.setId(idClazzUtils.getId(Location.class));
 				locas.add(tempLocation);
             }
 		} catch (Exception e) {
@@ -256,7 +256,7 @@ public class ProcessServiceImpl implements ProcessService {
 			eles = e.getElementsByAttribute("href");
 			List<Attribute> attrs = eles.get(0).attributes().asList();
 			location = new Location(eles.get(0).text(),eles.get(1).text(),pCode,attrs.get(0).getValue(),1);
-			location.setId(idClazzUtils.getId());
+			location.setId(idClazzUtils.getId(Location.class));
 			locas.add(location);
 		}
 		return locas;
@@ -275,7 +275,7 @@ public class ProcessServiceImpl implements ProcessService {
 			eles = e.getElementsByAttribute(cssClazz[1]);
 			List<Attribute> attrs = eles.get(0).attributes().asList();
 			location= new Location(eles.get(0).text(),eles.get(1).text(),parentURLCode,attrs.get(0).getValue(),lv,flag);
-			location.setId(idClazzUtils.getId());
+			location.setId(idClazzUtils.getId(Location.class));
 			locas.add(location);
 		}
 		return locas;

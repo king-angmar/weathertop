@@ -1,9 +1,8 @@
-package xyz.wongs.weathertop.handball.utils;
+package xyz.wongs.weathertop.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.wongs.weathertop.base.persistence.mybatis.service.RedisUidService;
-import xyz.wongs.weathertop.handball.location.entity.Location;
 
 @Component
 public class IdClazzUtils {
@@ -15,6 +14,5 @@ public class IdClazzUtils {
         return Long.valueOf(redisUidService.generate(clazz.getSimpleName().toUpperCase()));
     }
 
-
-
+    
 }

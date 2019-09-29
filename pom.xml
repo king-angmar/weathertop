@@ -50,7 +50,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Mock测试使用的json-path依赖 -->
     </dependencies>
 
     <dependencyManagement>

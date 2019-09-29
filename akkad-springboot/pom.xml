@@ -13,6 +13,8 @@
     <modules>
         <module>springboot-atomikos</module>
         <module>springboot-jwt</module>
+        <module>springboot-async</module>
+        <module>springboot-mq</module>
     </modules>
 
 
