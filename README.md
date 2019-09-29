@@ -87,7 +87,7 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 sh /data/zookeeper-3.4.13/bin/zkServer.sh start &
 ~~~
 
-![图片alt](doc\image\zk\01-start.png)
+![图片alt](doc/image/zk/01-start.png)
 
 ## 2.2. 消息
 
@@ -135,7 +135,7 @@ sh /data/kafka/bin/kafka-server-start.sh  /data/kafka/config/server.properties &
 sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-factor 1 --partitions 1 --topic wongs
 ~~~
 
-![图片alt](doc\image\kafka\01-kafka-create-topic.png)
+![图片alt](doc/image/kafka/01-kafka-create-topic.png)
 
 #### 2.2.1.5. 查看Topic
 
@@ -143,7 +143,7 @@ sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-facto
 sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
 ~~~
 
-![图片alt](doc\image\kafka\02-kafka-list-topic.png)
+![图片alt](doc/image/kafka/02-kafka-list-topic.png)
 
 ### 2.2.2. 应用集成
 
@@ -250,7 +250,7 @@ public class TestConsumer {
 
 #### 2.2.2.3. 演示
 
-![MQ生产端](doc\image\kafka\04-kafka-server.png)
+![MQ生产端](doc/image/kafka/04-kafka-server.png)
 
-![MQ消费端](doc\image\kafka\03-kafka-client.png)
+![MQ消费端](doc/image/kafka/03-kafka-client.png)
 
