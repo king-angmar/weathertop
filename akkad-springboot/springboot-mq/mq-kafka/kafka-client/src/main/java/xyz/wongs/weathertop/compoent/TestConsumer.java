@@ -20,9 +20,4 @@ public class TestConsumer {
             log.info("------------------ message =" + message);
         }
     }
-
-//    @KafkaListener(topics = "wongs", groupId = "0")
-//    public void listen (String input) throws Exception {
-//        log.error(" input = ", input);
-//    }
 }
