@@ -1,24 +1,31 @@
 <!-- TOC -->
 
 - [1. 目录结构](#1-目录结构)
-- [2. SpringBoot入门](#2-springboot入门)
-    - [2.1. zookeeper安装](#21-zookeeper安装)
-        - [2.1.1. 下载](#211-下载)
-        - [2.1.2. 配置安装](#212-配置安装)
-    - [2.2. 消息](#22-消息)
-        - [2.2.1. Kafka](#221-kafka)
-            - [2.2.1.1. kafka安装](#2211-kafka安装)
-            - [2.2.1.2. 编写配置文件](#2212-编写配置文件)
-            - [2.2.1.3. 启动](#2213-启动)
-            - [2.2.1.4. 创建Topic](#2214-创建topic)
-            - [2.2.1.5. 查看Topic](#2215-查看topic)
-        - [2.2.2. 应用集成](#222-应用集成)
-            - [2.2.2.1. 生产者](#2221-生产者)
-            - [2.2.2.2. 消费者](#2222-消费者)
-            - [2.2.2.3. 演示](#2223-演示)
+- [2. persistence-mybatis](#2-persistence-mybatis)
+- [3. akkad-cloud入门](#3-akkad-cloud入门)
+    - [3.1. Nacos配置中心](#31-nacos配置中心)
+    - [3.2. Nacos注册中心](#32-nacos注册中心)
+    - [3.3. 网关Gateway](#33-网关gateway)
+    - [3.4. 熔断Hystream](#34-熔断hystream)
+- [4. akkad-java](#4-akkad-java)
+    - [4.1. 设计模式akkad-design](#41-设计模式akkad-design)
+- [5. SpringBoot入门](#5-springboot入门)
+    - [5.1. zookeeper安装](#51-zookeeper安装)
+        - [5.1.1. 下载](#511-下载)
+        - [5.1.2. 配置安装](#512-配置安装)
+    - [5.2. 消息](#52-消息)
+        - [5.2.1. Kafka](#521-kafka)
+            - [5.2.1.1. kafka安装](#5211-kafka安装)
+            - [5.2.1.2. 编写配置文件](#5212-编写配置文件)
+            - [5.2.1.3. 启动](#5213-启动)
+            - [5.2.1.4. 创建Topic](#5214-创建topic)
+            - [5.2.1.5. 查看Topic](#5215-查看topic)
+        - [5.2.2. 应用集成](#522-应用集成)
+            - [5.2.2.1. 生产者](#5221-生产者)
+            - [5.2.2.2. 消费者](#5222-消费者)
+            - [5.2.2.3. 演示](#5223-演示)
 
 <!-- /TOC -->
-
 
 # 1. 目录结构
 
@@ -58,16 +65,82 @@
 |-- README.md
 ~~~
 
-# 2. SpringBoot入门
+# 2. persistence-mybatis
 
-## 2.1. zookeeper安装
+基于Mybatis组件并结合泛型实现**BaseMapper、BaseService**，子类继承该类，即可拥有通用的CURD，减少重复编码的麻烦，提高开发效率。
 
-### 2.1.1. 下载
+- 分页组件是继承开源**com.github.pagehelper**
+~~~
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-starter</artifactId>
+    <version>1.2.3</version>
+</dependency>
+~~~
+
+- 在应用中PageHelper.startPage即可，后面需要紧跟着持久层语句，否则分页失效
+
+~~~
+    public PageInfo<T> selectPage(PaginationInfo pgInfo, T t) {
+        PageHelper.startPage(pgInfo.getPageNum(), pgInfo.getPageSize());
+        List<T> lt = getMapper().getList(t);
+        PageInfo<T> pageInfo = new PageInfo<T>(lt);
+        return pageInfo;
+    }
+~~~
+
+# 3. akkad-cloud入门
+
+## 3.1. Nacos配置中心
+
+Nacos 支持基于 DNS 和基于 RPC 的服务发现（可以作为springcloud的注册中心）、动态配置服务（可以做配置中心）、动态 DNS 服务。
+
+`官方介绍`
+~~~
+Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您实现动态服务发现、服务配置管理、服务及流量管理。
+Nacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。 Nacos 是构建以“服务”为中心的现代应用架构(例如微服务范式、云原生范式)的服务基础设施。
+~~~
+
+- pom依赖包
+
+~~~
+<dependency>
+    <groupId>com.alibaba.boot</groupId>
+    <artifactId>nacos-config-spring-boot-starter</artifactId>
+    <version>0.1.2</version>
+</dependency>
+~~~
+
+- application.yml
+
+~~~
+nacos:
+  config:
+    server-addr: 123.206.118.219:8848
+~~~
+
+## 3.2. Nacos注册中心
+
+## 3.3. 网关Gateway
+
+## 3.4. 熔断Hystream
+
+# 4. akkad-java
+
+## 4.1. 设计模式akkad-design
+
+点击即可查看[设计模式](akkad-java/akkad-design/Observer.md)详细介绍
+
+# 5. SpringBoot入门
+
+## 5.1. zookeeper安装
+
+### 5.1.1. 下载
 [官方zookeeper下载](https://zookeeper.apache.org/releases.html)，下载ZooKeeper，目前最新的稳定版本为 3.5.5 版本，用户可以自行选择一个速度较快的镜像来下载即可.
 
 这边演示用的版本**zookeeper-3.4.13.tar.gz**
 
-### 2.1.2. 配置安装
+### 5.1.2. 配置安装
 - `修改配置文件`
 
 路径/data/zookeeper-3.4.13/conf/下的**zoo_sample.cfg** 改名为**zoo.cfg**
@@ -89,17 +162,17 @@ sh /data/zookeeper-3.4.13/bin/zkServer.sh start &
 
 ![图片alt](doc/image/zk/01-start.png)
 
-## 2.2. 消息
+## 5.2. 消息
 
-### 2.2.1. Kafka
+### 5.2.1. Kafka
 
-#### 2.2.1.1. kafka安装
+#### 5.2.1.1. kafka安装
 [官方kafka_2.12-2.3.0下载](https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
 
 **解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**
 
 
-#### 2.2.1.2. 编写配置文件
+#### 5.2.1.2. 编写配置文件
 
 修改/data/kafka/config/server.properties，主要有以下
 
@@ -111,7 +184,7 @@ log.dirs=/data/kafka/tmp/kafka-logs
 zookeeper.connect=localhost:2181
 ~~~
 
-#### 2.2.1.3. 启动
+#### 5.2.1.3. 启动
 
 方便的话，编写一个启动脚本，不然每次挨个启动Zookeeper和Kafka，甚是麻烦
 
@@ -129,7 +202,7 @@ sh /data/kafka/bin/kafka-server-start.sh  /data/kafka/config/server.properties &
 
 ~~~
 
-#### 2.2.1.4. 创建Topic
+#### 5.2.1.4. 创建Topic
 
 ~~~
 sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-factor 1 --partitions 1 --topic wongs
@@ -137,7 +210,7 @@ sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-facto
 
 ![图片alt](doc/image/kafka/01-kafka-create-topic.png)
 
-#### 2.2.1.5. 查看Topic
+#### 5.2.1.5. 查看Topic
 
 ~~~
 sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
@@ -145,7 +218,7 @@ sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
 
 ![图片alt](doc/image/kafka/02-kafka-list-topic.png)
 
-### 2.2.2. 应用集成
+### 5.2.2. 应用集成
 
 加入依赖包
 
@@ -156,7 +229,7 @@ sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
     </dependency>
 ~~~
 
-#### 2.2.2.1. 生产者
+#### 5.2.2.1. 生产者
 
 - application.yml
 
@@ -210,7 +283,7 @@ public class TestKafkaProducerController {
 }
 ~~~
 
-#### 2.2.2.2. 消费者
+#### 5.2.2.2. 消费者
 
 - application.yml
 
@@ -248,7 +321,7 @@ public class TestConsumer {
 
 ~~~
 
-#### 2.2.2.3. 演示
+#### 5.2.2.3. 演示
 
 ![MQ生产端](doc/image/kafka/04-kafka-server.png)
 
