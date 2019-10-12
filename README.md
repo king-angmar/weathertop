@@ -24,6 +24,14 @@
             - [5.2.2.1. 生产者](#5221-生产者)
             - [5.2.2.2. 消费者](#5222-消费者)
             - [5.2.2.3. 演示](#5223-演示)
+- [6. hadoop学习](#6-hadoop学习)
+    - [6.1. 伪分布式环境部署](#61-伪分布式环境部署)
+        - [6.1.1. 创建用户组、用户](#611-创建用户组用户)
+        - [6.1.2. ssh安装配置免密登陆](#612-ssh安装配置免密登陆)
+        - [6.1.3. hadoop安装](#613-hadoop安装)
+            - [6.1.3.1. 下载](#6131-下载)
+            - [6.1.3.2. 配置](#6132-配置)
+        - [6.1.4. hive安装](#614-hive安装)
 
 <!-- /TOC -->
 
@@ -136,11 +144,13 @@ nacos:
 ## 5.1. zookeeper安装
 
 ### 5.1.1. 下载
+
 [官方zookeeper下载](https://zookeeper.apache.org/releases.html)，下载ZooKeeper，目前最新的稳定版本为 3.5.5 版本，用户可以自行选择一个速度较快的镜像来下载即可.
 
 这边演示用的版本**zookeeper-3.4.13.tar.gz**
 
 ### 5.1.2. 配置安装
+
 - `修改配置文件`
 
 路径/data/zookeeper-3.4.13/conf/下的**zoo_sample.cfg** 改名为**zoo.cfg**
@@ -167,6 +177,7 @@ sh /data/zookeeper-3.4.13/bin/zkServer.sh start &
 ### 5.2.1. Kafka
 
 #### 5.2.1.1. kafka安装
+
 [官方kafka_2.12-2.3.0下载](https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
 
 **解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**
@@ -327,3 +338,136 @@ public class TestConsumer {
 
 ![MQ消费端](doc/image/kafka/03-kafka-client.png)
 
+# 6. hadoop学习
+
+环境须知：
+- CentOS7
+- hadoop-3.1.2.tar.gz
+- jdk8
+
+Hadoop环境需要JAVA环境，所以首先得安装Java。
+
+## 6.1. 伪分布式环境部署
+
+### 6.1.1. 创建用户组、用户
+
+~~~
+[root@localhost app]$  groupadd dev
+[root@localhost app]$  adduser hadoop
+[root@localhost app]$  passwd hadoop
+~~~
+
+### 6.1.2. ssh安装配置免密登陆
+
+~~~
+[root@localhost app]$  su hadoop
+[hadoop@localhost hadoop]$ ssh-keygen -t rsa
+[hadoop@localhost hadoop]$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+[hadoop@localhost hadoop]$ chmod 0600 ~/.ssh/authorized_keys
+~~~
+
+测试输入
+~~~
+[hadoop@localhost hadoop]$  ssh localhost
+~~~
+
+
+
+### 6.1.3. hadoop安装
+
+#### 6.1.3.1. 下载
+
+[Hadoop下载](https://mirrors.cnnic.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz)
+
+~~~
+[hadoop@localhost hadoop]$  wget https://mirrors.cnnic.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
+
+[hadoop@localhost hadoop]$  tar zxvf hadoop-3.1.2.tar.gz
+
+[hadoop@localhost hadoop]$  mv hadoop-3.1.2 /data/app/hadoop
+~~~
+
+#### 6.1.3.2. 配置
+
+- etc/hadoop/core-site.xml，configuration配置为
+~~~
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+~~~
+
+- 初始化 格式化HDFS
+
+~~~
+[hadoop@localhost hadoop312]$ pwd
+/data/app/hadoop/hadoop312
+[hadoop@localhost hadoop312]$ ./bin/hdfs namenode -format
+
+~~~
+
+- 启动NameNode和DataNode
+
+~~~
+[hadoop@localhost hadoop312]$ ./sbin/start-dfs.sh
+~~~
+
+<font color=red>**输入地址查看：**<font/>http://192.168.56.101:9870/
+
+![查看NameNode](doc/image/hadoop/1.png)
+
+- 配置YARN
+
+编辑etc/hadoop/mapred-site.xml，configuration配置为
+
+~~~
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+~~~
+
+编辑etc/hadoop/yarn-site.xml，configuration配置为
+
+~~~
+<configuration>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+~~~
+
+- 启动YARN
+
+~~~
+[hadoop@localhost hadoop312]$ ./sbin/start-yarn.sh
+~~~
+
+<font color=red>**输入地址查看：**<font/>http://192.168.56.101:8088/cluster
+![查看YARN](doc/image/hadoop/2.png)
+
+- 启动与停止
+~~~
+[hadoop@localhost hadoop312]$ ./sbin/start-dfs.sh
+[hadoop@localhost hadoop312]$ ./sbin/start-yarn.sh
+
+[hadoop@localhost hadoop312]$ ./sbin/stop-dfs.sh
+[hadoop@localhost hadoop312]$ ./sbin/stop-yarn.sh
+~~~
+
+### 6.1.4. hive安装
+
+[Hive下载](https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz)
+
+~~~
+[hadoop@localhost hadoop]$  wget https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
+
+[hadoop@localhost hadoop]$  tar zxvf apache-hive-3.1.2-bin.tar.gz
+
+[hadoop@localhost hadoop]$  mv apache-hive-3.1.2 /data/app/haddop/
+~~~
