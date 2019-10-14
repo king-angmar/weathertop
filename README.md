@@ -10,32 +10,34 @@
 - [4. akkad-java](#4-akkad-java)
     - [4.1. 设计模式akkad-design](#41-设计模式akkad-design)
 - [5. SpringBoot入门](#5-springboot入门)
-    - [5.1. 消息](#51-消息)
-        - [5.1.1. Kafka](#511-kafka)
-            - [5.1.1.1. kafka安装](#5111-kafka安装)
-            - [5.1.1.2. 编写配置文件](#5112-编写配置文件)
-            - [5.1.1.3. 启动](#5113-启动)
-            - [5.1.1.4. 创建Topic](#5114-创建topic)
-            - [5.1.1.5. 查看Topic](#5115-查看topic)
-        - [5.1.2. 应用集成](#512-应用集成)
-            - [5.1.2.1. 生产者](#5121-生产者)
-            - [5.1.2.2. 消费者](#5122-消费者)
-            - [5.1.2.3. 演示](#5123-演示)
-- [6. zookeeper安装](#6-zookeeper安装)
-    - [6.1. 下载](#61-下载)
-    - [6.2. 配置安装](#62-配置安装)
-- [7. hadoop学习](#7-hadoop学习)
-    - [7.1. 伪分布式环境部署](#71-伪分布式环境部署)
-        - [7.1.1. 创建用户组、用户](#711-创建用户组用户)
-        - [7.1.2. ssh安装配置免密登陆](#712-ssh安装配置免密登陆)
-        - [7.1.3. hadoop安装](#713-hadoop安装)
-            - [7.1.3.1. 下载](#7131-下载)
-            - [7.1.3.2. 配置](#7132-配置)
-        - [7.1.4. HBase安装](#714-hbase安装)
-            - [7.1.4.1. 单机HBase配置](#7141-单机hbase配置)
-            - [集群模式<待补充>](#集群模式待补充)
-        - [Phoenix安装](#phoenix安装)
-        - [7.1.5. hive安装](#715-hive安装)
+    - [5.1. JWT认证](#51-jwt认证)
+    - [5.2. 消息Kafka](#52-消息kafka)
+        - [5.2.1. 应用集成](#521-应用集成)
+            - [5.2.1.1. 生产者](#5211-生产者)
+            - [5.2.1.2. 消费者](#5212-消费者)
+            - [5.2.1.3. 演示](#5213-演示)
+- [6. 消息MQ](#6-消息mq)
+    - [6.1. Kafka](#61-kafka)
+        - [6.1.1. kafka安装](#611-kafka安装)
+        - [6.1.2. 编写配置文件](#612-编写配置文件)
+        - [6.1.3. 启动](#613-启动)
+        - [6.1.4. 创建Topic](#614-创建topic)
+        - [6.1.5. 查看Topic](#615-查看topic)
+- [7. zookeeper安装](#7-zookeeper安装)
+    - [7.1. 下载](#71-下载)
+    - [7.2. 配置安装](#72-配置安装)
+- [8. hadoop学习](#8-hadoop学习)
+    - [8.1. 伪分布式环境部署](#81-伪分布式环境部署)
+        - [8.1.1. 创建用户组、用户](#811-创建用户组用户)
+        - [8.1.2. ssh安装配置免密登陆](#812-ssh安装配置免密登陆)
+        - [8.1.3. hadoop安装](#813-hadoop安装)
+            - [8.1.3.1. 下载](#8131-下载)
+            - [8.1.3.2. 配置](#8132-配置)
+        - [8.1.4. HBase安装](#814-hbase安装)
+            - [8.1.4.1. 单机HBase配置](#8141-单机hbase配置)
+            - [8.1.4.2. 集群模式<待补充>](#8142-集群模式待补充)
+        - [8.1.5. Phoenix安装](#815-phoenix安装)
+        - [8.1.6. hive安装](#816-hive安装)
 
 <!-- /TOC -->
 
@@ -141,69 +143,27 @@ nacos:
 
 ## 4.1. 设计模式akkad-design
 
-点击即可查看[设计模式](akkad-java/akkad-design/Observer.md)详细介绍
+点击即可查看[观察设计模式](akkad-java/akkad-design/Observer.md)详细介绍
 
 # 5. SpringBoot入门
 
+## 5.1. JWT认证
 
-## 5.1. 消息
-
-### 5.1.1. Kafka
-
-#### 5.1.1.1. kafka安装
-
-[官方kafka_2.12-2.3.0下载](https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
-
-**解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**
-
-
-#### 5.1.1.2. 编写配置文件
-
-修改/data/kafka/config/server.properties，主要有以下
+- 加入依赖包
 
 ~~~
-listeners=PLAINTEXT://192.168.147.129:9092
-advertised.listeners=PLAINTEXT://192.168.147.129:9092
-log.dirs=/data/kafka/tmp/kafka-logs
-
-zookeeper.connect=localhost:2181
+    <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>${JWT.VERSION}</version>
+    </dependency>
 ~~~
 
-#### 5.1.1.3. 启动
+- 
 
-方便的话，编写一个启动脚本，不然每次挨个启动Zookeeper和Kafka，甚是麻烦
+## 5.2. 消息Kafka
 
-kafkastart.sh
-
-~~~
-
-!/bin/sh
-
-sh $zookeeper_home/bin/zkServer.sh start &
-
-sleep 12
-
-sh /data/kafka/bin/kafka-server-start.sh  /data/kafka/config/server.properties &
-
-~~~
-
-#### 5.1.1.4. 创建Topic
-
-~~~
-sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-factor 1 --partitions 1 --topic wongs
-~~~
-
-![图片alt](doc/image/kafka/01-kafka-create-topic.png)
-
-#### 5.1.1.5. 查看Topic
-
-~~~
-sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
-~~~
-
-![图片alt](doc/image/kafka/02-kafka-list-topic.png)
-
-### 5.1.2. 应用集成
+### 5.2.1. 应用集成
 
 加入依赖包
 
@@ -214,7 +174,7 @@ sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
     </dependency>
 ~~~
 
-#### 5.1.2.1. 生产者
+#### 5.2.1.1. 生产者
 
 - application.yml
 
@@ -268,7 +228,7 @@ public class TestKafkaProducerController {
 }
 ~~~
 
-#### 5.1.2.2. 消费者
+#### 5.2.1.2. 消费者
 
 - application.yml
 
@@ -306,16 +266,72 @@ public class TestConsumer {
 
 ~~~
 
-#### 5.1.2.3. 演示
+#### 5.2.1.3. 演示
 
 ![MQ生产端](doc/image/kafka/04-kafka-server.png)
 
 ![MQ消费端](doc/image/kafka/03-kafka-client.png)
 
+# 6. 消息MQ
 
-# 6. zookeeper安装
+## 6.1. Kafka
 
-## 6.1. 下载
+### 6.1.1. kafka安装
+
+[官方kafka_2.12-2.3.0下载](https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
+
+**解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**
+
+
+### 6.1.2. 编写配置文件
+
+修改/data/kafka/config/server.properties，主要有以下
+
+~~~
+listeners=PLAINTEXT://192.168.147.129:9092
+advertised.listeners=PLAINTEXT://192.168.147.129:9092
+log.dirs=/data/kafka/tmp/kafka-logs
+
+zookeeper.connect=localhost:2181
+~~~
+
+### 6.1.3. 启动
+
+方便的话，编写一个启动脚本，不然每次挨个启动Zookeeper和Kafka，甚是麻烦
+
+kafkastart.sh
+
+~~~
+
+!/bin/sh
+
+sh $zookeeper_home/bin/zkServer.sh start &
+
+sleep 12
+
+sh /data/kafka/bin/kafka-server-start.sh  /data/kafka/config/server.properties &
+
+~~~
+
+### 6.1.4. 创建Topic
+
+~~~
+sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-factor 1 --partitions 1 --topic wongs
+~~~
+
+![图片alt](doc/image/kafka/01-kafka-create-topic.png)
+
+### 6.1.5. 查看Topic
+
+~~~
+sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
+~~~
+
+![图片alt](doc/image/kafka/02-kafka-list-topic.png)
+
+# 7. zookeeper安装
+
+## 7.1. 下载
 
 [官方zookeeper下载](https://zookeeper.apache.org/releases.html)，下载ZooKeeper，目前最新的稳定版本为 3.5.5 版本，用户可以自行选择一个速度较快的镜像来下载即可.
 
@@ -327,7 +343,7 @@ public class TestConsumer {
 ~~~
 
 
-## 6.2. 配置安装
+## 7.2. 配置安装
 
 - `修改配置文件`
 
@@ -353,7 +369,7 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 
 
 
-# 7. hadoop学习
+# 8. hadoop学习
 
 环境须知：
 - CentOS7
@@ -362,9 +378,9 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 
 Hadoop环境需要JAVA环境，所以首先得安装Java。
 
-## 7.1. 伪分布式环境部署
+## 8.1. 伪分布式环境部署
 
-### 7.1.1. 创建用户组、用户
+### 8.1.1. 创建用户组、用户
 
 ~~~
 [root@localhost app]$  groupadd dev
@@ -372,7 +388,7 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [root@localhost app]$  passwd hadoop
 ~~~
 
-### 7.1.2. ssh安装配置免密登陆
+### 8.1.2. ssh安装配置免密登陆
 
 ~~~
 [root@localhost app]$  su hadoop
@@ -386,9 +402,9 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [hadoop@localhost hadoop]$  ssh localhost
 ~~~
 
-### 7.1.3. hadoop安装
+### 8.1.3. hadoop安装
 
-#### 7.1.3.1. 下载
+#### 8.1.3.1. 下载
 
 [Hadoop下载](https://mirrors.cnnic.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz)
 
@@ -400,7 +416,7 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [hadoop@localhost hadoop]$  mv hadoop-3.1.2/ /data/app/hadoop/
 ~~~
 
-#### 7.1.3.2. 配置
+#### 8.1.3.2. 配置
 
 - etc/hadoop/core-site.xml，configuration配置为
 ~~~
@@ -493,9 +509,9 @@ export JAVA_HOME=/data/app/jdk8
 [hadoop@localhost hadoop]$ ./sbin/stop-yarn.sh
 ~~~
 
-### 7.1.4. HBase安装
+### 8.1.4. HBase安装
 
-#### 7.1.4.1. 单机HBase配置
+#### 8.1.4.1. 单机HBase配置
 
 - conf/hbase-site.xml，configuration配置为
 
@@ -562,13 +578,13 @@ Using config: /data/app/zookeeper/bin/../conf/zoo.cfg
 Starting zookeeper ... STARTED
 ~~~
 
-#### 集群模式<待补充>
+#### 8.1.4.2. 集群模式<待补充>
 
-### Phoenix安装
+### 8.1.5. Phoenix安装
 
 版本要与HBase相匹配！
 
-### 7.1.5. hive安装
+### 8.1.6. hive安装
 
 [Hive下载](https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz)
 
