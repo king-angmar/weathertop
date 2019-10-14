@@ -84,6 +84,7 @@
 基于Mybatis组件并结合泛型实现**BaseMapper、BaseService**，子类继承该类，即可拥有通用的CURD，减少重复编码的麻烦，提高开发效率。
 
 - 分页组件是继承开源**com.github.pagehelper**
+
 ~~~
 <dependency>
     <groupId>com.github.pagehelper</groupId>

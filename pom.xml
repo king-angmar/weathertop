@@ -39,6 +39,7 @@
         <mybatis.spring.boot.starter.version>1.3.4</mybatis.spring.boot.starter.version>
         <fastjson.version>1.2.58</fastjson.version>
         <commons.lang3.version>3.9</commons.lang3.version>
+        <commons.configuration.version>1.10</commons.configuration.version>
         <joda.time.version>2.10.2</joda.time.version>
         <webmagic.core.version>0.7.3</webmagic.core.version>
         <swagger2.version>2.9.2</swagger2.version>
@@ -119,7 +120,11 @@
                 <artifactId>commons-net</artifactId>
                 <version>3.6</version>
             </dependency>
-
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons.configuration.version}</version>
+            </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>

@@ -15,6 +15,7 @@
         <module>springboot-jwt</module>
         <module>springboot-async</module>
         <module>springboot-mq</module>
+        <module>springboot-generator</module>
     </modules>
 
 
