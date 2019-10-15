@@ -1,3 +1,5 @@
+<center><h1>weathertop</h1></center>
+
 <!-- TOC -->
 
 - [1. 目录结构](#1-目录结构)
@@ -46,9 +48,21 @@
         - [7.3.5. 删除索引](#735-删除索引)
     - [7.4. 如何数据管理](#74-如何数据管理)
         - [7.4.1. 添加数据](#741-添加数据)
-        - [7.4.2. 查询数据](#742-查询数据)
+        - [7.4.2. 基础查询](#742-基础查询)
             - [7.4.2.1. 查询所有](#7421-查询所有)
             - [7.4.2.2. 条件查询](#7422-条件查询)
+        - [7.4.3. 高级条件查询](#743-高级条件查询)
+            - [7.4.3.1. 权重boost查询](#7431-权重boost查询)
+            - [7.4.3.2. 过滤coerce查询](#7432-过滤coerce查询)
+                - [7.4.3.2.1. 创建索引](#74321-创建索引)
+                - [7.4.3.2.2. 创建第一个数据](#74322-创建第一个数据)
+                - [7.4.3.2.3. 创建第二个数据](#74323-创建第二个数据)
+            - [copy_to](#copy_to)
+                - [定义索引](#定义索引)
+                - [新增数据](#新增数据)
+                - [查询数据](#查询数据)
+            - [doc_values](#doc_values)
+            - [dynamic](#dynamic)
 - [8. zookeeper安装](#8-zookeeper安装)
     - [8.1. 下载](#81-下载)
     - [8.2. 配置安装](#82-配置安装)
@@ -487,6 +501,27 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 ### 7.3.1. 创建索引
 
+由于在ElasticSearch 7.x之后就默认不在支持指定索引类型，所以在在elasticsearch7.x上执行：
+~~~
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    },  
+    "mappings" : {
+        "twitter":{
+            ......
+        }
+    }
+~~~
+
+<font color=red>执行结果则会出错：Root mapping definition has unsupported parameters（刚开始接触就踩了这个坑，折煞劳资好久）。如果在6.x上执行，则会正常执行。</font>
+出现这个的原因是，elasticsearch7默认不在支持指定索引类型，默认索引类型是_doc，如果想改变，则配置include_type_name: true 即可(这个没有测试，官方文档说的，无论是否可行，建议不要这么做，因为elasticsearch8后就不在提供该字段)。
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html
+
 #### 7.3.1.1. 官方例子说明
 
 ~~~
@@ -651,7 +686,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ### 7.4.1. 添加数据
 
-这里演示PUT方式为twitter索引添加数据，并且指定id，应当注意此处的默认类型为<font color=red>_doc</font>，还有一种就是采用POST方式添加数据，并且自动生成主键，本文就不再演示，请自行查阅相关材料。
+- 这里演示PUT方式为twitter索引添加数据，并且指定id，应当注意此处的默认类型为<font color=red>_doc</font>，还有一种就是采用POST方式添加数据，并且自动生成主键，本文就不再演示，请自行查阅相关材料。
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/twitter/_doc/1?pretty=true" -d'
@@ -667,7 +702,23 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 执行返回结果如图，则添加数据成功。
 ![elastic](doc/image/elastic/9.png)
 
-### 7.4.2. 查询数据
+
+- 指定id为1，还可以加上参数op_type=create，这样在创建重复id时会报错导致创建失败，否则会更新该id的属性值。
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/twitter/_doc/1?op_type=create&pretty=true" -d'
+{
+    "productid" : 1,
+    "name" : "测试添加索引产品名称",
+    "short_name" : "测试添加索引产品短标题",
+    "desc" : "测试添加索引产品描述"
+}
+'
+~~~
+
+![elastic](doc/image/elastic/14.png)
+
+### 7.4.2. 基础查询
 
 #### 7.4.2.1. 查询所有
 
@@ -678,6 +729,8 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 ![elastic](doc/image/elastic/10.png)
 
 #### 7.4.2.2. 条件查询
+
+条件查询会涉及到精确词查询、匹配查询、多条件查询、聚合查询四种，分别为"term"、"match"、"multi_match"、"multi_match"。
 
 - 按找数据的名称作为条件查询匹配
 
@@ -760,6 +813,218 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
   }
 }
 ~~~
+
+### 7.4.3. 高级条件查询
+
+#### 7.4.3.1. 权重boost查询
+
+指定一个boost值来控制每个查询子句的相对权重，该值默认为1。一个大于1的boost会增加该查询子句的相对权重。
+索引映射定义的时候指定boost在elasticsearch5之后已经弃用。建议在查询的时候使用。
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true" -d'
+{
+    "query": {
+        "match" : {
+            "title": {
+                "query": "quick brown fox",
+                "boost": 2
+            }
+        }
+    }
+}
+'
+~~~
+
+#### 7.4.3.2. 过滤coerce查询
+
+数据不总是我们想要的，由于在转换JSON body为真正JSON 的时候,整型数字5有可能会被写成字符串"5"或者浮点数5.0。coerce属性可以用来清除脏数据。
+一般在以下场景中：
+
+- 字符串会被强制转换为整数
+- 浮点数被强制转换为整数
+
+##### 7.4.3.2.1. 创建索引
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/wongs?pretty=true"  -d'
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    },  
+    "mappings" : {
+            "properties" : {
+                "col_1":{
+                    "type" : "integer"
+                },  
+                "col_2":{
+                    "type":"integer",
+                    "coerce": false
+                }
+            }
+    }
+}
+'
+~~~
+
+##### 7.4.3.2.2. 创建第一个数据
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/wongs/_doc/1?pretty=true" -d'
+{
+    "col_1" : "20"
+}
+'
+~~~
+结果为成功，说明col_1列数据没问题。
+
+##### 7.4.3.2.3. 创建第二个数据
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/wongs/_doc/1?pretty=true" -d'
+> {
+>     "col_2" : "20"
+> }
+> '
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "mapper_parsing_exception",
+        "reason" : "failed to parse field [col_2] of type [integer] in document with id '1'. Preview of field's value: '20'"
+      }
+    ],
+    "type" : "mapper_parsing_exception",
+    "reason" : "failed to parse field [col_2] of type [integer] in document with id '1'. Preview of field's value: '20'",
+    "caused_by" : {
+      "type" : "illegal_argument_exception",
+      "reason" : "Integer value passed as String"
+    }
+  },
+  "status" : 400
+}
+
+~~~
+
+由于不能被格式化，数据新增失败。
+
+#### copy_to
+
+copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取值被复制到一个字段并且取值所有字段的取值组合, 并且可以当成一个单独的字段查询.
+如，first_name和last_name可以合并为full_name字段。
+
+##### 定义索引
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_copy_to?pretty=true"  -d'
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    },  
+    "mappings" : {
+            "properties" : {
+                "first_name":{
+                    "type" : "text",
+                    "copy_to": "full_name"
+                },  
+                "last_name":{
+                    "type":"text",
+                    "copy_to": "full_name"
+                },
+                "full_name":{
+                    "type": "text"
+                }
+            }
+    }
+}
+'
+~~~
+
+##### 新增数据
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_copy_to/_doc/1?pretty=true" -d'
+> {
+>     "first_name" : "jack",
+>     "last_name" : "Rose"
+> }
+> '
+{
+  "_index" : "idx_copy_to",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 3,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
+
+~~~
+
+##### 查询数据
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/idx_copy_to/_search?pretty=true" -d'
+{
+    "query" : {
+        "match": {
+            "full_name": { 
+                "query": "jack Rose",
+                "operator": "and"
+            }
+        }
+    }
+}
+'
+~~~
+
+从下图中得知first_name和 last_name字段取值都被复制到 full_name 字段。
+![elastic](doc/image/elastic/15.png)
+
+#### doc_values
+
+是为了加快排序、聚合操作，在建立倒排索引的时候，额外增加一个列式存储映射，是一个空间换时间的做法。默认是开启的，对于确定不需要聚合或者排序的字段可以关闭。
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_doc_val?pretty=true"  -d'
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    },  
+    "mappings" : {
+            "properties" : {
+                "first_name":{
+                    "type" : "text"
+                },  
+                "last_name":{
+                    "type":"text",
+                    "doc_values": false
+                }
+            }
+    }
+}
+'
+~~~
+
+#### dynamic
+
+默认情况下，字段可以自动添加到文档或者文档的内部对象，elasticsearc也会自动索引映射字段。
+
+
 
 # 8. zookeeper安装
 
