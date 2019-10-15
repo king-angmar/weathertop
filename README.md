@@ -57,12 +57,12 @@
                 - [7.4.3.2.1. 创建索引](#74321-创建索引)
                 - [7.4.3.2.2. 创建第一个数据](#74322-创建第一个数据)
                 - [7.4.3.2.3. 创建第二个数据](#74323-创建第二个数据)
-            - [copy_to](#copy_to)
-                - [定义索引](#定义索引)
-                - [新增数据](#新增数据)
-                - [查询数据](#查询数据)
-            - [doc_values](#doc_values)
-            - [dynamic](#dynamic)
+            - [7.4.3.3. copy_to](#7433-copy_to)
+                - [7.4.3.3.1. 定义索引](#74331-定义索引)
+                - [7.4.3.3.2. 新增数据](#74332-新增数据)
+                - [7.4.3.3.3. 查询数据](#74333-查询数据)
+            - [7.4.3.4. doc_values](#7434-doc_values)
+            - [7.4.3.5. dynamic](#7435-dynamic)
 - [8. zookeeper安装](#8-zookeeper安装)
     - [8.1. 下载](#81-下载)
     - [8.2. 配置安装](#82-配置安装)
@@ -911,12 +911,12 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 由于不能被格式化，数据新增失败。
 
-#### copy_to
+#### 7.4.3.3. copy_to
 
 copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取值被复制到一个字段并且取值所有字段的取值组合, 并且可以当成一个单独的字段查询.
 如，first_name和last_name可以合并为full_name字段。
 
-##### 定义索引
+##### 7.4.3.3.1. 定义索引
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_copy_to?pretty=true"  -d'
@@ -946,7 +946,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 '
 ~~~
 
-##### 新增数据
+##### 7.4.3.3.2. 新增数据
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_copy_to/_doc/1?pretty=true" -d'
@@ -972,7 +972,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 
 ~~~
 
-##### 查询数据
+##### 7.4.3.3.3. 查询数据
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/idx_copy_to/_search?pretty=true" -d'
@@ -992,7 +992,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 从下图中得知first_name和 last_name字段取值都被复制到 full_name 字段。
 ![elastic](doc/image/elastic/15.png)
 
-#### doc_values
+#### 7.4.3.4. doc_values
 
 是为了加快排序、聚合操作，在建立倒排索引的时候，额外增加一个列式存储映射，是一个空间换时间的做法。默认是开启的，对于确定不需要聚合或者排序的字段可以关闭。
 
@@ -1020,11 +1020,33 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 '
 ~~~
 
-#### dynamic
+#### 7.4.3.5. dynamic
 
 默认情况下，字段可以自动添加到文档或者文档的内部对象，elasticsearc也会自动索引映射字段。
 
-
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_dynamic?pretty=true"  -d'
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    },  
+    "mappings" : {
+            "properties" : {
+                "first_name":{
+                    "type" : "text"
+                },  
+                "last_name":{
+                    "type":"text",
+                    "doc_values": false
+                }
+            }
+    }
+}
+'
+~~~
 
 # 8. zookeeper安装
 
