@@ -23,21 +23,32 @@
         - [6.1.3. 启动](#613-启动)
         - [6.1.4. 创建Topic](#614-创建topic)
         - [6.1.5. 查看Topic](#615-查看topic)
-- [7. zookeeper安装](#7-zookeeper安装)
-    - [7.1. 下载](#71-下载)
-    - [7.2. 配置安装](#72-配置安装)
-- [8. hadoop学习](#8-hadoop学习)
-    - [8.1. 伪分布式环境部署](#81-伪分布式环境部署)
-        - [8.1.1. 创建用户组、用户](#811-创建用户组用户)
-        - [8.1.2. ssh安装配置免密登陆](#812-ssh安装配置免密登陆)
-        - [8.1.3. hadoop安装](#813-hadoop安装)
-            - [8.1.3.1. 下载](#8131-下载)
-            - [8.1.3.2. 配置](#8132-配置)
-        - [8.1.4. HBase安装](#814-hbase安装)
-            - [8.1.4.1. 单机HBase配置](#8141-单机hbase配置)
-            - [8.1.4.2. 集群模式<待补充>](#8142-集群模式待补充)
-        - [8.1.5. Phoenix安装](#815-phoenix安装)
-        - [8.1.6. hive安装](#816-hive安装)
+- [7. elasticsearch](#7-elasticsearch)
+    - [7.1. 下载&安装](#71-下载安装)
+        - [7.1.1. 下载](#711-下载)
+        - [7.1.2. 安装](#712-安装)
+        - [7.1.3. 修改配置文件](#713-修改配置文件)
+        - [7.1.4. 启动&验证结果](#714-启动验证结果)
+    - [7.2. 中文分词插件IK](#72-中文分词插件ik)
+        - [安装](#安装)
+        - [ik_max_word和ik_smart](#ik_max_word和ik_smart)
+            - [ik_smart分词](#ik_smart分词)
+            - [ik_max_word分词](#ik_max_word分词)
+- [8. zookeeper安装](#8-zookeeper安装)
+    - [8.1. 下载](#81-下载)
+    - [8.2. 配置安装](#82-配置安装)
+- [9. hadoop学习](#9-hadoop学习)
+    - [9.1. 伪分布式环境部署](#91-伪分布式环境部署)
+        - [9.1.1. 创建用户组、用户](#911-创建用户组用户)
+        - [9.1.2. ssh安装配置免密登陆](#912-ssh安装配置免密登陆)
+        - [9.1.3. hadoop安装](#913-hadoop安装)
+            - [9.1.3.1. 下载](#9131-下载)
+            - [9.1.3.2. 配置](#9132-配置)
+        - [9.1.4. HBase安装](#914-hbase安装)
+            - [9.1.4.1. 单机HBase配置](#9141-单机hbase配置)
+            - [9.1.4.2. 集群模式<待补充>](#9142-集群模式待补充)
+        - [9.1.5. Phoenix安装](#915-phoenix安装)
+        - [9.1.6. hive安装](#916-hive安装)
 
 <!-- /TOC -->
 
@@ -330,21 +341,149 @@ sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
 
 ![图片alt](doc/image/kafka/02-kafka-list-topic.png)
 
-# 7. zookeeper安装
+# 7. elasticsearch
 
-## 7.1. 下载
+## 7.1. 下载&安装
+
+### 7.1.1. 下载
+
+[官方elasticsearch下载](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.0-linux-x86_64.tar.gz)，下载elasticsearch，目前最新的稳定版本为 7.4.0 版本.
+
+### 7.1.2. 安装
+
+~~~
+
+[root@localhost download]$ pwd
+/data/download/
+
+[root@localhost download]$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.0-linux-x86_64.tar.gz
+
+[root@localhost download]$ cd ../app/
+
+[root@localhost app]$ mkdir elastic
+
+[root@localhost app]$ useradd elastic -g dev
+
+[root@localhost app]$ passwd elastic
+
+[root@localhost app]$ chown -R elastic:dev elastic
+
+[root@localhost app]$ su elastic
+
+[elastic@localhost app]$ cd /elastic
+
+[elastic@localhost elastic]$ cp ../../download/elasticsearch-7.4.0-linux-x86_64.tar.gz .
+
+[elastic@localhost elastic]$ tar -zxvf elasticsearch-7.4.0-linux-x86_64.tar.gz
+
+[elastic@localhost elastic]$ mv elasticsearch-7.4.0/ .
+
+~~~
+
+### 7.1.3. 修改配置文件
+
+路径config/elasticsearch.yml
+
+~~~
+-- 允许外部IP访问
+network.host: 0.0.0.0
+
+-- 把这个注释先放开
+cluster.initial_master_nodes: ["node-1", "node-2"]
+~~~
+
+### 7.1.4. 启动&验证结果
+
+- 启动
+
+~~~
+[elastic@localhost elastic]$ ./bin/elasticsearch
+~~~
+
+- 验证结果
+
+Elastic会在默认9200端口运行，打开地址：http://192.168.147.132:9200/
+
+![elastic](doc/image/elastic/1.png)
+
+## 7.2. 中文分词插件IK
+
+### 安装
+
+ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演示需要，这里选择wget方式。
+
+- 下载
+~~~
+[root@localhost download]$ wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.0/elasticsearch-analysis-ik-7.4.0.zip
+~~~
+
+- 安装插件
+
+~~~
+[elastic@localhost elastic]$ cd plugins
+
+[elastic@localhost plugins]$ cd mkdir ik && cd ik
+
+[elastic@localhost ik]$ cp ../../../download/elasticsearch-analysis-ik-7.4.0.zip .
+
+[elastic@localhost ik]$ unzip elasticsearch-analysis-ik-7.4.0.zip
+~~~
+
+完成后重启es
+
+- 验证分词器
+
+使用crul命令，输入下面的URL地址，验证分词器是否成功。
+~~~
+[elastic@localhost elastic]$ curl -X GET -H "Content-Type: application/json"  "http://localhost:9200/_analyze?pretty=true" -d'{"text":"中华五千年华夏"}';
+~~~
+
+![elastic](doc/image/elastic/2.png)
+
+### ik_max_word和ik_smart
+
+- **ik_max_word**: 将文本按最细粒度的组合来拆分，比如会将“中华五千年华夏”拆分为“五千年、五千、五千年华、华夏、千年华夏”，总之是可能的组合；
+
+- **ik_smart**: 最粗粒度的拆分，比如会将“五千年华夏”拆分为“五千年、华夏”
+
+<font color=red>**不添加分词类别，Elastic对于汉字默认使用standard只是将汉字拆分成一个个的汉字，而我们ik则更加的智能，下面通过几个案例来说明。**</font>
+
+#### ik_smart分词
+
+在JSON格式中添加**analyzer**节点内容为**ik_smart**
+
+~~~
+[elastic@localhost elastic]$ curl -X GET -H "Content-Type: application/json"  "http://localhost:9200/_analyze?pretty=true" -d'{"text":"中华五千年华夏","analyzer": "ik_smart"}';
+~~~
+
+![elastic](doc/image/elastic/3.png)
+
+#### ik_max_word分词
+
+在JSON格式中添加**analyzer**节点内容为**ik_max_word**
+
+~~~
+[elastic@localhost elastic]$ curl -X GET -H "Content-Type: application/json"  "http://localhost:9200/_analyze?pretty=true" -d'{"text":"中华五千年华夏","analyzer": "ik_max_word"}';
+~~~
+
+![elastic](doc/image/elastic/4.png)
+
+# 8. zookeeper安装
+
+## 8.1. 下载
 
 [官方zookeeper下载](https://zookeeper.apache.org/releases.html)，下载ZooKeeper，目前最新的稳定版本为 3.5.5 版本，用户可以自行选择一个速度较快的镜像来下载即可.
 
 这边演示用的版本**zookeeper-3.4.13.tar.gz**
 
 ~~~
+
 [root@localhost download]$ mv /data/zookeeper-3.4.13/ ../app/zookeeper/
 
 ~~~
 
 
-## 7.2. 配置安装
+## 8.2. 配置安装
 
 - `修改配置文件`
 
@@ -370,7 +509,7 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 
 
 
-# 8. hadoop学习
+# 9. hadoop学习
 
 环境须知：
 - CentOS7
@@ -379,9 +518,9 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 
 Hadoop环境需要JAVA环境，所以首先得安装Java。
 
-## 8.1. 伪分布式环境部署
+## 9.1. 伪分布式环境部署
 
-### 8.1.1. 创建用户组、用户
+### 9.1.1. 创建用户组、用户
 
 ~~~
 [root@localhost app]$  groupadd dev
@@ -389,7 +528,7 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [root@localhost app]$  passwd hadoop
 ~~~
 
-### 8.1.2. ssh安装配置免密登陆
+### 9.1.2. ssh安装配置免密登陆
 
 ~~~
 [root@localhost app]$  su hadoop
@@ -403,9 +542,9 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [hadoop@localhost hadoop]$  ssh localhost
 ~~~
 
-### 8.1.3. hadoop安装
+### 9.1.3. hadoop安装
 
-#### 8.1.3.1. 下载
+#### 9.1.3.1. 下载
 
 [Hadoop下载](https://mirrors.cnnic.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz)
 
@@ -417,7 +556,7 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [hadoop@localhost hadoop]$  mv hadoop-3.1.2/ /data/app/hadoop/
 ~~~
 
-#### 8.1.3.2. 配置
+#### 9.1.3.2. 配置
 
 - etc/hadoop/core-site.xml，configuration配置为
 ~~~
@@ -510,9 +649,9 @@ export JAVA_HOME=/data/app/jdk8
 [hadoop@localhost hadoop]$ ./sbin/stop-yarn.sh
 ~~~
 
-### 8.1.4. HBase安装
+### 9.1.4. HBase安装
 
-#### 8.1.4.1. 单机HBase配置
+#### 9.1.4.1. 单机HBase配置
 
 - conf/hbase-site.xml，configuration配置为
 
@@ -579,13 +718,13 @@ Using config: /data/app/zookeeper/bin/../conf/zoo.cfg
 Starting zookeeper ... STARTED
 ~~~
 
-#### 8.1.4.2. 集群模式<待补充>
+#### 9.1.4.2. 集群模式<待补充>
 
-### 8.1.5. Phoenix安装
+### 9.1.5. Phoenix安装
 
 版本要与HBase相匹配！
 
-### 8.1.6. hive安装
+### 9.1.6. hive安装
 
 [Hive下载](https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz)
 
