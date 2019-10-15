@@ -30,10 +30,25 @@
         - [7.1.3. 修改配置文件](#713-修改配置文件)
         - [7.1.4. 启动&验证结果](#714-启动验证结果)
     - [7.2. 中文分词插件IK](#72-中文分词插件ik)
-        - [安装](#安装)
-        - [ik_max_word和ik_smart](#ik_max_word和ik_smart)
-            - [ik_smart分词](#ik_smart分词)
-            - [ik_max_word分词](#ik_max_word分词)
+        - [7.2.1. 安装](#721-安装)
+        - [7.2.2. ik_max_word和ik_smart](#722-ik_max_word和ik_smart)
+            - [7.2.2.1. ik_smart分词](#7221-ik_smart分词)
+            - [7.2.2.2. ik_max_word分词](#7222-ik_max_word分词)
+    - [7.3. 索引](#73-索引)
+        - [7.3.1. 创建索引](#731-创建索引)
+            - [7.3.1.1. 官方例子说明](#7311-官方例子说明)
+            - [7.3.1.2. 自定义索引](#7312-自定义索引)
+        - [7.3.2. 查看索引](#732-查看索引)
+            - [7.3.2.1. 全部索引](#7321-全部索引)
+            - [7.3.2.2. 条件查询](#7322-条件查询)
+        - [7.3.3. 查看索引分词器](#733-查看索引分词器)
+        - [7.3.4. 修改索引](#734-修改索引)
+        - [7.3.5. 删除索引](#735-删除索引)
+    - [7.4. 如何数据管理](#74-如何数据管理)
+        - [7.4.1. 添加数据](#741-添加数据)
+        - [7.4.2. 查询数据](#742-查询数据)
+            - [7.4.2.1. 查询所有](#7421-查询所有)
+            - [7.4.2.2. 条件查询](#7422-条件查询)
 - [8. zookeeper安装](#8-zookeeper安装)
     - [8.1. 下载](#81-下载)
     - [8.2. 配置安装](#82-配置安装)
@@ -408,7 +423,7 @@ Elastic会在默认9200端口运行，打开地址：http://192.168.147.132:9200
 
 ## 7.2. 中文分词插件IK
 
-### 安装
+### 7.2.1. 安装
 
 ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演示需要，这里选择wget方式。
 
@@ -440,7 +455,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 ![elastic](doc/image/elastic/2.png)
 
-### ik_max_word和ik_smart
+### 7.2.2. ik_max_word和ik_smart
 
 - **ik_max_word**: 将文本按最细粒度的组合来拆分，比如会将“中华五千年华夏”拆分为“五千年、五千、五千年华、华夏、千年华夏”，总之是可能的组合；
 
@@ -448,7 +463,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 <font color=red>**不添加分词类别，Elastic对于汉字默认使用standard只是将汉字拆分成一个个的汉字，而我们ik则更加的智能，下面通过几个案例来说明。**</font>
 
-#### ik_smart分词
+#### 7.2.2.1. ik_smart分词
 
 在JSON格式中添加**analyzer**节点内容为**ik_smart**
 
@@ -458,7 +473,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 ![elastic](doc/image/elastic/3.png)
 
-#### ik_max_word分词
+#### 7.2.2.2. ik_max_word分词
 
 在JSON格式中添加**analyzer**节点内容为**ik_max_word**
 
@@ -467,6 +482,284 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 ~~~
 
 ![elastic](doc/image/elastic/4.png)
+
+## 7.3. 索引
+
+### 7.3.1. 创建索引
+
+#### 7.3.1.1. 官方例子说明
+
+~~~
+
+curl -X PUT "localhost:9200/twitter" -H 'Content-Type: application/json' -d'
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    }
+}
+'
+~~~
+
+- -d指定了你的参数，这里将这些参数放到了json文件中
+
+- settings设置内容含义
+
+name | 价格 |
+-|-|-
+number_of_shards | 分片数
+number_of_replicas | 副本数
+mappings | 结构化数据设置   下面的一级属性 是自定义的类型
+properties | 类型的属性设置节点，下面都是属性
+epoch_millis | 表示时间戳
+
+
+
+#### 7.3.1.2. 自定义索引
+
+- 使用json文件创建索引
+使用 -d‘@your jsonFile’指定你的json文件。下边我创建了一个索引名称为product（可自己定义）的索引。
+
+~~~
+
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/twitter?pretty=true"  -d'@prod.json'
+~~~
+
+![elastic](doc/image/elastic/5.png)
+
+- 参数形式创建索引
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/twitter?pretty=true"  -d'
+{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3, 
+            "number_of_replicas" : 2 
+        }
+    },  
+    "mappings" : {
+            "dynamic": false,
+            "properties" : {
+                "productid":{
+                    "type" : "long"
+                },  
+                "name":{
+                    "type":"text",
+                    "index":true,
+                    "analyzer":"ik_max_word"
+                },  
+                "short_name":{
+                    "type":"text",
+                    "index":true,
+                    "analyzer":"ik_max_word"
+                },  
+                "desc":{
+                    "type":"text",
+                    "index":true,
+                    "analyzer":"ik_max_word"
+                }
+            }
+    }
+}
+'
+~~~
+
+![elastic](doc/image/elastic/6.png)
+
+### 7.3.2. 查看索引
+
+#### 7.3.2.1. 全部索引
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"
+health status index   uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0       690b           690b
+
+~~~
+
+![elastic](doc/image/elastic/8.png)
+
+#### 7.3.2.2. 条件查询
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter?pretty=true"
+{
+  "twitter" : {
+    "aliases" : { },
+    "mappings" : {
+      "dynamic" : "false",
+      "properties" : {
+        "desc" : {
+          "type" : "text",
+          "analyzer" : "ik_max_word"
+        },
+        "name" : {
+          "type" : "text",
+          "analyzer" : "ik_max_word"
+        },
+        "productid" : {
+          "type" : "long"
+        },
+        "short_name" : {
+          "type" : "text",
+          "analyzer" : "ik_max_word"
+        }
+      }
+    },
+    "settings" : {
+      "index" : {
+        "creation_date" : "1571153735610",
+        "number_of_shards" : "3",
+        "number_of_replicas" : "2",
+        "uuid" : "scSSD1SfRCio4F77Hh8aqQ",
+        "version" : {
+          "created" : "7040099"
+        },
+        "provided_name" : "twitter"
+      }
+    }
+  }
+}
+
+~~~
+
+### 7.3.3. 查看索引分词器
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_analyze?pretty=true" -d'
+{
+  "field": "text",
+  "text": "秦皇汉武."
+}
+'
+~~~
+
+![elastic](doc/image/elastic/7.png)
+
+### 7.3.4. 修改索引
+
+
+### 7.3.5. 删除索引
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X DELETE "http://localhost:9200/twitter?pretty=true"
+~~~
+
+## 7.4. 如何数据管理
+
+### 7.4.1. 添加数据
+
+这里演示PUT方式为twitter索引添加数据，并且指定id，应当注意此处的默认类型为<font color=red>_doc</font>，还有一种就是采用POST方式添加数据，并且自动生成主键，本文就不再演示，请自行查阅相关材料。
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/twitter/_doc/1?pretty=true" -d'
+{
+    "productid" : 1,
+    "name" : "测试添加索引产品名称",
+    "short_name" : "测试添加索引产品短标题",
+    "desc" : "测试添加索引产品描述"
+}
+'
+~~~
+
+执行返回结果如图，则添加数据成功。
+![elastic](doc/image/elastic/9.png)
+
+### 7.4.2. 查询数据
+
+#### 7.4.2.1. 查询所有
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true"
+~~~
+
+![elastic](doc/image/elastic/10.png)
+
+#### 7.4.2.2. 条件查询
+
+- 按找数据的名称作为条件查询匹配
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true" -d'
+{
+    "query" : {
+        "match" : { 
+            "name" : "产品" 
+        }
+    }
+}
+'
+~~~
+
+![elastic](doc/image/elastic/11.png)
+
+- 按找数据的标识作为条件查询匹配
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true" -d'
+{
+    "query" : {
+        "match" : { 
+            "productid" : 100
+        }
+    }
+}
+'
+~~~
+
+![elastic](doc/image/elastic/12.png)
+
+- 多条件匹配
+
+选择匹配desc、short_name列作为多条件
+
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true" -d'
+{
+    "query" : {
+        "multi_match" : { 
+            "query":"产品",
+            "fields" : ["desc","short_name"]
+        }
+    }
+}
+'
+~~~
+
+![elastic](doc/image/elastic/13.png)
+
+- 当没有匹配任何数据适合则如下：
+~~~
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true" -d'
+> {
+>     "query" : {
+>         "match" : { 
+>             "productid" : 100
+>         }
+>     }
+> }
+> '
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 3,
+    "successful" : 3,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 0,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  }
+}
+~~~
 
 # 8. zookeeper安装
 
