@@ -16,6 +16,7 @@
         <module>springboot-async</module>
         <module>springboot-mq</module>
         <module>springboot-generator</module>
+        <module>springboot-lsms</module>
     </modules>
 
 

@@ -18,66 +18,84 @@
             - [5.2.1.1. 生产者](#5211-生产者)
             - [5.2.1.2. 消费者](#5212-消费者)
             - [5.2.1.3. 演示](#5213-演示)
-- [6. 消息MQ](#6-消息mq)
-    - [6.1. Kafka](#61-kafka)
-        - [6.1.1. kafka安装](#611-kafka安装)
-        - [6.1.2. 编写配置文件](#612-编写配置文件)
-        - [6.1.3. 启动](#613-启动)
-        - [6.1.4. 创建Topic](#614-创建topic)
-        - [6.1.5. 查看Topic](#615-查看topic)
-- [7. elasticsearch](#7-elasticsearch)
-    - [7.1. 下载&安装](#71-下载安装)
-        - [7.1.1. 下载](#711-下载)
-        - [7.1.2. 安装](#712-安装)
-        - [7.1.3. 修改配置文件](#713-修改配置文件)
-        - [7.1.4. 启动&验证结果](#714-启动验证结果)
-    - [7.2. 中文分词插件IK](#72-中文分词插件ik)
-        - [7.2.1. 安装](#721-安装)
-        - [7.2.2. ik_max_word和ik_smart](#722-ik_max_word和ik_smart)
-            - [7.2.2.1. ik_smart分词](#7221-ik_smart分词)
-            - [7.2.2.2. ik_max_word分词](#7222-ik_max_word分词)
-    - [7.3. 索引](#73-索引)
-        - [7.3.1. 创建索引](#731-创建索引)
-            - [7.3.1.1. 官方例子说明](#7311-官方例子说明)
-            - [7.3.1.2. 自定义索引](#7312-自定义索引)
-        - [7.3.2. 查看索引](#732-查看索引)
-            - [7.3.2.1. 全部索引](#7321-全部索引)
-            - [7.3.2.2. 条件查询](#7322-条件查询)
-        - [7.3.3. 查看索引分词器](#733-查看索引分词器)
-        - [7.3.4. 修改索引](#734-修改索引)
-        - [7.3.5. 删除索引](#735-删除索引)
-    - [7.4. 如何数据管理](#74-如何数据管理)
-        - [7.4.1. 添加数据](#741-添加数据)
-        - [7.4.2. 基础查询](#742-基础查询)
-            - [7.4.2.1. 查询所有](#7421-查询所有)
-            - [7.4.2.2. 条件查询](#7422-条件查询)
-        - [7.4.3. 高级条件查询](#743-高级条件查询)
-            - [7.4.3.1. 权重boost查询](#7431-权重boost查询)
-            - [7.4.3.2. 过滤coerce查询](#7432-过滤coerce查询)
-                - [7.4.3.2.1. 创建索引](#74321-创建索引)
-                - [7.4.3.2.2. 创建第一个数据](#74322-创建第一个数据)
-                - [7.4.3.2.3. 创建第二个数据](#74323-创建第二个数据)
-            - [7.4.3.3. copy_to](#7433-copy_to)
-                - [7.4.3.3.1. 定义索引](#74331-定义索引)
-                - [7.4.3.3.2. 新增数据](#74332-新增数据)
-                - [7.4.3.3.3. 查询数据](#74333-查询数据)
-            - [7.4.3.4. doc_values](#7434-doc_values)
-            - [7.4.3.5. dynamic](#7435-dynamic)
-- [8. zookeeper安装](#8-zookeeper安装)
-    - [8.1. 下载](#81-下载)
-    - [8.2. 配置安装](#82-配置安装)
-- [9. hadoop学习](#9-hadoop学习)
-    - [9.1. 伪分布式环境部署](#91-伪分布式环境部署)
-        - [9.1.1. 创建用户组、用户](#911-创建用户组用户)
-        - [9.1.2. ssh安装配置免密登陆](#912-ssh安装配置免密登陆)
-        - [9.1.3. hadoop安装](#913-hadoop安装)
-            - [9.1.3.1. 下载](#9131-下载)
-            - [9.1.3.2. 配置](#9132-配置)
-        - [9.1.4. HBase安装](#914-hbase安装)
-            - [9.1.4.1. 单机HBase配置](#9141-单机hbase配置)
-            - [9.1.4.2. 集群模式<待补充>](#9142-集群模式待补充)
-        - [9.1.5. Phoenix安装](#915-phoenix安装)
-        - [9.1.6. hive安装](#916-hive安装)
+- [6. Linux说明](#6-linux说明)
+    - [6.1. 总体说明](#61-总体说明)
+        - [6.1.1. 查看版本当前操作系统内核信息](#611-查看版本当前操作系统内核信息)
+        - [6.1.2. 查看当前操作系统版本信息](#612-查看当前操作系统版本信息)
+        - [6.1.3. 查看版本当前操作系统发行版信息](#613-查看版本当前操作系统发行版信息)
+        - [6.1.4. 查看cpu相关信息，包括型号、主频、内核信息等](#614-查看cpu相关信息包括型号主频内核信息等)
+    - [6.2. 系统配置](#62-系统配置)
+        - [6.2.1. 内存](#621-内存)
+        - [6.2.2. 磁盘](#622-磁盘)
+    - [6.3. Linux优化](#63-linux优化)
+        - [6.3.1. 运行级别Runlevel](#631-运行级别runlevel)
+        - [6.3.2. systemd一统天下](#632-systemd一统天下)
+    - [6.4. 开机时间优化](#64-开机时间优化)
+        - [6.4.1. 查看开机时间](#641-查看开机时间)
+        - [6.4.2. 查看具体的使用时间](#642-查看具体的使用时间)
+        - [6.4.3. 启动项优化](#643-启动项优化)
+        - [6.4.4. Selinux的优化](#644-selinux的优化)
+        - [6.4.5. ssh的优化](#645-ssh的优化)
+- [7. 消息MQ](#7-消息mq)
+    - [7.1. Kafka](#71-kafka)
+        - [7.1.1. kafka安装](#711-kafka安装)
+        - [7.1.2. 编写配置文件](#712-编写配置文件)
+        - [7.1.3. 启动](#713-启动)
+        - [7.1.4. 创建Topic](#714-创建topic)
+        - [7.1.5. 查看Topic](#715-查看topic)
+- [8. elasticsearch](#8-elasticsearch)
+    - [8.1. 下载&安装](#81-下载安装)
+        - [8.1.1. 下载](#811-下载)
+        - [8.1.2. 安装](#812-安装)
+        - [8.1.3. 修改配置文件](#813-修改配置文件)
+        - [8.1.4. 启动&验证结果](#814-启动验证结果)
+    - [8.2. 中文分词插件IK](#82-中文分词插件ik)
+        - [8.2.1. 安装](#821-安装)
+        - [8.2.2. ik_max_word和ik_smart](#822-ik_max_word和ik_smart)
+            - [8.2.2.1. ik_smart分词](#8221-ik_smart分词)
+            - [8.2.2.2. ik_max_word分词](#8222-ik_max_word分词)
+    - [8.3. 索引](#83-索引)
+        - [8.3.1. 创建索引](#831-创建索引)
+            - [8.3.1.1. 官方例子说明](#8311-官方例子说明)
+            - [8.3.1.2. 自定义索引](#8312-自定义索引)
+        - [8.3.2. 查看索引](#832-查看索引)
+            - [8.3.2.1. 全部索引](#8321-全部索引)
+            - [8.3.2.2. 条件查询](#8322-条件查询)
+        - [8.3.3. 查看索引分词器](#833-查看索引分词器)
+        - [8.3.4. 修改索引](#834-修改索引)
+        - [8.3.5. 删除索引](#835-删除索引)
+    - [8.4. 如何数据管理](#84-如何数据管理)
+        - [8.4.1. 添加数据](#841-添加数据)
+        - [8.4.2. 基础查询](#842-基础查询)
+            - [8.4.2.1. 查询所有](#8421-查询所有)
+            - [8.4.2.2. 条件查询](#8422-条件查询)
+        - [8.4.3. 高级条件查询](#843-高级条件查询)
+            - [8.4.3.1. 权重boost查询](#8431-权重boost查询)
+            - [8.4.3.2. 过滤coerce查询](#8432-过滤coerce查询)
+                - [8.4.3.2.1. 创建索引](#84321-创建索引)
+                - [8.4.3.2.2. 创建第一个数据](#84322-创建第一个数据)
+                - [8.4.3.2.3. 创建第二个数据](#84323-创建第二个数据)
+            - [8.4.3.3. copy_to](#8433-copy_to)
+                - [8.4.3.3.1. 定义索引](#84331-定义索引)
+                - [8.4.3.3.2. 新增数据](#84332-新增数据)
+                - [8.4.3.3.3. 查询数据](#84333-查询数据)
+            - [8.4.3.4. doc_values](#8434-doc_values)
+            - [8.4.3.5. dynamic](#8435-dynamic)
+- [9. zookeeper安装](#9-zookeeper安装)
+    - [9.1. 下载](#91-下载)
+    - [9.2. 配置安装](#92-配置安装)
+- [10. hadoop学习](#10-hadoop学习)
+    - [10.1. 伪分布式环境部署](#101-伪分布式环境部署)
+        - [10.1.1. 创建用户组、用户](#1011-创建用户组用户)
+        - [10.1.2. ssh安装配置免密登陆](#1012-ssh安装配置免密登陆)
+        - [10.1.3. hadoop安装](#1013-hadoop安装)
+            - [10.1.3.1. 下载](#10131-下载)
+            - [10.1.3.2. 配置](#10132-配置)
+        - [10.1.4. HBase安装](#1014-hbase安装)
+            - [10.1.4.1. 单机HBase配置](#10141-单机hbase配置)
+            - [10.1.4.2. 集群模式<待补充>](#10142-集群模式待补充)
+        - [10.1.5. Phoenix安装](#1015-phoenix安装)
+        - [10.1.6. hive安装](#1016-hive安装)
 
 <!-- /TOC -->
 
@@ -313,18 +331,230 @@ public class TestConsumer {
 
 ![MQ消费端](doc/image/kafka/03-kafka-client.png)
 
-# 6. 消息MQ
+# 6. Linux说明
 
-## 6.1. Kafka
+## 6.1. 总体说明
 
-### 6.1.1. kafka安装
+### 6.1.1. 查看版本当前操作系统内核信息
+
+~~~
+[root@localhost ~]# uname -a
+Linux localhost.localdomain 3.10.0-1062.1.1.el7.x86_64 #1 SMP Fri Sep 13 22:55:44 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+~~~
+
+### 6.1.2. 查看当前操作系统版本信息
+
+~~~
+[root@localhost ~]# cat /proc/version
+Linux version 3.10.0-1062.1.1.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) #1 SMP Fri Sep 13 22:55:44 UTC 2019
+~~~
+
+### 6.1.3. 查看版本当前操作系统发行版信息
+
+~~~
+[root@localhost ~]# cat /etc/redhat-release
+CentOS Linux release 7.7.1908 (Core)
+~~~
+
+### 6.1.4. 查看cpu相关信息，包括型号、主频、内核信息等
+
+~~~
+
+[root@localhost ~]# cat /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 94
+model name	: Intel(R) Core(TM) i5-6300HQ CPU @ 2.30GHz
+stepping	: 3
+microcode	: 0xc6
+cpu MHz		: 2303.999
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4607.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 94
+model name	: Intel(R) Core(TM) i5-6300HQ CPU @ 2.30GHz
+stepping	: 3
+microcode	: 0xc6
+cpu MHz		: 2303.999
+cache size	: 6144 KB
+physical id	: 2
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4607.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+~~~
+
+## 6.2. 系统配置
+
+### 6.2.1. 内存
+~~~
+[root@localhost ~]# free -ml
+              total        used        free      shared  buff/cache   available
+Mem:           3770         124        3547          11          98        3473
+Low:           3770         223        3547
+High:             0           0           0
+Swap:          2047           0        2047
+
+~~~
+
+### 6.2.2. 磁盘
+
+~~~
+[root@localhost ~]# df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+devtmpfs                 1.9G     0  1.9G    0% /dev
+tmpfs                    1.9G     0  1.9G    0% /dev/shm
+tmpfs                    1.9G   12M  1.9G    1% /run
+tmpfs                    1.9G     0  1.9G    0% /sys/fs/cgroup
+/dev/mapper/centos-root   18G  8.9G  8.6G   51% /
+/dev/sda1                497M  165M  332M   34% /boot
+tmpfs                    378M     0  378M    0% /run/user/0
+
+~~~
+
+## 6.3. Linux优化
+
+### 6.3.1. 运行级别Runlevel
+
+- 查看运行级别的方法依旧使用
+~~~
+[root@localhost ~]# runlevel
+N 3
+
+
+[root@localhost ~]# ls -lh /usr/lib/systemd/system/runlevel*.target
+lrwxrwxrwx. 1 root root 15 9月  30 18:00 /usr/lib/systemd/system/runlevel0.target -> poweroff.target
+lrwxrwxrwx. 1 root root 13 9月  30 18:00 /usr/lib/systemd/system/runlevel1.target -> rescue.target
+lrwxrwxrwx. 1 root root 17 9月  30 18:00 /usr/lib/systemd/system/runlevel2.target -> multi-user.target
+lrwxrwxrwx. 1 root root 17 9月  30 18:00 /usr/lib/systemd/system/runlevel3.target -> multi-user.target
+lrwxrwxrwx. 1 root root 17 9月  30 18:00 /usr/lib/systemd/system/runlevel4.target -> multi-user.target
+lrwxrwxrwx. 1 root root 16 9月  30 18:00 /usr/lib/systemd/system/runlevel5.target -> graphical.target
+lrwxrwxrwx. 1 root root 13 9月  30 18:00 /usr/lib/systemd/system/runlevel6.target -> reboot.target
+
+~~~
+
+- 设置运行级别
+
+~~~
+[root@localhost ~]# systemctl get-default multi-user.target
+Invalid number of arguments.
+
+~~~
+
+- 查看运行级别
+
+~~~
+[root@localhost ~]# systemctl get-default
+multi-user.target
+~~~
+
+### 6.3.2. systemd一统天下
+
+查看系统启动文件的目录
+
+~~~
+[root@localhost ~]# ls /usr/lib/systemd/system
+auditd.service                          initrd.target.wants                 rescue.target                                  systemd-halt.service
+autovt@.service                         initrd-udevadm-cleanup-db.service   rescue.target.wants                            systemd-hibernate-resume@.service
+basic.target                            iprdump.service                     rhel-autorelabel-mark.service                  systemd-hibernate.service
+basic.target.wants                      iprinit.service                     rhel-autorelabel.service                       systemd-hostnamed.service
+blk-availability.service                iprupdate.service 
+~~~
+
+## 6.4. 开机时间优化
+
+### 6.4.1. 查看开机时间
+
+~~~
+[root@localhost ~]# systemd-analyze time
+Startup finished in 1.375s (kernel) + 1.928s (initrd) + 3.233s (userspace) = 6.537s
+
+~~~
+
+### 6.4.2. 查看具体的使用时间
+
+~~~
+[root@localhost ~]# systemd-analyze blame
+          1.439s dev-mapper-centos\x2droot.device
+           653ms boot.mount
+           604ms lvm2-pvscan@8:2.service
+           391ms tuned.service
+           362ms systemd-tmpfiles-clean.service
+           360ms network.service
+           236ms NetworkManager-wait-online.service
+           119ms systemd-udev-trigger.service
+           108ms systemd-vconsole-setup.service
+~~~
+
+### 6.4.3. 启动项优化
+
+~~~
+
+[root@localhost ~]# systemctl list-unit-files|egrep "^ab|^aud|^kdump|vm|^md|^mic|^post|lvm"  |awk '{print $1}'|sed -r 's#(.*)#systemctl disable &#g'|bash
+Removed symlink /etc/systemd/system/multi-user.target.wants/auditd.service.
+Removed symlink /etc/systemd/system/multi-user.target.wants/kdump.service.
+Removed symlink /etc/systemd/system/sysinit.target.wants/lvm2-monitor.service.
+Failed to execute operation: Unit name lvm2-pvscan@.service is missing the instance name.
+Removed symlink /etc/systemd/system/basic.target.wants/microcode.service.
+Removed symlink /etc/systemd/system/multi-user.target.wants/postfix.service.
+Removed symlink /etc/systemd/system/sysinit.target.wants/lvm2-lvmetad.socket.
+Removed symlink /etc/systemd/system/sysinit.target.wants/lvm2-lvmpolld.socket.
+
+~~~
+
+### 6.4.4. Selinux的优化
+
+~~~
+[root@localhost ~]# sed -i 's#SELINUX=enforcing#SELINUX=disabled#g' /etc/selinux/config
+~~~
+
+### 6.4.5. ssh的优化
+
+/etc/ssh/sshd_config文件中修改<font color=red>GSSAPIAuthentication no、UseDNS no</font>，然后重启sshd服务即可。
+
+# 7. 消息MQ
+
+## 7.1. Kafka
+
+### 7.1.1. kafka安装
 
 [官方kafka_2.12-2.3.0下载](https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
 
 **解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**
 
 
-### 6.1.2. 编写配置文件
+### 7.1.2. 编写配置文件
 
 修改/data/kafka/config/server.properties，主要有以下
 
@@ -336,7 +566,7 @@ log.dirs=/data/kafka/tmp/kafka-logs
 zookeeper.connect=localhost:2181
 ~~~
 
-### 6.1.3. 启动
+### 7.1.3. 启动
 
 方便的话，编写一个启动脚本，不然每次挨个启动Zookeeper和Kafka，甚是麻烦
 
@@ -354,7 +584,7 @@ sh /data/kafka/bin/kafka-server-start.sh  /data/kafka/config/server.properties &
 
 ~~~
 
-### 6.1.4. 创建Topic
+### 7.1.4. 创建Topic
 
 ~~~
 sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-factor 1 --partitions 1 --topic wongs
@@ -362,7 +592,7 @@ sh kafka-topics.sh --create --zookeeper 192.168.147.129:2181 --replication-facto
 
 ![图片alt](doc/image/kafka/01-kafka-create-topic.png)
 
-### 6.1.5. 查看Topic
+### 7.1.5. 查看Topic
 
 ~~~
 sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
@@ -370,15 +600,15 @@ sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
 
 ![图片alt](doc/image/kafka/02-kafka-list-topic.png)
 
-# 7. elasticsearch
+# 8. elasticsearch
 
-## 7.1. 下载&安装
+## 8.1. 下载&安装
 
-### 7.1.1. 下载
+### 8.1.1. 下载
 
 [官方elasticsearch下载](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.0-linux-x86_64.tar.gz)，下载elasticsearch，目前最新的稳定版本为 7.4.0 版本.
 
-### 7.1.2. 安装
+### 8.1.2. 安装
 
 ~~~
 
@@ -409,7 +639,7 @@ sh kafka-topics.sh --list --zookeeper 192.168.147.129:2181
 
 ~~~
 
-### 7.1.3. 修改配置文件
+### 8.1.3. 修改配置文件
 
 路径config/elasticsearch.yml
 
@@ -421,7 +651,7 @@ network.host: 0.0.0.0
 cluster.initial_master_nodes: ["node-1", "node-2"]
 ~~~
 
-### 7.1.4. 启动&验证结果
+### 8.1.4. 启动&验证结果
 
 - 启动
 
@@ -435,9 +665,9 @@ Elastic会在默认9200端口运行，打开地址：http://192.168.147.132:9200
 
 ![elastic](doc/image/elastic/1.png)
 
-## 7.2. 中文分词插件IK
+## 8.2. 中文分词插件IK
 
-### 7.2.1. 安装
+### 8.2.1. 安装
 
 ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演示需要，这里选择wget方式。
 
@@ -469,7 +699,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 ![elastic](doc/image/elastic/2.png)
 
-### 7.2.2. ik_max_word和ik_smart
+### 8.2.2. ik_max_word和ik_smart
 
 - **ik_max_word**: 将文本按最细粒度的组合来拆分，比如会将“中华五千年华夏”拆分为“五千年、五千、五千年华、华夏、千年华夏”，总之是可能的组合；
 
@@ -477,7 +707,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 <font color=red>**不添加分词类别，Elastic对于汉字默认使用standard只是将汉字拆分成一个个的汉字，而我们ik则更加的智能，下面通过几个案例来说明。**</font>
 
-#### 7.2.2.1. ik_smart分词
+#### 8.2.2.1. ik_smart分词
 
 在JSON格式中添加**analyzer**节点内容为**ik_smart**
 
@@ -487,7 +717,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 ![elastic](doc/image/elastic/3.png)
 
-#### 7.2.2.2. ik_max_word分词
+#### 8.2.2.2. ik_max_word分词
 
 在JSON格式中添加**analyzer**节点内容为**ik_max_word**
 
@@ -497,9 +727,9 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 ![elastic](doc/image/elastic/4.png)
 
-## 7.3. 索引
+## 8.3. 索引
 
-### 7.3.1. 创建索引
+### 8.3.1. 创建索引
 
 由于在ElasticSearch 7.x之后就默认不在支持指定索引类型，所以在在elasticsearch7.x上执行：
 ~~~
@@ -522,7 +752,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 
 https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html
 
-#### 7.3.1.1. 官方例子说明
+#### 8.3.1.1. 官方例子说明
 
 ~~~
 
@@ -552,7 +782,7 @@ epoch_millis | 表示时间戳
 
 
 
-#### 7.3.1.2. 自定义索引
+#### 8.3.1.2. 自定义索引
 
 - 使用json文件创建索引
 使用 -d‘@your jsonFile’指定你的json文件。下边我创建了一个索引名称为product（可自己定义）的索引。
@@ -604,9 +834,9 @@ epoch_millis | 表示时间戳
 
 ![elastic](doc/image/elastic/6.png)
 
-### 7.3.2. 查看索引
+### 8.3.2. 查看索引
 
-#### 7.3.2.1. 全部索引
+#### 8.3.2.1. 全部索引
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"
 health status index   uuid                   pri rep docs.count docs.deleted store.size pri.store.size
@@ -616,7 +846,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ![elastic](doc/image/elastic/8.png)
 
-#### 7.3.2.2. 条件查询
+#### 8.3.2.2. 条件查询
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter?pretty=true"
@@ -660,7 +890,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ~~~
 
-### 7.3.3. 查看索引分词器
+### 8.3.3. 查看索引分词器
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_analyze?pretty=true" -d'
@@ -673,18 +903,18 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ![elastic](doc/image/elastic/7.png)
 
-### 7.3.4. 修改索引
+### 8.3.4. 修改索引
 
 
-### 7.3.5. 删除索引
+### 8.3.5. 删除索引
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X DELETE "http://localhost:9200/twitter?pretty=true"
 ~~~
 
-## 7.4. 如何数据管理
+## 8.4. 如何数据管理
 
-### 7.4.1. 添加数据
+### 8.4.1. 添加数据
 
 - 这里演示PUT方式为twitter索引添加数据，并且指定id，应当注意此处的默认类型为<font color=red>_doc</font>，还有一种就是采用POST方式添加数据，并且自动生成主键，本文就不再演示，请自行查阅相关材料。
 
@@ -718,9 +948,9 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ![elastic](doc/image/elastic/14.png)
 
-### 7.4.2. 基础查询
+### 8.4.2. 基础查询
 
-#### 7.4.2.1. 查询所有
+#### 8.4.2.1. 查询所有
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true"
@@ -728,7 +958,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ![elastic](doc/image/elastic/10.png)
 
-#### 7.4.2.2. 条件查询
+#### 8.4.2.2. 条件查询
 
 条件查询会涉及到精确词查询、匹配查询、多条件查询、聚合查询四种，分别为"term"、"match"、"multi_match"、"multi_match"。
 
@@ -814,9 +1044,9 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 }
 ~~~
 
-### 7.4.3. 高级条件查询
+### 8.4.3. 高级条件查询
 
-#### 7.4.3.1. 权重boost查询
+#### 8.4.3.1. 权重boost查询
 
 指定一个boost值来控制每个查询子句的相对权重，该值默认为1。一个大于1的boost会增加该查询子句的相对权重。
 索引映射定义的时候指定boost在elasticsearch5之后已经弃用。建议在查询的时候使用。
@@ -836,7 +1066,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-#### 7.4.3.2. 过滤coerce查询
+#### 8.4.3.2. 过滤coerce查询
 
 数据不总是我们想要的，由于在转换JSON body为真正JSON 的时候,整型数字5有可能会被写成字符串"5"或者浮点数5.0。coerce属性可以用来清除脏数据。
 一般在以下场景中：
@@ -844,7 +1074,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 - 字符串会被强制转换为整数
 - 浮点数被强制转换为整数
 
-##### 7.4.3.2.1. 创建索引
+##### 8.4.3.2.1. 创建索引
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/wongs?pretty=true"  -d'
@@ -870,7 +1100,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-##### 7.4.3.2.2. 创建第一个数据
+##### 8.4.3.2.2. 创建第一个数据
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/wongs/_doc/1?pretty=true" -d'
@@ -881,7 +1111,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 ~~~
 结果为成功，说明col_1列数据没问题。
 
-##### 7.4.3.2.3. 创建第二个数据
+##### 8.4.3.2.3. 创建第二个数据
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/wongs/_doc/1?pretty=true" -d'
@@ -911,12 +1141,12 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 由于不能被格式化，数据新增失败。
 
-#### 7.4.3.3. copy_to
+#### 8.4.3.3. copy_to
 
 copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取值被复制到一个字段并且取值所有字段的取值组合, 并且可以当成一个单独的字段查询.
 如，first_name和last_name可以合并为full_name字段。
 
-##### 7.4.3.3.1. 定义索引
+##### 8.4.3.3.1. 定义索引
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_copy_to?pretty=true"  -d'
@@ -946,7 +1176,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 '
 ~~~
 
-##### 7.4.3.3.2. 新增数据
+##### 8.4.3.3.2. 新增数据
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/idx_copy_to/_doc/1?pretty=true" -d'
@@ -972,7 +1202,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 
 ~~~
 
-##### 7.4.3.3.3. 查询数据
+##### 8.4.3.3.3. 查询数据
 
 ~~~
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/idx_copy_to/_search?pretty=true" -d'
@@ -992,7 +1222,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 从下图中得知first_name和 last_name字段取值都被复制到 full_name 字段。
 ![elastic](doc/image/elastic/15.png)
 
-#### 7.4.3.4. doc_values
+#### 8.4.3.4. doc_values
 
 是为了加快排序、聚合操作，在建立倒排索引的时候，额外增加一个列式存储映射，是一个空间换时间的做法。默认是开启的，对于确定不需要聚合或者排序的字段可以关闭。
 
@@ -1020,7 +1250,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 '
 ~~~
 
-#### 7.4.3.5. dynamic
+#### 8.4.3.5. dynamic
 
 默认情况下，字段可以自动添加到文档或者文档的内部对象，elasticsearc也会自动索引映射字段。
 
@@ -1048,9 +1278,9 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 '
 ~~~
 
-# 8. zookeeper安装
+# 9. zookeeper安装
 
-## 8.1. 下载
+## 9.1. 下载
 
 [官方zookeeper下载](https://zookeeper.apache.org/releases.html)，下载ZooKeeper，目前最新的稳定版本为 3.5.5 版本，用户可以自行选择一个速度较快的镜像来下载即可.
 
@@ -1063,7 +1293,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 ~~~
 
 
-## 8.2. 配置安装
+## 9.2. 配置安装
 
 - `修改配置文件`
 
@@ -1089,7 +1319,7 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 
 
 
-# 9. hadoop学习
+# 10. hadoop学习
 
 环境须知：
 - CentOS7
@@ -1098,9 +1328,9 @@ dataLogDir=/data/zookeeper-3.4.13/data/log
 
 Hadoop环境需要JAVA环境，所以首先得安装Java。
 
-## 9.1. 伪分布式环境部署
+## 10.1. 伪分布式环境部署
 
-### 9.1.1. 创建用户组、用户
+### 10.1.1. 创建用户组、用户
 
 ~~~
 [root@localhost app]$  groupadd dev
@@ -1108,7 +1338,7 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [root@localhost app]$  passwd hadoop
 ~~~
 
-### 9.1.2. ssh安装配置免密登陆
+### 10.1.2. ssh安装配置免密登陆
 
 ~~~
 [root@localhost app]$  su hadoop
@@ -1122,9 +1352,9 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [hadoop@localhost hadoop]$  ssh localhost
 ~~~
 
-### 9.1.3. hadoop安装
+### 10.1.3. hadoop安装
 
-#### 9.1.3.1. 下载
+#### 10.1.3.1. 下载
 
 [Hadoop下载](https://mirrors.cnnic.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz)
 
@@ -1136,7 +1366,7 @@ Hadoop环境需要JAVA环境，所以首先得安装Java。
 [hadoop@localhost hadoop]$  mv hadoop-3.1.2/ /data/app/hadoop/
 ~~~
 
-#### 9.1.3.2. 配置
+#### 10.1.3.2. 配置
 
 - etc/hadoop/core-site.xml，configuration配置为
 ~~~
@@ -1229,9 +1459,9 @@ export JAVA_HOME=/data/app/jdk8
 [hadoop@localhost hadoop]$ ./sbin/stop-yarn.sh
 ~~~
 
-### 9.1.4. HBase安装
+### 10.1.4. HBase安装
 
-#### 9.1.4.1. 单机HBase配置
+#### 10.1.4.1. 单机HBase配置
 
 - conf/hbase-site.xml，configuration配置为
 
@@ -1298,13 +1528,13 @@ Using config: /data/app/zookeeper/bin/../conf/zoo.cfg
 Starting zookeeper ... STARTED
 ~~~
 
-#### 9.1.4.2. 集群模式<待补充>
+#### 10.1.4.2. 集群模式<待补充>
 
-### 9.1.5. Phoenix安装
+### 10.1.5. Phoenix安装
 
 版本要与HBase相匹配！
 
-### 9.1.6. hive安装
+### 10.1.6. hive安装
 
 [Hive下载](https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz)
 
