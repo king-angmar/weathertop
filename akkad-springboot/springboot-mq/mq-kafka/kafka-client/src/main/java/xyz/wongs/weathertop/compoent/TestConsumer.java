@@ -14,10 +14,11 @@ public class TestConsumer {
     @KafkaListener(topics = {"wongs"})
     public void listen (ConsumerRecord<?, ?> record) throws Exception {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        Object message = kafkaMessage.get();
+        log.error("----------------- record =" + record);
+        log.error("------------------ message =" + message);
         if (kafkaMessage.isPresent()) {
-            Object message = kafkaMessage.get();
-            log.info("----------------- record =" + record);
-            log.info("------------------ message =" + message);
+
         }
     }
 }

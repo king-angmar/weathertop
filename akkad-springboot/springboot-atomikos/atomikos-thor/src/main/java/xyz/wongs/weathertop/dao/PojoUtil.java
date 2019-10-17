@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.util;
+package xyz.wongs.weathertop.dao;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

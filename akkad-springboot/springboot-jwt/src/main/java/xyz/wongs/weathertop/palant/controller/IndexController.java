@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.controller;
+package xyz.wongs.weathertop.palant.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
@@ -19,7 +19,7 @@ import xyz.wongs.weathertop.base.utils.StringUtils;
 import xyz.wongs.weathertop.dto.JwtDto;
 import xyz.wongs.weathertop.jwt.RSA256Key;
 import xyz.wongs.weathertop.jwt.entity.User;
-import xyz.wongs.weathertop.util.CreateSecrteKey;
+import xyz.wongs.weathertop.dao.CreateSecrteKey;
 
 import java.util.Calendar;
 import java.util.Date;

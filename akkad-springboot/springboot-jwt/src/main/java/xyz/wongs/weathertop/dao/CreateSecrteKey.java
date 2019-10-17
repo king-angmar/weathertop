@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.util;
+package xyz.wongs.weathertop.dao;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

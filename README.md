@@ -1,5 +1,6 @@
 <center><h1>weathertop</h1></center>
-风云顶（Weathertop），辛达语中称为阿蒙苏尔，是风云丘陵中最南端的山峰。它跟其他山岗稍稍分开。它顶端呈圆锥形，峰顶略显平坦。由于在指环王魔戒中放置了名为帕蓝提尔（Palantíri）的“真知晶石”，可用于远望和交流的一种黑色晶石。
+
+<h2>风云顶（Weathertop），指环王魔戒中一处地名，辛达语中称为阿蒙苏尔，是风云丘陵中最南端的山峰，它跟其他山岗稍稍分开。它顶端呈圆锥形，峰顶略显平坦。在指环王魔戒中放置了名为帕蓝提尔（Palantíri）的“真知晶石”，可用于远望和交流的一种黑色晶石。<h2>
 
 <!-- TOC -->
 
@@ -589,6 +590,7 @@ Swap:          2047           0        2047
 ### 6.2.2. 磁盘
 
 ~~~
+
 [root@localhost ~]# df -h
 文件系统                 容量  已用  可用 已用% 挂载点
 devtmpfs                 1.9G     0  1.9G    0% /dev
@@ -709,7 +711,7 @@ Removed symlink /etc/systemd/system/sysinit.target.wants/lvm2-lvmpolld.socket.
 
 [官方kafka_2.12-2.3.0下载](https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
 
-**解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**
+<font color=red>**解压重命名等步骤略过，这些在Linux下通用操作，不懂问百度**</font>
 
 
 ### 7.1.2. 编写配置文件
@@ -717,8 +719,14 @@ Removed symlink /etc/systemd/system/sysinit.target.wants/lvm2-lvmpolld.socket.
 修改/data/kafka/config/server.properties，主要有以下
 
 ~~~
-listeners=PLAINTEXT://192.168.147.129:9092
-advertised.listeners=PLAINTEXT://192.168.147.129:9092
+
+host.name=192.168.147.132
+
+broker.id=0
+port=9092
+
+listeners=PLAINTEXT://192.168.147.132:9092
+advertised.listeners=PLAINTEXT://192.168.147.132:9092
 log.dirs=/data/kafka/tmp/kafka-logs
 
 zookeeper.connect=localhost:2181
@@ -738,7 +746,7 @@ sh $zookeeper_home/bin/zkServer.sh start &
 
 sleep 12
 
-sh /data/kafka/bin/kafka-server-start.sh  /data/kafka/config/server.properties &
+sh /data/app/kafka/bin/kafka-server-start.sh  /data/app/kafka/config/server.properties &
 
 ~~~
 

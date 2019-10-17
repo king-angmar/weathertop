@@ -7,11 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
 import xyz.wongs.weathertop.base.persistence.mybatis.service.BaseService;
 import xyz.wongs.weathertop.entity.location.Location;
-import xyz.wongs.weathertop.mapper.location.LocationMapper;
 import xyz.wongs.weathertop.entity.quanmin.SysConfig;
 import xyz.wongs.weathertop.mapper.quanmin.SysConfigMapper;
 import xyz.wongs.weathertop.service.location.LocationService;
-import xyz.wongs.weathertop.util.IdClazzUtils;
+import xyz.wongs.weathertop.dao.IdClazzUtils;
 
 import java.util.Date;
 

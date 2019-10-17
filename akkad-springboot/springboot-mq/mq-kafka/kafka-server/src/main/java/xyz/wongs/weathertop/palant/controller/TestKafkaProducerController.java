@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.controller;
+package xyz.wongs.weathertop.palant.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;

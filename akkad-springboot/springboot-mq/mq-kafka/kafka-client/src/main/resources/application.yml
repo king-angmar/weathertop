@@ -1,5 +1,5 @@
 server:
-  port: 9091
+  port: 9092
 spring:
   datasource:
     name: mysql
@@ -25,7 +25,7 @@ spring:
       login-username: admin
       login-password: 123456
   kafka:
-    bootstrap-servers: 192.168.147.129:9092
+    bootstrap-servers: 192.168.147.132:9092
     producer:
       retries: 0
       batch-size: 16384
