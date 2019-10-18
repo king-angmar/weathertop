@@ -51,7 +51,7 @@ public class BaseElasticDao {
                 return;
             }
             CreateIndexRequest request = new CreateIndexRequest(idxName);
-            request.settings(Settings.builder().put("index.number_of_shards", 3).put("index.number_of_replicas", 2));
+            buildSetting(request);
             request.mapping(idxSQL, XContentType.JSON);
             CreateIndexResponse res = restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
             if (!res.isAcknowledged()) {
@@ -62,6 +62,7 @@ public class BaseElasticDao {
             System.exit(0);
         }
     }
+
     /** 断某个index是否存在
      * @author WCNGS@QQ.COM
      * @See
@@ -76,6 +77,7 @@ public class BaseElasticDao {
         request.local(false);
         request.humanReadable(true);
         request.includeDefaults(false);
+
         request.indicesOptions(IndicesOptions.lenientExpandOpen());
         return restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
     }
@@ -98,15 +100,15 @@ public class BaseElasticDao {
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:27
-     * @param index index
+     * @param idxName index
      * @param entity    对象
      * @return void
      * @throws
      * @since
      */
-    public void insertOrUpdateOne(String index, ElasticEntity entity) {
+    public void insertOrUpdateOne(String idxName, ElasticEntity entity) {
 
-        IndexRequest request = new IndexRequest(index);
+        IndexRequest request = new IndexRequest(idxName);
         request.id(entity.getId());
         request.source(JSON.toJSONString(entity.getData()), XContentType.JSON);
         try {
@@ -121,16 +123,16 @@ public class BaseElasticDao {
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:26
-     * @param index index
+     * @param idxName index
      * @param list 带插入列表
      * @return void
      * @throws
      * @since
      */
-    public void insertBatch(String index, List<ElasticEntity> list) {
+    public void insertBatch(String idxName, List<ElasticEntity> list) {
 
         BulkRequest request = new BulkRequest();
-        list.forEach(item -> request.add(new IndexRequest(index).id(item.getId())
+        list.forEach(item -> request.add(new IndexRequest(idxName).id(item.getId())
                 .source(JSON.toJSONString(item.getData()), XContentType.JSON)));
         try {
             restHighLevelClient.bulk(request, RequestOptions.DEFAULT);
@@ -139,21 +141,20 @@ public class BaseElasticDao {
         }
     }
 
-
     /** 批量删除
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:14
-     * @param index index
+     * @param idxName index
      * @param idList    待删除列表
      * @return void
      * @throws
      * @since
      */
-    public <T> void deleteBatch(String index, Collection<T> idList) {
+    public <T> void deleteBatch(String idxName, Collection<T> idList) {
 
         BulkRequest request = new BulkRequest();
-        idList.forEach(item -> request.add(new DeleteRequest(index, item.toString())));
+        idList.forEach(item -> request.add(new DeleteRequest(idxName, item.toString())));
         try {
             restHighLevelClient.bulk(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -165,16 +166,16 @@ public class BaseElasticDao {
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:14
-     * @param index index
+     * @param idxName index
      * @param builder   查询参数
      * @param c 结果类对象
      * @return java.util.List<T>
      * @throws
      * @since
      */
-    public <T> List<T> search(String index, SearchSourceBuilder builder, Class<T> c) {
+    public <T> List<T> search(String idxName, SearchSourceBuilder builder, Class<T> c) {
 
-        SearchRequest request = new SearchRequest(index);
+        SearchRequest request = new SearchRequest(idxName);
         request.source(builder);
         try {
             SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
@@ -193,14 +194,14 @@ public class BaseElasticDao {
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:13
-     * @param index
+     * @param idxName
      * @return void
      * @throws
      * @since
      */
-    public void deleteIndex(String index) {
+    public void deleteIndex(String idxName) {
         try {
-            restHighLevelClient.indices().delete(new DeleteIndexRequest(index), RequestOptions.DEFAULT);
+            restHighLevelClient.indices().delete(new DeleteIndexRequest(idxName), RequestOptions.DEFAULT);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -211,15 +212,15 @@ public class BaseElasticDao {
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:13
-     * @param index
+     * @param idxName
      * @param builder
      * @return void
      * @throws
      * @since
      */
-    public void deleteByQuery(String index, QueryBuilder builder) {
+    public void deleteByQuery(String idxName, QueryBuilder builder) {
 
-        DeleteByQueryRequest request = new DeleteByQueryRequest(index);
+        DeleteByQueryRequest request = new DeleteByQueryRequest(idxName);
         request.setQuery(builder);
         //设置批量操作数量,最大为10000
         request.setBatchSize(10000);
