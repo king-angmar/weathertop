@@ -9,6 +9,10 @@ public class GlobalException extends Exception {
     public int getCode() {
         return code;
     }
+
+    public GlobalException() {
+
+    }
     public GlobalException(String message) {
         super(message);
     }

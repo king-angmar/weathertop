@@ -34,6 +34,7 @@ public enum ResponseCode {
     RESOURCE_NOT_EXIST(1001, "资源不存在"),
     INSUFFICIENT_RESOURCE(1002, "资源不符合规范"),
     DUPLICATEKEY_ERROR_CODE(1003,"数据库中已存在该记录"),
+    AUTHENTICATION_FAILED_ERROR(10009, "用户或者密码不正确"),
     NETWORK_ERROR(9999, "网络错误，待会重试");
 
     private int code;

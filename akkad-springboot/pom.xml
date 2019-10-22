@@ -18,6 +18,7 @@
         <module>springboot-generator</module>
         <module>springboot-lsms</module>
         <module>springboot-elasticsearch</module>
+		<module>springboot-shiro</module>
     </modules>
 
 

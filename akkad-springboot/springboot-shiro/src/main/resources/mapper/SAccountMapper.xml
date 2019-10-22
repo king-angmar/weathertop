@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.wongs.weathertop.shiro.sys.mapper.SAccountMapper" >
+  <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.shiro.sys.entity.SAccount" >
+    <id column="accountid" property="id" jdbcType="INTEGER" />
+    <result column="accountcode" property="accountcode" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="accountname" property="accountname" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="modifytime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="overdate" property="overdate" jdbcType="TIMESTAMP" />
+    <result column="disableddate" property="disableddate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    accountid, accountcode, password, accountname, state, createtime, modifytime, overdate, 
+    disableddate, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from s_account
+    where accountid = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from s_account
+    where accountid = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xyz.wongs.weathertop.shiro.sys.entity.SAccount" >
+    insert into s_account (accountid, accountcode, password, 
+      accountname, state, createtime, 
+      modifytime, overdate, disableddate, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{accountcode,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{accountname,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{overdate,jdbcType=TIMESTAMP}, #{disableddate,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.wongs.weathertop.shiro.sys.entity.SAccount" >
+    insert into s_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountid != null" >
+        accountid,
+      </if>
+      <if test="accountcode != null" >
+        accountcode,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="accountname != null" >
+        accountname,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="modifytime != null" >
+        modifytime,
+      </if>
+      <if test="overdate != null" >
+        overdate,
+      </if>
+      <if test="disableddate != null" >
+        disableddate,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountid != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accountcode != null" >
+        #{accountcode,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="accountname != null" >
+        #{accountname,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdate != null" >
+        #{overdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disableddate != null" >
+        #{disableddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.shiro.sys.entity.SAccount" >
+    update s_account
+    <set >
+      <if test="accountcode != null" >
+        accountcode = #{accountcode,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="accountname != null" >
+        accountname = #{accountname,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdate != null" >
+        overdate = #{overdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disableddate != null" >
+        disableddate = #{disableddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where accountid = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.shiro.sys.entity.SAccount" >
+    update s_account
+    set accountcode = #{accountcode,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      accountname = #{accountname,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      overdate = #{overdate,jdbcType=TIMESTAMP},
+      disableddate = #{disableddate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where accountid = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
