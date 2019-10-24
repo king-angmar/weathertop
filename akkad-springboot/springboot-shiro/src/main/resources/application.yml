@@ -1,7 +1,18 @@
+db:
+  dtype: mysql
 server:
   port: 9090
 # mysql数据源配置
 spring:
+  devtools:
+    restart:
+      additional-paths: resources/**,static/**,templates/**
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
   datasource:
     name: mysql
     type: com.alibaba.druid.pool.DruidDataSource
@@ -12,7 +23,7 @@ spring:
     druid:
       initial-size: 5
       min-idle: 5
-      max-active: 20
+      max-active: 50
       max-wait: 30000
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 300000
@@ -30,6 +41,9 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/
   aop:
     auto: true
     proxy-target-class: true
@@ -55,4 +69,13 @@ spring:
       allow_single_quotes: true
 # mybatis配置
 mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
   mapperLocations: classpath:mapper/**/*.xml
+
+######### 分页插件 ##########
+pagehelper:
+  helper-dialect: ${db.dtype}
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true

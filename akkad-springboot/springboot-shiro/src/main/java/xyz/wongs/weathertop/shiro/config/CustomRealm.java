@@ -10,14 +10,22 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.exception.expand.WeathertopAccountException;
+import xyz.wongs.weathertop.shiro.sys.entity.SAccount;
+import xyz.wongs.weathertop.shiro.sys.service.SAccountService;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
 public class CustomRealm extends AuthorizingRealm {
 
+    @Autowired
+    private SAccountService sAccountService;
 
     /**
      *  权限认证，即登录过后，每个身份不一定，对应的所能看的页面也不一样
@@ -53,7 +61,6 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        log.warn("-------身份认证方法--------");
         if (authenticationToken.getPrincipal() == null) {
             return null;
         }
@@ -61,13 +68,21 @@ public class CustomRealm extends AuthorizingRealm {
         String userName = (String) authenticationToken.getPrincipal();
         String userPwd = new String((char[]) authenticationToken.getCredentials());
 
+        SAccount sAccount = new SAccount();
+        sAccount.setAccountname(userName);
+        List<SAccount> list = sAccountService.selectByExample(sAccount);
+        Optional<List<SAccount>> emptyOpt = Optional.ofNullable(list);
+        if(!emptyOpt.isPresent()){
+            log.error("不存在该用户");
+            new WeathertopAccountException(ResponseCode.NOT_EXISTS_USER.getMsg(),ResponseCode.NOT_EXISTS_USER.getCode());
+        }
+        sAccount = emptyOpt.get().get(0);
         //根据用户名从数据库获取密码
-        String password = "123";
         if (userName == null) {
             new WeathertopAccountException("用户名不正确");
-        } else if (!userPwd.equals(password )) {
+        } else if (!userPwd.equals(sAccount.getPassword())) {
             new WeathertopAccountException("密码不正确");
         }
-        return new SimpleAuthenticationInfo(userName, password,getName());
+        return new SimpleAuthenticationInfo(userName, sAccount.getPassword(),getName());
     }
 }

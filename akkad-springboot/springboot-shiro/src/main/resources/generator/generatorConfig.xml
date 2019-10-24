@@ -35,9 +35,9 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="opt_acct_rol_ref"  schema="OptAcctRolRef"
+        <table tableName="s_account"  schema="SAccount"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
     </context>

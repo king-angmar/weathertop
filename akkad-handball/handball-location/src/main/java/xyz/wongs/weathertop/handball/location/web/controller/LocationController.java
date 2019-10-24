@@ -9,7 +9,7 @@ import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.exception.WeathertopRuntimeException;
 import xyz.wongs.weathertop.handball.location.entity.Location;
 import xyz.wongs.weathertop.handball.location.service.LocationService;
-import xyz.wongs.weathertop.base.message.response.Response;
+import xyz.wongs.weathertop.base.message.response.ResponseResult;
 
 import java.util.Optional;
 
@@ -22,13 +22,13 @@ public class LocationController {
 	private LocationService locationService;
 
     @GetMapping("/findByLocationId")
-    public Response findByLocationId(@RequestParam("id") Long id){
+    public ResponseResult findByLocationId(@RequestParam("id") Long id){
         Location location = locationService.selectByPrimaryKey(id);
 
         if(null==location){
             throw new WeathertopRuntimeException(ResponseCode.RESOURCE_NOT_EXIST);
         }
-        return new Response(location);
+        return new ResponseResult(location);
     }
 
     @GetMapping("/getUrl")

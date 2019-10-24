@@ -4,14 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AcctVo {
+public class AcctVo implements Serializable {
 
-    private String userName;
+    @NotBlank(message = "{required}")
+    private String username;
 
-    private String passWord;
-
+    @NotBlank(message = "{required}")
+    private String password;
 }
 

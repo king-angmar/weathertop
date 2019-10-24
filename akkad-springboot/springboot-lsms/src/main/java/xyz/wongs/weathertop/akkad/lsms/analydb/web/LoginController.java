@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.wongs.weathertop.akkad.lsms.analydb.task.ReadRemoteFileService;
-import xyz.wongs.weathertop.base.message.response.Response;
+import xyz.wongs.weathertop.base.message.response.ResponseResult;
 import xyz.wongs.weathertop.base.persistence.mybatis.web.BaseController;
 import java.io.File;
 
@@ -19,8 +19,8 @@ public class LoginController extends BaseController {
     ReadRemoteFileService readRemoteFileService;
 
     @GetMapping("/")
-    public Response index() throws Exception{
-        Response response = new Response();
+    public ResponseResult index() throws Exception{
+        ResponseResult response = new ResponseResult();
         String tempDire = "F:\\LP\\soft";
         long startMil = System.currentTimeMillis();
         readRemoteFileService.getFileList(new File(tempDire));

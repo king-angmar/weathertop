@@ -399,16 +399,66 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		date = ca.getTime();
 		return sdf.format(date);
 	}
-	/**获取当前时间的整点小时时间
+	/**
 	 * @param date
 	 * @return
 	 */
-	public static String getCurrHourTime(Date date){
+
+	/** 获取当前时间的整点小时时间，默认格式为yyyy-MM-dd HH:mm:ss
+	 * @author WCNGS@QQ.COM
+	 * @See
+	 * @date 2019/10/23 23:59
+	 * @param date 必填
+	 * @param pattern 可为空
+	 * @return java.lang.String
+	 * @throws
+	 * @since
+	 */
+	public static String getCurrHourTime(Date date,String pattern){
+
 		Calendar ca = Calendar.getInstance();
 		ca.set(Calendar.MINUTE, 0);
 		ca.set(Calendar.SECOND, 0);
 		date = ca.getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(null==pattern){
+			pattern = "yyyy-MM-dd HH:mm:ss";
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		return sdf.format(date);
 	}
+
+
+	/** 判断两个日期是否相等
+	 * @author WCNGS@QQ.COM
+	 * @See
+	 * @date 2019/10/23 23:58
+	 * @param date1
+	 * @param date2
+	 * @return boolean
+	 * @throws
+	 * @since
+	 */
+	public static boolean isSameDate(Date date1, Date date2) {
+
+		try {
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(date1);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(date2);
+
+			boolean isSameYear = cal1.get(Calendar.YEAR) == cal2
+					.get(Calendar.YEAR);
+			boolean isSameMonth = isSameYear
+					&& cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
+			boolean isSameDate = isSameMonth
+					&& cal1.get(Calendar.DAY_OF_MONTH) == cal2
+					.get(Calendar.DAY_OF_MONTH);
+
+			return isSameDate;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

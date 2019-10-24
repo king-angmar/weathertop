@@ -9,6 +9,10 @@ public class WeathertopAccountException extends GlobalException {
         super(ResponseCode.AUTHENTICATION_FAILED_ERROR.getMsg(), ResponseCode.AUTHENTICATION_FAILED_ERROR.getCode());
     }
 
+    public WeathertopAccountException(String message, int code) {
+        super(message, code);
+    }
+
     public WeathertopAccountException(String message){
         super(message, ResponseCode.AUTHENTICATION_FAILED_ERROR.getCode());
     }

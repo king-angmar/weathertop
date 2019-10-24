@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.wongs.weathertop.base.dao.BaseElasticDao;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
-import xyz.wongs.weathertop.base.message.response.Response;
+import xyz.wongs.weathertop.base.message.response.ResponseResult;
 
 @Slf4j
 @RequestMapping("/elastic")
@@ -19,14 +19,14 @@ public class ElasticController {
     BaseElasticDao baseElasticDao;
 
     @RequestMapping(value = "/}")
-    public Response index(String index){
-        Response response = new Response();
+    public ResponseResult index(String index){
+        ResponseResult response = new ResponseResult();
         return response;
     }
 
     @RequestMapping(value = "/exist/{index}")
-    public Response indexExist(@PathVariable(value = "index") String index){
-        Response response = new Response();
+    public ResponseResult indexExist(@PathVariable(value = "index") String index){
+        ResponseResult response = new ResponseResult();
         try {
             baseElasticDao.indexExist(index);
         } catch (Exception e) {
@@ -38,8 +38,8 @@ public class ElasticController {
     }
 
     @RequestMapping(value = "/del/{index}")
-    public Response indexDel(@PathVariable(value = "index") String index){
-        Response response = new Response();
+    public ResponseResult indexDel(@PathVariable(value = "index") String index){
+        ResponseResult response = new ResponseResult();
         try {
             baseElasticDao.deleteIndex(index);
         } catch (Exception e) {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.exception.WeathertopRuntimeException;
-import xyz.wongs.weathertop.base.message.response.Response;
+import xyz.wongs.weathertop.base.message.response.ResponseResult;
 import xyz.wongs.weathertop.base.utils.DateUtils;
 import xyz.wongs.weathertop.base.utils.StringUtils;
 import xyz.wongs.weathertop.dto.JwtDto;
@@ -35,27 +35,27 @@ public class IndexController {
 
     @ApiOperation("获取Token 通过HS256加密")
     @GetMapping("/getTokenByHS256")
-    public Response generTokenByHS256() throws Exception{
+    public ResponseResult generTokenByHS256() throws Exception{
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
-        Response response = new Response();
+        ResponseResult response = new ResponseResult();
         response.setData(createToken(algorithm, User.getAuther()));
         return response;
     }
 
     @ApiOperation("获取Token 通过RS256加密")
     @GetMapping("/getTokenByRS256")
-    public Response generTokenByRS256() throws Exception{
+    public ResponseResult generTokenByRS256() throws Exception{
         RSA256Key rsa256Key = CreateSecrteKey.getRSA256Key();
         Algorithm algorithm = Algorithm.RSA256(rsa256Key.getPublicKey(), rsa256Key.getPrivateKey());
         // 返回token
-        Response response = new Response();
+        ResponseResult response = new ResponseResult();
         response.setData(createToken(algorithm, User.getAuther()));
         return response;
     }
 
     @ApiOperation("获取token ,但是 10 秒内，有效")
     @GetMapping("/getTokenExpire")
-    public Response getTokenByRS256AndTimer() throws Exception{
+    public ResponseResult getTokenByRS256AndTimer() throws Exception{
         RSA256Key rsa256Key = CreateSecrteKey.getRSA256Key();
         Algorithm algorithm = Algorithm.RSA256(rsa256Key.getPublicKey(), rsa256Key.getPrivateKey());
         String token =JWT.create()
@@ -66,7 +66,7 @@ public class IndexController {
                 .withClaim("data", JSON.toJSONString(User.getAuther())) //存数据
                 .sign(algorithm);
         // 返回token
-        Response response = new Response();
+        ResponseResult response = new ResponseResult();
         response.setData(token);
         return response;
     }
@@ -79,7 +79,7 @@ public class IndexController {
      */
     @ApiOperation("通过token 获取数据")
     @PostMapping("/getDataByToken")
-    public Response getDataByToken(JwtDto jwtdto) throws Exception{
+    public ResponseResult getDataByToken(JwtDto jwtdto) throws Exception{
         Algorithm algorithm =null;
         DecodedJWT verify =null;
         if(StringUtils.isEmpty(jwtdto.getAlg())){
@@ -102,7 +102,7 @@ public class IndexController {
         }
         String dataString = verify.getClaim("data").asString();
 
-        Response response = new Response();
+        ResponseResult response = new ResponseResult();
         response.setData(JSON.parseObject(dataString,User.class));
         return response;
     }
