@@ -1,6 +1,7 @@
 package xyz.wongs.weathertop.base.dao;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -21,12 +22,14 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.Log;
 import xyz.wongs.weathertop.base.entiy.ElasticEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 @Component
 public class BaseElasticDao {
 
@@ -47,7 +50,8 @@ public class BaseElasticDao {
 
         try {
 
-            if (this.indexExist(idxName)) {
+            if (!this.indexExist(idxName)) {
+                log.error(" idxName={} 已经存在,idxSql={}",idxName,idxSQL);
                 return;
             }
             CreateIndexRequest request = new CreateIndexRequest(idxName);

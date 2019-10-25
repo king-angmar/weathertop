@@ -43,6 +43,8 @@
     - [2.1. POM](#21-pom)
     - [2.2. yml配置](#22-yml配置)
     - [2.3. 核心操作类](#23-核心操作类)
+- [样例演示](#样例演示)
+    - [创建索引](#创建索引)
 - [3. 源码](#3-源码)
 
 <!-- /TOC -->
@@ -813,10 +815,10 @@ es:
 ## 2.3. 核心操作类
 
 ~~~
-
 package xyz.wongs.weathertop.base.dao;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -837,12 +839,14 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.Log;
 import xyz.wongs.weathertop.base.entiy.ElasticEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 @Component
 public class BaseElasticDao {
 
@@ -863,7 +867,8 @@ public class BaseElasticDao {
 
         try {
 
-            if (this.indexExist(idxName)) {
+            if (!this.indexExist(idxName)) {
+                log.error(" idxName={} 已经存在,idxSql={}",idxName,idxSQL);
                 return;
             }
             CreateIndexRequest request = new CreateIndexRequest(idxName);
@@ -1049,8 +1054,44 @@ public class BaseElasticDao {
     }
 }
 
+~~~
+
+# 样例演示
+
+## 创建索引
+
+由于在**BaseElasticDao**类中**createIndex**方法，中
+![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/16.png)
 
 ~~~
+public void createIndex(String idxName,String idxSQL){
+
+    try {
+
+        if (!this.indexExist(idxName)) {
+            log.error(" idxName={} 已经存在,idxSql={}",idxName,idxSQL);
+            return;
+        }
+        CreateIndexRequest request = new CreateIndexRequest(idxName);
+        //1、创建Setting
+        buildSetting(request);
+        //2、指定索引的JSON
+        request.mapping(idxSQL, XContentType.JSON);
+        CreateIndexResponse res = restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
+        //3、指定此类型的映射，以JSON字符串形式提供
+        if (!res.isAcknowledged()) {
+            throw new RuntimeException("初始化失败");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.exit(0);
+    }
+}
+~~~
+
+如官网截图：
+
+
 
 
 # 3. 源码
