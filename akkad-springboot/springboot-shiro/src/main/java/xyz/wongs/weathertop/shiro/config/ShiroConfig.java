@@ -2,6 +2,7 @@ package xyz.wongs.weathertop.shiro.config;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.io.ResourceUtils;
@@ -9,12 +10,14 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import xyz.wongs.weathertop.shiro.filter.KickoutSessionFilter;
 
 import javax.servlet.Filter;
@@ -33,12 +36,13 @@ import java.util.Map;
 */
 @Slf4j
 @Configuration
+@EnableTransactionManagement
 public class ShiroConfig {
 
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
-        log.debug("-----------------Shiro拦截器工厂类注入开始");
+        log.warn("-----------------Shiro拦截器工厂类注入开始");
 
         bean.setSecurityManager(securityManager);
 
@@ -93,24 +97,38 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/*/*/*/**", "authc");
 
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        log.debug("-----------------Shiro拦截器工厂类注入成功");
+        log.warn("-----------------Shiro拦截器工厂类注入成功");
         return bean;
     }
 
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager defaultSecurityManager = new DefaultWebSecurityManager();
-        defaultSecurityManager.setRealm(customRealm());
+        defaultSecurityManager.setRealm(weathertopShiroRealm());
+        // //注入ehcache缓存管理器;
+        defaultSecurityManager.setCacheManager(ehCacheManager());
+        // //注入session管理器;
+        defaultSecurityManager.setSessionManager(sessionManager());
+        //注入Cookie记住我管理器
+        defaultSecurityManager.setRememberMeManager(rememberMeManager());
         return defaultSecurityManager;
     }
 
     @Bean
-    public CustomRealm customRealm() {
-        CustomRealm customRealm = new CustomRealm();
-        return customRealm;
+    public WeathertopShiroRealm weathertopShiroRealm() {
+        WeathertopShiroRealm weathertopShiroRealm = new WeathertopShiroRealm();
+        weathertopShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return weathertopShiroRealm;
     }
 
-
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashedCredentialsMatcher = new RetryLimitHashedCredentialsMatcher(ehCacheManager());
+        //new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");// 散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashIterations(1);// 散列的次数，比如散列两次，相当于 // md5(md5(""));
+        return hashedCredentialsMatcher;
+    }
 
     /** kickoutSessionFilter同一个用户多设备登录限制
      * @author WCNGS@QQ.COM
@@ -184,6 +202,24 @@ public class ShiroConfig {
         sessionManager.setSessionDAO(enterCacheSessionDAO());
         sessionManager.setSessionIdCookie(sessionIdCookie());
         return sessionManager;
+    }
+
+    @Bean
+    public CookieRememberMeManager rememberMeManager(){
+        log.debug("配置cookie记住我管理器！");
+        CookieRememberMeManager cookieRememberMeManager=new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(remeberMeCookie());
+        return cookieRememberMeManager;
+    }
+
+    @Bean
+    public SimpleCookie remeberMeCookie(){
+        log.debug("记住我，设置cookie过期时间！");
+        //cookie名称;对应前端的checkbox的name = rememberMe
+        SimpleCookie scookie=new SimpleCookie("rememberMe");
+        //记住我cookie生效时间30天 ,单位秒  [10天]
+        scookie.setMaxAge(864000);
+        return scookie;
     }
 
     @Bean

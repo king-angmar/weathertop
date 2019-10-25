@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.wongs.weathertop.shiro.sys.mapper.OptMenuMapper" >
+  <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.shiro.sys.entity.OptMenu" >
+    <id column="menu_id" property="id" jdbcType="BIGINT" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="p_id" property="pId" jdbcType="VARCHAR" />
+    <result column="pcodes" property="pcodes" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
+    <result column="is_menu" property="isMenu" jdbcType="INTEGER" />
+    <result column="tips" property="tips" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="is_open" property="isOpen" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    menu_id, menu_name, menu_code, p_id, pcodes, icon, URL, num, menu_level, is_menu, 
+    tips, state, is_open
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.shiro.sys.entity.OptMenuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from opt_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from opt_menu
+    where menu_id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectMenuByRoleId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select <include refid="Base_Column_List" />
+     from opt_menu t1
+    where t1.menu_id in(
+    select m1.menu_id from opt_menu_rol_ref m1 where m1.role_id=#{roleId} and m1.state=#{state})
+    and t1.state=#{state};
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from opt_menu
+    where menu_id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="xyz.wongs.weathertop.shiro.sys.entity.OptMenu" >
+    insert into opt_menu (menu_id, menu_name, menu_code, 
+      p_id, pcodes, icon, 
+      URL, num, menu_level, 
+      is_menu, tips, state, 
+      is_open)
+    values (#{id,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR}, #{menuCode,jdbcType=VARCHAR}, 
+      #{pId,jdbcType=VARCHAR}, #{pcodes,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{menuLevel,jdbcType=INTEGER}, 
+      #{isMenu,jdbcType=INTEGER}, #{tips,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{isOpen,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.wongs.weathertop.shiro.sys.entity.OptMenu" >
+    insert into opt_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="pcodes != null" >
+        pcodes,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="menuLevel != null" >
+        menu_level,
+      </if>
+      <if test="isMenu != null" >
+        is_menu,
+      </if>
+      <if test="tips != null" >
+        tips,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="isOpen != null" >
+        is_open,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcodes != null" >
+        #{pcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isMenu != null" >
+        #{isMenu,jdbcType=INTEGER},
+      </if>
+      <if test="tips != null" >
+        #{tips,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null" >
+        #{isOpen,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.shiro.sys.entity.OptMenu" >
+    update opt_menu
+    <set >
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        p_id = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcodes != null" >
+        pcodes = #{pcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="menuLevel != null" >
+        menu_level = #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isMenu != null" >
+        is_menu = #{isMenu,jdbcType=INTEGER},
+      </if>
+      <if test="tips != null" >
+        tips = #{tips,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null" >
+        is_open = #{isOpen,jdbcType=INTEGER},
+      </if>
+    </set>
+    where menu_id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.shiro.sys.entity.OptMenu" >
+    update opt_menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_code = #{menuCode,jdbcType=VARCHAR},
+      p_id = #{pId,jdbcType=VARCHAR},
+      pcodes = #{pcodes,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      menu_level = #{menuLevel,jdbcType=INTEGER},
+      is_menu = #{isMenu,jdbcType=INTEGER},
+      tips = #{tips,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      is_open = #{isOpen,jdbcType=INTEGER}
+    where menu_id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

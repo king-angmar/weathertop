@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Controller
 @RequestMapping("/user")
-public class LoginController {
+public class UserController {
 
     @Autowired
     private SAccountService sAccountService;
@@ -36,10 +36,9 @@ public class LoginController {
     @Autowired
     private EhCacheManager ecm;
 
-    @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String login(){
-        log.error("开始请求");
-        return "login";
+    @RequestMapping("/userList")
+    public String toUserList() {
+        return "/auth/userList";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
@@ -84,25 +83,25 @@ public class LoginController {
             responseResult = new ResponseResult();
             log.info("用户登录，用户验证通过！user=" + acctVo.getUsername());
         } catch (UnknownAccountException uae) {
-            log.error("用户登录，用户验证未通过：未知用户！user=" + acctVo.getUsername(), uae);
+            log.error("用户登录，用户验证未通过：未知用户！user={},异常信息: {}" , acctVo.getUsername(), uae.getMessage());
             responseResult.setMsg("该用户不存在，请您联系管理员");
         } catch (IncorrectCredentialsException ice) {
             // 获取输错次数
-            log.error("用户登录，用户验证未通过：错误的凭证，密码输入错误！user=" + acctVo.getUsername(),ice);
+            log.error("用户登录，用户验证未通过：错误的凭证，密码输入错误！user={},异常信息: {}" , acctVo.getUsername(),ice.getMessage());
             responseResult.setMsg("用户名或密码不正确");
         } catch (LockedAccountException lae) {
-            log.error("用户登录，用户验证未通过：账户已锁定！user=" + acctVo.getUsername(), lae);
+            log.error("用户登录，用户验证未通过：账户已锁定！user={},异常信息: {}" + acctVo.getUsername(), lae.getMessage());
             responseResult.setMsg("账户已锁定");
         } catch (ExcessiveAttemptsException eae) {
-            log.error("用户登录，用户验证未通过：错误次数大于5次,账户已锁定！user=.getMobile()" + acctVo, eae);
+            log.error("用户登录，用户验证未通过：错误次数大于5次,账户已锁定！user={},异常信息: {}" , acctVo, eae);
             responseResult.setMsg("用户名或密码错误次数大于5次,账户已锁定!</br><span style='color:red;font-weight:bold; '>2分钟后可再次登录，或联系管理员解锁</span>");
             // 这里结合了，另一种密码输错限制的实现，基于redis或mysql的实现；也可以直接使用RetryLimitHashedCredentialsMatcher限制5次
         } catch (AuthenticationException ae) {
             // 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-            log.error("用户登录，用户验证未通过：认证异常，异常信息如下！user=" + acctVo.getUsername(),ae);
+            log.error("用户登录，用户验证未通过：认证异常，异常信息如下！user={},异常信息: {}" , acctVo.getUsername(),ae.getMessage());
             responseResult.setMsg("用户名或密码不正确");
         } catch (Exception e) {
-            log.error("用户登录，用户验证未通过：操作异常，异常信息如下！user=" + acctVo.getUsername(), e);
+            log.error("用户登录，用户验证未通过：操作异常，异常信息如下！user={},异常信息: {}" , acctVo.getUsername(), e.getMessage());
             responseResult.setMsg("用户登录失败，请您稍后再试");
         }
         Cache<String, AtomicInteger> passwordRetryCache = ecm.getCache("passwordRetryCache");

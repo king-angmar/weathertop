@@ -12,7 +12,6 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
-import xyz.wongs.weathertop.shiro.sys.entity.SAccount;
 import xyz.wongs.weathertop.shiro.util.ShiroFilterUtils;
 
 import javax.servlet.ServletRequest;
