@@ -31,7 +31,7 @@ public enum ResponseCode {
     ALGORITHM_CAN_NOT_NULL(10003,"加密方式不能为空，可选 RS256、HS256"),
     VALID_ENTITY_PARAMS(10004,"请求参数校验不匹配"),
     VALID_UNION_PARAMS(10005,"实体对象传参不匹配"),
-    NOT_EXISTS_USER(10006,"不存在改用户信息"),
+    NOT_EXISTS_USER(10006,"不存在该用户信息"),
     AUTHENTICATION_FAILED_ERROR(10009, "用户或者密码不正确"),
 
     PARAM_ERROR_CODE(2001,"参数不合规"),

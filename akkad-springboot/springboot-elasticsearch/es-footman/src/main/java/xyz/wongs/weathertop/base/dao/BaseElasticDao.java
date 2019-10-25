@@ -113,6 +113,7 @@ public class BaseElasticDao {
     public void insertOrUpdateOne(String idxName, ElasticEntity entity) {
 
         IndexRequest request = new IndexRequest(idxName);
+        log.error("Data : id={},entity={}",entity.getId(),JSON.toJSONString(entity.getData()));
         request.id(entity.getId());
         request.source(JSON.toJSONString(entity.getData()), XContentType.JSON);
         try {

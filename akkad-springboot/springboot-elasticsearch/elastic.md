@@ -1068,22 +1068,22 @@ public class BaseElasticDao {
 
 ~~~
 {
-    "idxName": "idx_location",
+    "idxName": "idx_locat",
     "idxSql": {
         "dynamic": false,
         "properties": {
-            "location_id": {
+            "id": {
                 "type": "long"
             },
             "flag": {
                 "type": "text",
                 "index": true
             },
-            "local_code": {
+            "localCode": {
                 "type": "text",
                 "index": true
             },
-            "local_name": {
+            "localName": {
                 "type": "text",
                 "index": true,
                 "analyzer": "ik_max_word"
@@ -1091,7 +1091,7 @@ public class BaseElasticDao {
             "lv": {
                 "type": "long"
             },
-            "sup_local_code": {
+            "supLocalCode": {
                 "type": "text",
                 "index": true
             },
@@ -1156,15 +1156,17 @@ public ResponseResult createIndex(@RequestBody IdxVo idxVo){
 
 ~~~
 
-[elastic@localhost logs]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"
+[elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"
 health status index        uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 yellow open   twitter      scSSD1SfRCio4F77Hh8aqQ   3   2          2            0      8.3kb          8.3kb
-yellow open   idx_location _BJ_pOv0SkS4tv-EC3xDig   3   2          0            0       230b           230b
+yellow open   idx_location _BJ_pOv0SkS4tv-EC3xDig   3   2          1            0        4kb            4kb
 yellow open   wongs        uT13XiyjSW-VOS3GCqao8w   3   2          1            0      3.4kb          3.4kb
+yellow open   idx_locat    Kr3wGU7JT_OUrRJkyFSGDw   3   2          3            0     13.2kb         13.2kb
 yellow open   idx_copy_to  HouC9s6LSjiwrJtDicgY3Q   3   2          1            0        4kb            4kb
+
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/16.png)
+![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/17.png)
 
 # 4. 源码
 

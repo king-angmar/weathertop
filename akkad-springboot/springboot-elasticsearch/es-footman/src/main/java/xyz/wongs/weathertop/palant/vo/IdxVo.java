@@ -28,22 +28,6 @@ public class IdxVo {
     private String idxName;
     private IdxSql idxSql;
 
-    public String getIdxName() {
-        return idxName;
-    }
-
-    public void setIdxName(String idxName) {
-        this.idxName = idxName;
-    }
-
-    public IdxSql getIdxSql() {
-        return idxSql;
-    }
-
-    public void setIdxSql(IdxSql idxSql) {
-        this.idxSql = idxSql;
-    }
-
     public static class IdxSql {
         /**
          * dynamic : false
