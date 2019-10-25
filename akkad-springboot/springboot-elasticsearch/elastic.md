@@ -43,9 +43,11 @@
     - [2.1. POM](#21-pom)
     - [2.2. yml配置](#22-yml配置)
     - [2.3. 核心操作类](#23-核心操作类)
-- [样例演示](#样例演示)
-    - [创建索引](#创建索引)
-- [3. 源码](#3-源码)
+- [3. 实战](#3-实战)
+    - [3.1. 创建索引](#31-创建索引)
+        - [演示索引](#演示索引)
+        - [核心代码说明](#核心代码说明)
+- [4. 源码](#4-源码)
 
 <!-- /TOC -->
 
@@ -1056,12 +1058,55 @@ public class BaseElasticDao {
 
 ~~~
 
-# 样例演示
+# 3. 实战
 
-## 创建索引
+## 3.1. 创建索引
 
-由于在**BaseElasticDao**类中**createIndex**方法，中
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/16.png)
+由于在**BaseElasticDao**类中**createIndex**方法，我在Controller层将索引名称和索引SQL封装过，详细见[Github演示源码]([https://github.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) 中**xyz.wongs.weathertop.palant.vo.IdxVo**
+
+### 演示索引
+
+~~~
+{
+    "idxName": "idx_location",
+    "idxSql": {
+        "dynamic": false,
+        "properties": {
+            "location_id": {
+                "type": "long"
+            },
+            "flag": {
+                "type": "text",
+                "index": true
+            },
+            "local_code": {
+                "type": "text",
+                "index": true
+            },
+            "local_name": {
+                "type": "text",
+                "index": true,
+                "analyzer": "ik_max_word"
+            },
+            "lv": {
+                "type": "long"
+            },
+            "sup_local_code": {
+                "type": "text",
+                "index": true
+            },
+            "url": {
+                "type": "text",
+                "index": true
+            }
+        }
+    }
+}
+~~~
+
+### 核心代码说明
+
+- DAO层Elastic Search操作说明
 
 ~~~
 public void createIndex(String idxName,String idxSQL){
@@ -1091,9 +1136,36 @@ public void createIndex(String idxName,String idxSQL){
 
 如官网截图：
 
+![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/16.png)
+
+- Controller Http API说明
+
+~~~
+@RequestMapping(value = "/createIndex",method = RequestMethod.POST)
+public ResponseResult createIndex(@RequestBody IdxVo idxVo){
+    ResponseResult response = new ResponseResult();
+    String idxSql = JSONObject.toJSONString(idxVo.getIdxSql());
+    log.warn(" idxName={}, idxSql={}",idxVo.getIdxName(),idxSql);
+    baseElasticDao.createIndex(idxVo.getIdxName(),idxSql);
+    return response;
+}
+~~~
+
+- Postman调用**Controller**，发现创建索引成功。
 
 
+~~~
 
-# 3. 源码
+[elastic@localhost logs]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"
+health status index        uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   twitter      scSSD1SfRCio4F77Hh8aqQ   3   2          2            0      8.3kb          8.3kb
+yellow open   idx_location _BJ_pOv0SkS4tv-EC3xDig   3   2          0            0       230b           230b
+yellow open   wongs        uT13XiyjSW-VOS3GCqao8w   3   2          1            0      3.4kb          3.4kb
+yellow open   idx_copy_to  HouC9s6LSjiwrJtDicgY3Q   3   2          1            0        4kb            4kb
+~~~
+
+![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/16.png)
+
+# 4. 源码
 
 [Github演示源码]([https://github.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star

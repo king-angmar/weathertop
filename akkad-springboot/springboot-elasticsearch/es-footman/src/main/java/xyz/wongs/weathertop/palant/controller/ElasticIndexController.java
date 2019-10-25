@@ -12,8 +12,7 @@ import xyz.wongs.weathertop.palant.vo.IdxVo;
 @Slf4j
 @RequestMapping("/elastic")
 @RestController
-public class ElasticController {
-
+public class ElasticIndexController {
 
     @Autowired
     BaseElasticDao baseElasticDao;
