@@ -119,7 +119,7 @@ cluster.initial_master_nodes: ["node-1", "node-2"]
 
 Elastic会在默认9200端口运行，打开地址：http://192.168.147.132:9200/
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/1.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/1.png)
 
 ## 1.2. 中文分词插件IK
 
@@ -153,7 +153,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 [elastic@localhost elastic]$ curl -X GET -H "Content-Type: application/json"  "http://localhost:9200/_analyze?pretty=true" -d'{"text":"中华五千年华夏"}';
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/2.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/2.png)
 
 
 ### 1.2.2. ik_max_word和ik_smart
@@ -172,7 +172,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 [elastic@localhost elastic]$ curl -X GET -H "Content-Type: application/json"  "http://localhost:9200/_analyze?pretty=true" -d'{"text":"中华五千年华夏","analyzer": "ik_smart"}';
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/3.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/3.png)
 
 #### 1.2.2.2. ik_max_word分词
 
@@ -182,7 +182,7 @@ ik插件地址： https://github.com/medcl/elasticsearch-analysis-ik，为了演
 [elastic@localhost elastic]$ curl -X GET -H "Content-Type: application/json"  "http://localhost:9200/_analyze?pretty=true" -d'{"text":"中华五千年华夏","analyzer": "ik_max_word"}';
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/4.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/4.png)
 
 ## 1.3. 索引
 
@@ -249,7 +249,7 @@ epoch_millis | 表示时间戳
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X PUT "http://localhost:9200/twitter?pretty=true"  -d'@prod.json'
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/5.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/5.png)
 
 - 参数形式创建索引
 
@@ -289,7 +289,7 @@ epoch_millis | 表示时间戳
 '
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/6.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/6.png)
 
 ### 1.3.2. 查看索引
 
@@ -301,7 +301,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/8.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/8.png)
 
 #### 1.3.2.2. 条件查询
 
@@ -387,7 +387,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 ~~~
 
 执行返回结果如图，则添加数据成功。
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/9.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/9.png)
 
 
 - 指定id为1，还可以加上参数op_type=create，这样在创建重复id时会报错导致创建失败，否则会更新该id的属性值。
@@ -403,7 +403,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/14.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/14.png)
 
 ### 1.4.2. 基础查询
 
@@ -413,7 +413,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/twitter/_search?pretty=true"
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/10.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/10.png)
 
 #### 1.4.2.2. 条件查询
 
@@ -433,7 +433,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/11.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/11.png)
 
 - 按找数据的标识作为条件查询匹配
 
@@ -449,7 +449,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/12.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/12.png)
 
 - 多条件匹配
 
@@ -468,7 +468,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/13.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/13.png)
 
 - 当没有匹配任何数据适合则如下：
 ~~~
@@ -677,7 +677,7 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 ~~~
 
 从下图中得知first_name和 last_name字段取值都被复制到 full_name 字段。
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/15.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/15.png)
 
 #### 1.4.3.4. doc_values
 
@@ -1136,7 +1136,7 @@ public void createIndex(String idxName,String idxSQL){
 
 如官网截图：
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/16.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/16.png)
 
 - Controller Http API说明
 
@@ -1166,8 +1166,8 @@ yellow open   idx_copy_to  HouC9s6LSjiwrJtDicgY3Q   3   2          1            
 
 ~~~
 
-![elastic](https://raw.githubusercontent.com/rothschil/weathertop/master/doc/image/elastic/17.png)
+![elastic](https://github.com/king-angmar/weathertop/blob/master/doc/image/elastic/17.png)
 
 # 4. 源码
 
-[Github演示源码]([https://github.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
+[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
