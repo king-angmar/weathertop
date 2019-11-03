@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>dist-lock-mysql</module>
+        <module>dist-lock-mysql-plus</module>
     </modules>
 
 
