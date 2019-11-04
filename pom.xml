@@ -7,13 +7,15 @@
     <artifactId>weathertop</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>akkad-java</module>
-        <module>akkad-webmagic</module>
+<!--        <module>akkad-java</module>-->
+<!--        <module>akkad-webmagic</module>-->
         <module>akkad-base</module>
-        <module>akkad-cloud</module>
+<!--        <module>akkad-cloud</module>-->
         <module>akkad-job</module>
-        <module>akkad-handball</module>
+<!--        <module>akkad-handball</module>-->
+<!--
         <module>akkad-springboot</module>
+-->
     </modules>
 
     <packaging>pom</packaging>

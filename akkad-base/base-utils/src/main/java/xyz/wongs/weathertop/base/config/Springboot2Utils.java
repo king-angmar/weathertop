@@ -2,6 +2,7 @@ package xyz.wongs.weathertop.base.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -17,7 +18,7 @@ import org.springframework.util.Assert;
 */
 @Component
 @Slf4j
-public class Springboot2Utils implements ApplicationListener<WebServerInitializedEvent> {
+public class Springboot2Utils implements ApplicationListener<ServletWebServerInitializedEvent> {
 
     private int serverPort;
 
@@ -26,8 +27,8 @@ public class Springboot2Utils implements ApplicationListener<WebServerInitialize
     }
 
     @Override
-    public void onApplicationEvent(WebServerInitializedEvent event) {
-        int port = event.getWebServer().getPort();
+    public void onApplicationEvent(ServletWebServerInitializedEvent event) {
+        int port = event.getApplicationContext().getWebServer().getPort();
         Assert.state(port != -1, "端口号获取失败");
     }
 
