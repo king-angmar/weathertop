@@ -15,9 +15,12 @@ public class ConfigController {
     @NacosValue(value = "${spring.datasource.driver-class-name:com.mysql.jdbc.Driver}", autoRefreshed = true)
     String driverClassName;
 
+    @NacosValue(value = "${spring.datasource.url:jdbc:mysql://127.0.0.1:3306}", autoRefreshed = true)
+    String url;
+
     @GetMapping("/test")
     public String test(){
-        log.error("=====");
-        return driverClassName;
+        log.error("driverClassName={},url={}",driverClassName,url);
+        return url;
     }
 }

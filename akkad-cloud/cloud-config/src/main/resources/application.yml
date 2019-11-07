@@ -1,8 +1,0 @@
-server:
-  port: 9091
-mybatis:
-  mapperLocations: classpath:mapper/**/*.xml
-nacos:
-  config:
-    server-addr: 123.206.118.219:8848
-
