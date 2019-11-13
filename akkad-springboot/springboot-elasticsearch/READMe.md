@@ -358,7 +358,7 @@ yellow open   twitter scSSD1SfRCio4F77Hh8aqQ   3   2          0            0    
 '
 ~~~
 
-![elastic](../../../doc/image/elastic/7.png)
+![elastic](doc/image/elastic/7.png)
 
 ### 1.3.4. 修改索引
 
