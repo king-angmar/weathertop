@@ -21,9 +21,25 @@ import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 import java.util.Properties;
 
+
+/**
+ * @ClassName DruidConfig
+ * @Description 分布式事务数据源配置
+ * @author WCNGS@QQ.COM
+ * @Github <a>https://github.com/rothschil</a>
+ * @date 2019/11/14 17:39
+ * @Version 1.0.0
+*/
 @Configuration
 public class DruidConfig {
 
+    /**
+     * @Description 数据源A的配置
+     * @param env
+     * @return javax.sql.DataSource
+     * @throws
+     * @date 2019/11/14 17:40
+     */
     @Bean(name = "systemDataSource")
     @Primary
     @Autowired
@@ -31,31 +47,39 @@ public class DruidConfig {
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
         Properties prop = build(env, "spring.datasource.druid.systemDb.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-        ds.setUniqueResourceName("systemDB");
+        ds.setUniqueResourceName("systemDb");
         ds.setPoolSize(5);
         ds.setXaProperties(prop);
         return ds;
-
     }
 
+
+    /**
+     * @Description 数据源B的配置
+     * @param env
+     * @return javax.sql.DataSource
+     * @throws
+     * @date 2019/11/14 17:40
+     */
     @Autowired
     @Bean(name = "businessDataSource")
     public AtomikosDataSourceBean businessDataSource(Environment env) {
-
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
         Properties prop = build(env, "spring.datasource.druid.businessDb.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName("businessDb");
         ds.setPoolSize(5);
         ds.setXaProperties(prop);
-
         return ds;
     }
 
 
     /**
-     * 注入事物管理器
-     * @return
+     * @Description 注入事物管理器
+     * @param
+     * @return org.springframework.transaction.jta.JtaTransactionManager
+     * @throws
+     * @date 2019/11/14 17:41
      */
     @Bean(name = "xatx")
     public JtaTransactionManager regTransactionManager () {
@@ -64,17 +88,22 @@ public class DruidConfig {
         return new JtaTransactionManager(userTransaction, userTransactionManager);
     }
 
-
+    /**
+     * @Description 配置读取通用的方法
+     * @param env   环境
+     * @param prefix    前缀
+     * @return java.util.Properties
+     * @throws
+     * @date 2019/11/14 17:41
+     */
     private Properties build(Environment env, String prefix) {
-
         Properties prop = new Properties();
         prop.put("url", env.getProperty(prefix + "url"));
         prop.put("username", env.getProperty(prefix + "userName"));
         prop.put("password", env.getProperty(prefix + "passWord"));
-        prop.put("driverClass", env.getProperty(prefix + "driverClassName", ""));
         prop.put("initialSize", env.getProperty(prefix + "initialSize", Integer.class));
-        prop.put("maxActive", env.getProperty(prefix + "maxActive", Integer.class));
         prop.put("minIdle", env.getProperty(prefix + "minIdle", Integer.class));
+        prop.put("maxActive", env.getProperty(prefix + "maxActive", Integer.class));
         prop.put("maxWait", env.getProperty(prefix + "maxWait", Integer.class));
         prop.put("timeBetweenEvictionRunsMillis",env.getProperty(prefix + "timeBetweenEvictionRunsMillis", Integer.class));
         prop.put("minEvictableIdleTimeMillis", env.getProperty(prefix + "minEvictableIdleTimeMillis", Integer.class));
@@ -86,20 +115,33 @@ public class DruidConfig {
         prop.put("poolPreparedStatements", env.getProperty(prefix + "poolPreparedStatements", Boolean.class));
         prop.put("maxPoolPreparedStatementPerConnectionSize", env.getProperty(prefix + "maxPoolPreparedStatementPerConnectionSize", Integer.class));
         prop.put("filters", env.getProperty(prefix + "filters"));
-        prop.put("connectionProperties", env.getProperty(prefix + "druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"));
+        prop.put("connectionProperties", env.getProperty(prefix + "connectionProperties"));
         return prop;
     }
 
+    /**
+     * @Description 添加对druid的安全访问
+     * @param
+     * @return org.springframework.boot.web.servlet.ServletRegistrationBean
+     * @throws
+     * @date 2019/11/14 17:42
+     */
     @Bean
     public ServletRegistrationBean druidServlet() {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-
         //控制台管理用户，加入下面2行 进入druid后台就需要登录
         //servletRegistrationBean.addInitParameter("loginUsername", "admin");
         //servletRegistrationBean.addInitParameter("loginPassword", "admin");
         return servletRegistrationBean;
     }
 
+    /**
+     * @Description
+     * @param
+     * @return org.springframework.boot.web.servlet.FilterRegistrationBean
+     * @throws
+     * @date 2019/11/14 17:42
+     */
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();

@@ -6,4 +6,5 @@ spring:
     host: 127.0.0.1
     port: 6379
   jta:
+    log-dir: classpath:tx-logs
     transaction-manager-id: txManager

@@ -9,7 +9,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement(proxyTargetClass = true)
-//@MapperScan(basePackages = {"xyz.wongs.weathertop.**.mapper"})
 @Slf4j
 @SpringBootApplication
 public class AtomikosApplication  extends SpringBootServletInitializer {

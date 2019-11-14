@@ -5,11 +5,11 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.xa.DruidXADataSource
     druid:
+      name: systemDb
       systemDb:
-        url: jdbc:mysql://127.0.0.1:3306/quanmin_sys?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+        url: jdbc:mysql://127.0.0.1:3306/np?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
         userName: root
         passWord: 123456
-        driverClassName: com.mysql.jdbc.Driver
         initialSize: 5
         minIdle: 5
         maxActive: 20
@@ -26,10 +26,10 @@ spring:
         filters: stat,wall
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       businessDb:
+        name: businessDb
         url: jdbc:mysql://127.0.0.1:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
         userName: root
         passWord: 123456
-        driverClassName: com.mysql.jdbc.Driver
         initialSize: 5
         minIdle: 5
         maxActive: 20

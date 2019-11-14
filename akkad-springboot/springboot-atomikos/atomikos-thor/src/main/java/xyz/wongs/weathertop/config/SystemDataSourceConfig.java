@@ -22,22 +22,9 @@ public class SystemDataSourceConfig {
 
 	static final String PACKAGE = "xyz.wongs.weathertop.mapper.quanmin";
 
-
 	@Autowired
 	@Qualifier("systemDataSource")
 	private DataSource ds;
-
-//	@Bean(name = "systemDataSource")
-//	@Primary
-//	public DataSource systemDataSource() {
-//		AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-//		ds.setXaProperties(PojoUtil.obj2Properties(systemProperties));
-//		ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-//		ds.setUniqueResourceName("systemDataSource");
-//		ds.setPoolSize(5);
-//		ds.setTestQuery("SELECT 1");
-//		return ds;
-//	}
 
 	@Bean
 	@Primary
@@ -50,14 +37,9 @@ public class SystemDataSourceConfig {
 		return sqlSessionFactoryBean.getObject();
 	}
 
-//	@Bean(name = "systemSqlSessionTemplate")
-//	public SqlSessionTemplate sqlSessionTemplateCarInfo(
-//			@Qualifier("systemSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
-//		return new SqlSessionTemplate(sqlSessionFactory);
-//	}
 
 	@Bean
-	public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+	public SqlSessionTemplate sqlSessionTemplateSystem() throws Exception {
 		SqlSessionTemplate template = new SqlSessionTemplate(systemSqlSessionFactory()); // 使用上面配置的Factory
 		return template;
 	}

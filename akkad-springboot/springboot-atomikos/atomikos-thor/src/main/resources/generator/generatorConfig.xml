@@ -41,6 +41,8 @@
                selectByExampleQueryId="false">
         </table>
         -->
-        <table tableName="sys_config"  schema="SysConfig"></table>
+        <table tableName="inform_sms"  schema="InformSms" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

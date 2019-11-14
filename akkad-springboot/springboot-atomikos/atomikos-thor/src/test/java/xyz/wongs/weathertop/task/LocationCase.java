@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import xyz.wongs.weathertop.BaseTest;
-import xyz.wongs.weathertop.service.quanmin.SysConfigService;
+import xyz.wongs.weathertop.service.JtaService;
 
 public class LocationCase extends BaseTest {
 
@@ -23,7 +23,7 @@ public class LocationCase extends BaseTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private SysConfigService sysConfigService;
+    private JtaService jtaService;
 
     @Before
     public void init(){
@@ -32,7 +32,7 @@ public class LocationCase extends BaseTest {
 
     @Test
     public void testJTA(){
-        sysConfigService.testJTA();
+        jtaService.testJTA();
     }
 
     @Test

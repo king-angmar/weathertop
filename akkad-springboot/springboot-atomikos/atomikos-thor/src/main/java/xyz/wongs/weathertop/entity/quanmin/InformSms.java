@@ -10,20 +10,24 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysConfig extends BaseEntity<Long> {
+public class InformSms extends BaseEntity<Long> {
+
     private Long id;
 
-    private String key;
+    private String serviceType;
 
-    private String value;
+    private String serviceId;
 
-    private int status;
+    private String content;
 
-    private String remark;
+    private Date trigerTime;
 
-    private Date gmtCreate;
+    private Date createDate;
 
-    private Date gmtModified;
+    private String state;
 
+    private String stateRemark;
+
+    private Date stateDate;
 
 }

@@ -24,13 +24,19 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="xyz.wongs.weathertop.entity.quanmin.SysConfig" >
-    insert into sys_config (id, key, value, 
-      status, remark, gmt_create, 
-      gmt_modified)
+    insert into sys_config (id, key, value, status, remark)
     values (#{id,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP})
+      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
   </insert>
+
+<!--  <insert id="insert" parameterType="xyz.wongs.weathertop.entity.quanmin.SysConfig" >
+    insert into sys_config (id, key, value,
+      status, remark, gmt_create,
+      gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>-->
   <insert id="insertSelective" parameterType="xyz.wongs.weathertop.entity.quanmin.SysConfig" >
     insert into sys_config
     <trim prefix="(" suffix=")" suffixOverrides="," >

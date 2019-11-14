@@ -20,25 +20,11 @@ public class BusinessDataSourceConfig {
 
 	static final String PACKAGE = "xyz.wongs.weathertop.mapper.location";
 
-/*	@Autowired
-	private BusinessProperties businessProperties;*/
-
 	@Autowired
 	@Qualifier("businessDataSource")
 	private DataSource ds;
 
-//	@Bean(name = "businessDataSource")
-//    public DataSource businessDataSource() {
-//        AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-//        ds.setXaProperties(PojoUtil.obj2Properties(ds));
-//        ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-//        ds.setUniqueResourceName("businessProperties");
-//        ds.setPoolSize(5);
-//		ds.setTestQuery("SELECT 1");
-//        return ds;
-//    }
-
-	@Bean
+	@Bean(name = "businessSqlSessionFactory")
 	public SqlSessionFactory businessSqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(ds);
@@ -48,14 +34,8 @@ public class BusinessDataSourceConfig {
 		return sqlSessionFactoryBean.getObject();
 	}
 
-//	@Bean(name = "businessSqlSessionTemplate")
-//	public SqlSessionTemplate sqlSessionTemplateCarInfo(
-//			@Qualifier("businessSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
-//		return new SqlSessionTemplate(sqlSessionFactory);
-//	}
-
 	@Bean
-	public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+	public SqlSessionTemplate sqlSessionTemplateBusiness() throws Exception {
 		SqlSessionTemplate template = new SqlSessionTemplate(businessSqlSessionFactory()); // 使用上面配置的Factory
 		return template;
 	}

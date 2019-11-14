@@ -12,8 +12,8 @@
         <module>akkad-base</module>
         <module>akkad-cloud</module>
 <!--        <module>akkad-job</module>
-        <module>akkad-handball</module>
-        <module>akkad-springboot</module>-->
+        <module>akkad-handball</module>-->
+        <module>akkad-springboot</module>
     </modules>
 
     <packaging>pom</packaging>
