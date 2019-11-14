@@ -14,6 +14,7 @@
     - [3.3. 编写样例](#33-编写样例)
         - [3.3.1. 服务层](#331-服务层)
         - [3.3.2. 利用SpringBoot中的JUnit单元测试](#332-利用springboot中的junit单元测试)
+- [4. 源码](#4-源码)
 
 <!-- /TOC -->
 
@@ -519,3 +520,7 @@ public void testJTA(){
 }
 
 ~~~
+
+# 4. 源码
+
+[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-atomikos/atomikos-thor]) ，记得给Star
