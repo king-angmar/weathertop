@@ -11,7 +11,7 @@
     <artifactId>akkad-springboot</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>springboot-atomikos</module>
+        <module>springboot-dist-trans</module>
         <module>springboot-jwt</module>
         <module>springboot-async</module>
         <module>springboot-mq</module>
