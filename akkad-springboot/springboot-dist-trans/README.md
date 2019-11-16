@@ -640,4 +640,4 @@ public void testJTA(){
 
 # 8. 源码
 
-[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-atomikos/atomikos-thor]) ，记得给Star
+[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-dist-trans]) ，记得给Star

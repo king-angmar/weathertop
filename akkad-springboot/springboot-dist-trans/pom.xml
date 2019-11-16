@@ -13,5 +13,6 @@
 
     <modules>
         <module>dist-trans-atomikos</module>
+        <module>dist-trans-bitronix</module>
     </modules>
 </project>
