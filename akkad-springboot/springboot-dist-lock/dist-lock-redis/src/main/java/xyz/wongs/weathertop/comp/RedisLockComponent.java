@@ -14,6 +14,47 @@ public class RedisLockComponent {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+
+    /**
+     * @Description 获取锁，默认：失效时间为5，失效时间的单位为秒，重试次数为3，休眠6秒
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value){
+        return getLock(key,value,5, TimeUnit.SECONDS,3,5000);
+    }
+
+    /**
+     * @Description 获取锁，默认：失效时间的单位为秒，重试次数为3，休眠6秒
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value,long expire){
+        return getLock(key,value,expire, TimeUnit.SECONDS,3,5000);
+    }
+
+    /**
+     * @Description 获取锁，默认重试次数为3，休眠6秒
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @param unit
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value,long expire, TimeUnit unit){
+        return getLock(key,value,expire, unit,3,5000);
+    }
+
     /**
      * @Description
      * @param key
