@@ -17,6 +17,8 @@
     - [4.4. 总结](#44-总结)
         - [4.4.1. 缺点](#441-缺点)
 - [5. Redis实现](#5-redis实现)
+    - [5.1. redis单实例](#51-redis单实例)
+    - [5.2. redis集群实现](#52-redis集群实现)
 
 <!-- /TOC -->
 
@@ -171,3 +173,297 @@ UNIQUE KEY uidx_method_name (method_name) USING BTREE
 # 5. Redis实现
 
 基于Redis实现的锁机制，主要是依赖redis自身的原子操作，因为redis是单线程。要求redis版本大于2.6.12。
+
+## 5.1. redis单实例
+
+- 引入pom
+
+版本号大家以实际使用中的为准，我这里仅供参考，因为spring-boot的自动注册功能会为我们提供StringRedisTemplate，直接使用即可。
+
+~~~
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+    <version>2.1.3.RELEASE</version>
+</dependency>
+~~~
+
+- yml文件
+
+~~~
+server:
+  port: 9090
+
+spring:
+  datasource:
+    name: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/springboot?characterEncoding=utf-8&useSSL=true
+    username: root
+    password: 123456
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 30000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=6000
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+
+mybatis:
+  mapperLocations: classpath:mapper/**/*.xml
+~~~
+
+- 核心实现
+
+~~~
+
+package xyz.wongs.weathertop.comp;
+
+import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+import java.util.concurrent.TimeUnit;
+
+@Component
+@Slf4j
+public class RedisLockComponent {
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+
+    /**
+     * @Description 获取锁，默认：失效时间为5，失效时间的单位为秒，重试次数为3，休眠4秒
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value){
+        return getLock(key,value,5, TimeUnit.SECONDS,3,5000);
+    }
+
+    /**
+     * @Description 获取锁，默认：失效时间的单位为秒，重试次数为3，休眠4秒
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value,long expire){
+        return getLock(key,value,expire, TimeUnit.SECONDS,3,5000);
+    }
+
+    /**
+     * @Description 获取锁，默认重试次数为3，休眠5秒
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @param unit
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value,long expire, TimeUnit unit){
+        return getLock(key,value,expire, unit,3,5000);
+    }
+
+    /**
+     * @Description
+     * @param key
+     * @param value
+     * @param expire    redis过期时间
+     * @param unit
+     * @param tryCount  重试次数
+     * @param waitMillis 每次重试要等待时间
+     * @return boolean
+     * @throws
+     * @date 2019/11/16 21:37
+     */
+    public boolean getLock(String key,String value,long expire, TimeUnit unit,int tryCount,int waitMillis){
+        //setIfAbsent如果键不存在则新增,存在则不改变已经有的值。
+        boolean success = stringRedisTemplate.opsForValue().setIfAbsent(key,value,expire,unit);
+        if(success) {
+            return true;
+        }
+        //判断锁超时 - 防止原来的操作异常，没有运行解锁操作  防止死锁
+        String val = stringRedisTemplate.opsForValue().get(key);
+        if(!Strings.isNullOrEmpty(val)){
+            if(System.currentTimeMillis() - Long.parseLong(val) > unit.toMillis(expire)){
+                // 超时移除
+                stringRedisTemplate.delete(key);
+            }
+        }
+        // 重试、等待
+        if (tryCount > 0 && waitMillis > 0) {
+            try {
+                Thread.sleep(waitMillis);
+            } catch (InterruptedException e) {
+                log.error("getLock exception{}",e.getMessage());
+            }
+            return getLock(key,value,expire,unit,tryCount - 1,waitMillis);
+        }
+        return false;
+    }
+
+    /**
+     * @Description 获取等待时间
+     * @param key
+     * @param expire
+     * @param unit
+     * @return long 秒
+     * @throws
+     * @date 2019/11/16 21:44
+     */
+    public long getWaitSecond(String key,long expire,TimeUnit unit) {
+        long currentTime = System.currentTimeMillis();
+        long preTime = Long.parseLong(stringRedisTemplate.opsForValue().get(key));
+        return (preTime + unit.toMillis(expire) - currentTime) / 1000;
+    }
+
+
+    /**
+     * @Description 设置锁的过期时间，默认单位为毫秒
+     * @param key
+     * @param expTime
+     * @return Boolean
+     * @throws
+     * @date 2019/11/16 21:18
+     */
+    public Boolean renewal(String key,int expTime){
+        return renewal(key, expTime, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * @Description 设置锁的过期时间
+     * @param key
+     * @param expTime
+     * @param unit
+     * @return Boolean
+     * @throws
+     * @date 2019/11/16 21:18
+     */
+    public Boolean renewal(String key,int expTime,TimeUnit unit){
+        return stringRedisTemplate.expire(key, expTime, unit);
+    }
+
+
+    /**
+     * @Description 解锁
+     * @param key
+     * @param val
+     * @return void
+     * @throws
+     * @date 2019/11/16 21:13
+     */
+    public void unlock(String key,String val){
+        try {
+            String value = stringRedisTemplate.opsForValue().get(key);
+            if(!Strings.isNullOrEmpty(value) && val.equals(value) ){
+                // 删除锁状态
+                stringRedisTemplate.opsForValue().getOperations().delete(key);
+            }
+        } catch (Exception e) {
+            log.error("unlock exception{}",e);
+        }
+    }
+
+}
+
+~~~
+
+- 模拟样例
+
+~~~
+
+package xyz.wongs.weathertop.web;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import xyz.wongs.weathertop.base.message.enums.ResponseCode;
+import xyz.wongs.weathertop.base.message.response.ResponseResult;
+import xyz.wongs.weathertop.comp.RedisLockComponent;
+import xyz.wongs.weathertop.deno.entity.RedisLock;
+import xyz.wongs.weathertop.deno.mapper.RedisLockMapper;
+
+import java.util.concurrent.TimeUnit;
+
+@RestController
+@Slf4j
+public class RedisController {
+
+    @Autowired
+    private RedisLockMapper redisLockMapper;
+
+    @Autowired
+    private RedisLockComponent redisLockComponent;
+
+    /**
+     * 超时时间 5s
+     */
+    private static final int TIMEOUT = 3;
+
+    @RequestMapping(value = "/seckilling/{key}")
+    public ResponseResult Seckilling(@PathVariable("key") String key){
+        ResponseResult responseResult = new ResponseResult();
+        //1、加锁
+        String value = System.currentTimeMillis() + "";
+        if(!redisLockComponent.getLock(key,value,6)){
+            responseResult.setStatus(false);
+            responseResult.setCode(ResponseCode.DICT_LOCK_FAIL.getCode());
+            responseResult.setMsg("排队人数太多，请稍后再试.");
+            return responseResult;
+        }
+
+        RedisLock redisLock = redisLockMapper.selectByPrimaryKey(1);
+        // 2、查询库存，为0则活动结束
+        if(redisLock.getCounts()==0){
+            responseResult.setStatus(false);
+            responseResult.setCode(ResponseCode.RESOURCE_NOT_EXIST.getCode());
+            responseResult.setMsg("库存不够.");
+            return responseResult;
+        }
+        //3、减库存
+        redisLock.setCounts(redisLock.getCounts()-1);
+        redisLockMapper.updateByPrimaryKeySelective(redisLock);
+        try{
+            Thread.sleep(5000);//模拟减库存的处理时间
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        //4、释放锁
+        redisLockComponent.unlock(key,value);
+        responseResult.setMsg("恭喜您，秒杀成功。");
+        return responseResult;
+    }
+}
+
+~~~
+
+![秒杀成功](https://i.loli.net/2019/11/16/iVX5OytkCSMbjxc.png)
+
+## 5.2. redis集群实现
+
+实际上我们为了高可用，降低单机故障概率，肯定将redis集群模式部署，这样情况下我们整合redisson，由于篇幅有限，这里暂时挖个坑，就不探讨这个，下一篇再说

@@ -16,7 +16,7 @@ public class RedisLockComponent {
 
 
     /**
-     * @Description 获取锁，默认：失效时间为5，失效时间的单位为秒，重试次数为3，休眠6秒
+     * @Description 获取锁，默认：失效时间为5，失效时间的单位为秒，重试次数为3，休眠4秒
      * @param key
      * @param value
      * @param expire    redis过期时间
@@ -29,7 +29,7 @@ public class RedisLockComponent {
     }
 
     /**
-     * @Description 获取锁，默认：失效时间的单位为秒，重试次数为3，休眠6秒
+     * @Description 获取锁，默认：失效时间的单位为秒，重试次数为3，休眠4秒
      * @param key
      * @param value
      * @param expire    redis过期时间
@@ -42,7 +42,7 @@ public class RedisLockComponent {
     }
 
     /**
-     * @Description 获取锁，默认重试次数为3，休眠6秒
+     * @Description 获取锁，默认重试次数为3，休眠5秒
      * @param key
      * @param value
      * @param expire    redis过期时间
@@ -62,7 +62,7 @@ public class RedisLockComponent {
      * @param expire    redis过期时间
      * @param unit
      * @param tryCount  重试次数
-     * @param waitMillis 等待时间
+     * @param waitMillis 每次重试要等待时间
      * @return boolean
      * @throws
      * @date 2019/11/16 21:37

@@ -33,7 +33,7 @@ public class RedisController {
         ResponseResult responseResult = new ResponseResult();
         //1、加锁
         String value = System.currentTimeMillis() + "";
-        if(!redisLockComponent.getLock(key,value,TIMEOUT, TimeUnit.SECONDS,3,6000)){
+        if(!redisLockComponent.getLock(key,value,6)){
             responseResult.setStatus(false);
             responseResult.setCode(ResponseCode.DICT_LOCK_FAIL.getCode());
             responseResult.setMsg("排队人数太多，请稍后再试.");
