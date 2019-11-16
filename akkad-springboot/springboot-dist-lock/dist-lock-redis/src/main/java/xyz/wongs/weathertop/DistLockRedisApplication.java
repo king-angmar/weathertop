@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Slf4j
 @MapperScan(basePackages = {"xyz.wongs.weathertop.**.mapper"})
 @SpringBootApplication
-public class DistLockMysqlApplication {
+public class DistLockRedisApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DistLockMysqlApplication.class,args);
+        SpringApplication.run(DistLockRedisApplication.class,args);
     }
 
     public void testDm(){

@@ -7,7 +7,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes ={DistLockMysqlApplication.class})
+@SpringBootTest(classes ={DistLockRedisApplication.class})
 public class BaseUnit {
 
 }

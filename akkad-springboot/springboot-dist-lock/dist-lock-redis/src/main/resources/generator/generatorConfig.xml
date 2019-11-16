@@ -36,7 +36,7 @@
         </javaClientGenerator>
         <!--生成对应表及类名-->
 
-        <table tableName="t_lock"
+        <table tableName="redis_lock"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
