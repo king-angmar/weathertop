@@ -1,0 +1,30 @@
+server:
+  port: 9090
+
+spring:
+  aop:
+    auto: true
+    proxy-target-class: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+    ##时间戳统一转换
+    date-format: yyyy-MM-dd HH:mm:ss
+
+# Zookeeper组件配置
+curator:
+  retryCount: 5
+  elapsedTimeMs: 5000
+  # 10.128.190.120:10014,10.128.190.121:10014,10.128.190.122:10014
+  connectString: 192.168.147.132:2181
+#  connectString: 10.128.190.120:10014
+  # session超时时间
+  sessionTimeoutMs: 60000
+  # 连接超时时间
+  connectionTimeoutMs: 5000

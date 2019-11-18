@@ -19,6 +19,7 @@
 - [5. Redis实现](#5-redis实现)
     - [5.1. redis单实例](#51-redis单实例)
     - [5.2. redis集群实现](#52-redis集群实现)
+- [6. 源码](#6-源码)
 
 <!-- /TOC -->
 
@@ -467,3 +468,7 @@ public class RedisController {
 ## 5.2. redis集群实现
 
 实际上我们为了高可用，降低单机故障概率，肯定将redis集群模式部署，这样情况下我们整合redisson，由于篇幅有限，这里暂时挖个坑，就不探讨这个，下一篇再说
+
+# 6. 源码
+
+[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-dist-lock) ，记得给Star

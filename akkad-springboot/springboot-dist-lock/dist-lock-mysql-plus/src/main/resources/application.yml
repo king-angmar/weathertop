@@ -12,16 +12,20 @@ spring:
 #    username: hlsms_data
 #    password: ENC(/ebvUZFA4km9Yt1lU5T9Qu/svII4SBlz)
     druid:
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
+      initial-size: 50
+      min-idle: 50
+      max-active: 100
       max-wait: 30000
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
+      query-timeout: 10
+      remove-abandoned: true
+      remove-abandoned-timeout: 180
+      log-abandoned: true
       validation-query: select 1
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=6000

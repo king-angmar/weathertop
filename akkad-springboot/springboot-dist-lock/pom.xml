@@ -14,6 +14,7 @@
         <module>dist-lock-mysql</module>
         <module>dist-lock-mysql-plus</module>
         <module>dist-lock-redis</module>
+        <module>dist-lock-zookeeper</module>
     </modules>
 
 
