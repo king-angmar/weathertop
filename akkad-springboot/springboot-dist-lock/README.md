@@ -19,7 +19,13 @@
 - [5. Redis实现](#5-redis实现)
     - [5.1. redis单实例](#51-redis单实例)
     - [5.2. redis集群实现](#52-redis集群实现)
-- [6. 源码](#6-源码)
+- [6. Zookeeper实现](#6-zookeeper实现)
+    - [6.1. 引入POM依赖](#61-引入pom依赖)
+    - [6.2. application文件](#62-application文件)
+    - [6.3. 核心实现](#63-核心实现)
+    - [6.4. 演示结果](#64-演示结果)
+- [7. 三种锁的比较](#7-三种锁的比较)
+- [8. 源码](#8-源码)
 
 <!-- /TOC -->
 
@@ -469,6 +475,208 @@ public class RedisController {
 
 实际上我们为了高可用，降低单机故障概率，肯定将redis集群模式部署，这样情况下我们整合redisson，由于篇幅有限，这里暂时挖个坑，就不探讨这个，下一篇再说
 
-# 6. 源码
+# 6. Zookeeper实现
 
-[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-dist-lock) ，记得给Star
+在上一章节，我们演示基于Redis的实现，这一章节我们来看另一种分布式锁的实现——Zookeeper。
+
+关于Zookeeper的为什么能实现分布式锁，这里只说明zookeeper核心保存结构是DataTree数据结构，内部实现基于Map<String, DataNode>的数据结构，其他详细内容大家自行取官网查阅，这里也不赘述。
+[Zookeeper官方描述](https://zookeeper.apache.org)
+
+![20191118155851.png](https://i.loli.net/2019/11/18/DgBHOPWLJTZdnYk.png)
+
+Zookeeper中提供了节点类型主要有:
+
+- 持久节点：节点创建后，将一直存在，直到有删除操作来主动清除。
+
+- 顺序节点：假如当前一个父节点为/lock，可以在该父节点下面创建子节点；Zookeeper本身提供了可选的有序特性，例如我们可以创建子节点“/lock/test_”并且指明有序，那么Zookeeper在生成子节点时会根据当前子节点数量自动添加整数序号，如果第一个子节点为/lock/test_0000000000，下一个节点则为/lock/test_0000000001，依次类推。
+
+- 临时节点：客户端可以建立一个临时节点，在会话结束或者会话超时后，zookeeper会自动删除该节点。
+
+Zookeeper从诞生至今，也有基于zk的分布式锁的实现有成熟的框架，这里Curator就是代表，它就是Netflix开源的一套ZooKeeper客户端框架，它提供了zk场景的绝大部分实现，使用Curator就不必关心其内部算法，Curator提供了来实现分布式锁，用方法获取锁，以及用方法释放锁，同其他锁一样，方法需要放在finakky代码块中，确保锁能正确释放。
+
+Curator提供了四种分布式锁：
+
++ InterProcessMutex：分布式可重入排它锁
+
++ InterProcessSemaphoreMutex：分布式排它锁
+
++ InterProcessReadWriteLock：分布式读写锁
+
++ InterProcessMultiLock：将多个锁作为单个实体管理的容器
+
+说了这么多，Zookeeper如何实现分布式锁，接下来代码奉上，我们以Springboot载体，写一个案例。
+
+## 6.1. 引入POM依赖
+
+~~~
+<dependency>
+    <groupId>org.apache.zookeeper</groupId>
+    <artifactId>zookeeper</artifactId>
+    <version>3.4.10</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+            <artifactId>log4j</artifactId>
+            <groupId>log4j</groupId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.curator</groupId>
+    <artifactId>curator-framework</artifactId>
+    <version>2.12.0</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.curator</groupId>
+    <artifactId>curator-recipes</artifactId>
+    <version>2.12.0</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+~~~
+
+## 6.2. application文件
+
+~~~
+curator:
+  retryCount: 5
+  elapsedTimeMs: 5000
+  connectString: 192.168.147.132:2181
+  # session超时时间
+  sessionTimeoutMs: 60000
+  # 连接超时时间
+  connectionTimeoutMs: 5000
+~~~
+
+## 6.3. 核心实现
+
+~~~
+/**
+    * @Description 获取分布式锁
+    * @param path 提供可供写入的路径
+    * @return void
+    * @throws
+    * @date 2019/11/4 9:36
+    */
+public boolean acquireDistributedLock(String path) {
+
+    boolean lock = true;
+    String keyPath = "/" + ROOT_PATH_LOCK + "/" + path;
+    while (true) {
+        try {
+            curatorFramework
+                    .create()
+                    .creatingParentsIfNeeded()
+                    .withMode(CreateMode.EPHEMERAL)
+                    .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
+                    .forPath(keyPath);
+            log.info("success to acquire lock for path:{}", keyPath);
+            break;
+        } catch (Exception e) {
+            log.info("failed to acquire lock for path:{}", keyPath);
+            log.info("while try again .......");
+            try {
+                if (countDownLatch.getCount() <= 0) {
+                    countDownLatch = new CountDownLatch(1);
+                }
+                countDownLatch.await();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            lock = false;
+        }
+    }
+    return lock;
+}
+
+
+/**
+    * @Description
+    * @param path  释放分布式锁
+    * @return boolean
+    * @throws
+    * @date 2019/11/4 9:36
+    */
+public boolean releaseDistributedLock(String path) {
+    boolean release = true;
+    String keyPath = "/" + ROOT_PATH_LOCK + "/" + path;;
+    try {
+        if (curatorFramework.checkExists().forPath(keyPath) != null) {
+            curatorFramework.delete().forPath(keyPath);
+        }
+    } catch (Exception e) {
+        log.error("failed to release lock");
+        release = false;
+    }
+    return release;
+}
+~~~
+
+## 6.4. 演示结果
+
+我用webcontroller实现一个restfull接口，同时打开两个URL获取同一把锁，获取的为成功，否则失败。
+
+~~~
+
+@GetMapping("/lock10")
+public ResponseResult getLock1() {
+    ResponseResult responseResult = new ResponseResult();
+    Boolean acquire = distributedLockByZookeeper.acquireDistributedLock(PATH);
+    try {
+        if(acquire) {
+            log.error("I am lock1，i am updating resource……！！！");
+            Thread.sleep(2000);
+        } else{
+            responseResult.setCode(ResponseCode.SYSNC_LOCK.getCode());
+            responseResult.setMsg(ResponseCode.SYSNC_LOCK.getMsg());
+        }
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    } finally {
+        distributedLockByZookeeper.releaseDistributedLock(PATH);
+    }
+    return responseResult;
+}
+~~~
+
+![获取锁成功](https://i.loli.net/2019/11/18/cpi5JFdMblRX7Dj.png)
+
+![未抢到锁](https://i.loli.net/2019/11/18/xC5Q7spcRmwXWbA.png)
+
+# 7. 三种锁的比较
+
+这三种方式都不是尽善尽美，如同CAP，在复杂性、可靠性、性能等方面皆无法同时满足，所以，根据实际业务情况选择最适合的方案，优雅的解决问题，少带来弊端即可。
+
+- 实现难易程度自低至高：数据库 > 缓存 > Zookeeper
+
+- 实现的复杂性自低至高：Zookeeper >= 缓存 > 数据库
+
+- 从性能角度自高到低：缓存 > Zookeeper >= 数据库
+
+- 从可靠性角度自高到低：Zookeeper > 缓存 > 数据库
+
+在技术层面Redis是nosql数据，而Zookeeper是分布式协调工具，都用于分布式解决方案；防死锁的实现上Redis是通过对key设置有效期来解决死锁，而Zookeeper使用会话有效期方式解决死锁现象；数据库的实现上，高并发过程中对库的压力会增大
+
+# 8. 源码
+
+[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-dist-lock]) ，记得给Star。
