@@ -7,6 +7,7 @@
         - [1.1.3. 安装](#113-安装)
         - [1.1.4. 修改配置文件](#114-修改配置文件)
         - [1.1.5. 启动&验证结果](#115-启动验证结果)
+        - [1.1.6. 可视化工具](#116-可视化工具)
     - [1.2. 中文分词插件IK](#12-中文分词插件ik)
         - [1.2.1. 安装](#121-安装)
         - [1.2.2. ik_max_word和ik_smart](#122-ik_max_word和ik_smart)
@@ -45,8 +46,8 @@
     - [2.3. 核心操作类](#23-核心操作类)
 - [3. 实战](#3-实战)
     - [3.1. 创建索引](#31-创建索引)
-        - [演示索引](#演示索引)
-        - [核心代码说明](#核心代码说明)
+        - [3.1.1. 演示索引](#311-演示索引)
+        - [3.1.2. 核心代码说明](#312-核心代码说明)
 - [4. 源码](#4-源码)
 
 <!-- /TOC -->
@@ -62,7 +63,15 @@
 
 ### 1.1.2. 下载
 
-[官方elasticsearch下载](https://github.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch)，下载elasticsearch，目前最新的稳定版本为 7.4.0 版本.
+[官方elasticsearch下载](https://github.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch)，下载elasticsearch，目前最新的稳定版本为 7.4.0 版本。
+
+我这边机器JDK版本是11，低于JDk9会有一些问题。
+
+~~~
+
+Java HotSpot(TM) 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.
+
+~~~
 
 ### 1.1.3. 安装
 
@@ -120,6 +129,26 @@ cluster.initial_master_nodes: ["node-1", "node-2"]
 Elastic会在默认9200端口运行，打开地址：http://192.168.147.132:9200/
 
 ![elastic](doc/image/elastic/1.png)
+
+### 1.1.6. 可视化工具
+
+ElasticSearch的可视化工具有很多，比如elasticsearch-head、Dejavu、ElasticHD等。
+
+选择版本，下载，为了演示需要，我用的是:
+
+https://github.com/360EntSecGroup-Skylar/ElasticHD/releases/download/1.4/elasticHD_linux_amd64.zip
+
+~~~
+1、unzip elasticHD_linux_amd64.zip
+
+2、chmod -R 777 ElasticHD
+
+3、./ElasticHD -p 0.0.0.0:9800
+
+~~~
+
+![ElasticHD监控](https://i.loli.net/2019/11/19/OrIcPWB1s4Vwa9y.png)
+
 
 ## 1.2. 中文分词插件IK
 
@@ -1064,7 +1093,7 @@ public class BaseElasticDao {
 
 由于在**BaseElasticDao**类中**createIndex**方法，我在Controller层将索引名称和索引SQL封装过，详细见[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/doc/image/elastich) 中**xyz.wongs.weathertop.palant.vo.IdxVo**
 
-### 演示索引
+### 3.1.1. 演示索引
 
 ~~~
 {
@@ -1104,7 +1133,7 @@ public class BaseElasticDao {
 }
 ~~~
 
-### 核心代码说明
+### 3.1.2. 核心代码说明
 
 - DAO层Elastic Search操作说明
 

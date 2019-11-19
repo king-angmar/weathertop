@@ -43,6 +43,12 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
+<!--        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.21</version>
+        </dependency>-->
+
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
@@ -64,7 +70,7 @@
             <artifactId>mysql-connector-java</artifactId>
 <!--
             <version>8.0.11</version>
--->         <version>5.1.40</version>
+        <version>5.1.40</version>-->
         </dependency>
         <!--END spring boot依赖-->
 
