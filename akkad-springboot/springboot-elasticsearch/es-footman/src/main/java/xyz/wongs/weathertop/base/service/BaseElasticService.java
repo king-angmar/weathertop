@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.base.dao;
+package xyz.wongs.weathertop.base.service;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class BaseElasticDao {
+public class BaseElasticService {
 
     @Autowired
     RestHighLevelClient restHighLevelClient;
@@ -49,7 +49,6 @@ public class BaseElasticDao {
      * @since
      */
     public void createIndex(String idxName,String idxSQL){
-
         try {
             if (!this.indexExist(idxName)) {
                 log.error(" idxName={} 已经存在,idxSql={}",idxName,idxSQL);
@@ -97,8 +96,6 @@ public class BaseElasticDao {
      * @since
      */
     public boolean isExistsIndex(String idxName) throws Exception {
-        GetIndexRequest getIndexRequest = new GetIndexRequest(idxName);
-        getIndexRequest.humanReadable(true);
         return restHighLevelClient.indices().exists(new GetIndexRequest(idxName),RequestOptions.DEFAULT);
     }
 
@@ -129,7 +126,8 @@ public class BaseElasticDao {
         IndexRequest request = new IndexRequest(idxName);
         log.error("Data : id={},entity={}",entity.getId(),JSON.toJSONString(entity.getData()));
         request.id(entity.getId());
-        request.source(JSON.toJSONString(entity.getData()), XContentType.JSON);
+        request.source(entity.getData(), XContentType.JSON);
+//        request.source(JSON.toJSONString(entity.getData()), XContentType.JSON);
         try {
             restHighLevelClient.index(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -151,7 +149,7 @@ public class BaseElasticDao {
     public void insertBatch(String idxName, List<ElasticEntity> list) {
         BulkRequest request = new BulkRequest();
         list.forEach(item -> request.add(new IndexRequest(idxName).id(item.getId())
-                .source(JSON.toJSONString(item.getData()), XContentType.JSON)));
+                .source(item.getData(), XContentType.JSON)));
         try {
             restHighLevelClient.bulk(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -191,7 +189,6 @@ public class BaseElasticDao {
      * @since
      */
     public <T> List<T> search(String idxName, SearchSourceBuilder builder, Class<T> c) {
-
         SearchRequest request = new SearchRequest(idxName);
         request.source(builder);
         try {

@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xyz.wongs.weathertop.base.dao.BaseElasticDao;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
+import xyz.wongs.weathertop.base.service.BaseElasticService;
 import xyz.wongs.weathertop.palant.vo.IdxVo;
 
 /**
@@ -23,7 +23,7 @@ import xyz.wongs.weathertop.palant.vo.IdxVo;
 public class ElasticIndexController {
 
     @Autowired
-    BaseElasticDao baseElasticDao;
+    BaseElasticService baseElasticService;
 
     @RequestMapping(value = "/}")
     public ResponseResult index(String index){
@@ -43,10 +43,10 @@ public class ElasticIndexController {
         ResponseResult response = new ResponseResult();
         try {
             //索引不存在，再创建，否则不允许创建
-            if(!baseElasticDao.indexExist(idxVo.getIdxName())){
+            if(!baseElasticService.isExistsIndex(idxVo.getIdxName())){
                 String idxSql = JSONObject.toJSONString(idxVo.getIdxSql());
                 log.warn(" idxName={}, idxSql={}",idxVo.getIdxName(),idxSql);
-                baseElasticDao.createIndex(idxVo.getIdxName(),idxSql);
+                baseElasticService.createIndex(idxVo.getIdxName(),idxSql);
             } else{
                 response.setStatus(false);
                 response.setCode(ResponseCode.DUPLICATEKEY_ERROR_CODE.getCode());
@@ -73,7 +73,7 @@ public class ElasticIndexController {
 
         ResponseResult response = new ResponseResult();
         try {
-            if(!baseElasticDao.isExistsIndex(index)){
+            if(!baseElasticService.isExistsIndex(index)){
                 log.error("index={},不存在",index);
                 response.setCode(ResponseCode.RESOURCE_NOT_EXIST.getCode());
                 response.setMsg(ResponseCode.RESOURCE_NOT_EXIST.getMsg());
@@ -92,7 +92,7 @@ public class ElasticIndexController {
     public ResponseResult indexDel(@PathVariable(value = "index") String index){
         ResponseResult response = new ResponseResult();
         try {
-            baseElasticDao.deleteIndex(index);
+            baseElasticService.deleteIndex(index);
         } catch (Exception e) {
             response.setCode(ResponseCode.NETWORK_ERROR.getCode());
             response.setMsg(" 调用ElasticSearch 失败！");

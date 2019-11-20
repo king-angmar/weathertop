@@ -13,5 +13,6 @@ import java.util.Map;
 public class ElasticEntity<T> {
 
     private String id;
-    private Map data;
+    //JSON对象
+    private String data;
 }

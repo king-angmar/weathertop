@@ -45,5 +45,7 @@ public class LocationService extends BaseService<Location, Long> {
         return pageInfo;
     }
 
-
+    public List<Location> getList2(Location location){
+        return locationMapper.getList2(location);
+    }
 }

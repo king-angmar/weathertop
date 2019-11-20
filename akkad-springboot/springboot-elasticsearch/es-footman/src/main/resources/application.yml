@@ -1,6 +1,20 @@
 server:
   port: 9090
 spring:
+  aop:
+    auto: true
+    proxy-target-class: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+    ##时间戳统一转换
+    date-format: yyyy-MM-dd HH:mm:ss
   datasource:
     name: mysql
     type: com.alibaba.druid.pool.DruidDataSource
@@ -30,6 +44,8 @@ spring:
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=6000
+  application:
+    name: nova-app
 
 es:
   host: 192.168.147.132

@@ -15,7 +15,7 @@
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_locations
     where id = #{id,jdbcType=BIGINT}
@@ -50,19 +50,21 @@
   <select id="getList2" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.location.entity.Location" >
     select
     <include refid="Base_Column_List" />
-    from tb_locations where flag is null and url is not null
+    from tb_locations
+    <trim prefix="where" prefixOverrides="and|or">
       <if test="localCode != null">
         and local_code = #{localCode,jdbcType=VARCHAR}
       </if>
       <if test="localName != null">
         and local_name = #{localName,jdbcType=VARCHAR}
       </if>
-      <if test="lv != null">
+      <if test="lv != null and lv == '0'">
         and lv = #{lv,jdbcType=INTEGER}
       </if>
       <if test="supLocalCode != null">
         and sup_local_code = #{supLocalCode,jdbcType=VARCHAR}
       </if>
+    </trim>
   </select>
 
 
