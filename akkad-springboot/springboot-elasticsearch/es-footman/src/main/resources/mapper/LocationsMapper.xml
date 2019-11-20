@@ -58,8 +58,8 @@
       <if test="localName != null">
         and local_name = #{localName,jdbcType=VARCHAR}
       </if>
-      <if test="lv != null and lv == '0'">
-        and lv = #{lv,jdbcType=INTEGER}
+      <if test="lv != '' and lv != null or lv==0 ">
+        and lv = #{lv}
       </if>
       <if test="supLocalCode != null">
         and sup_local_code = #{supLocalCode,jdbcType=VARCHAR}

@@ -52,6 +52,10 @@ es:
   port: 9200
   scheme: http
 
+page:
+  pageNum: 0
+  pageSize: 20
+
 # mybatis配置
 mybatis:
   mapperLocations: classpath:mapper/**/*.xml
