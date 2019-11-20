@@ -13,7 +13,6 @@ import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
 import xyz.wongs.weathertop.location.entity.Location;
 import xyz.wongs.weathertop.location.service.LocationService;
-import xyz.wongs.weathertop.palant.service.LocationElasticService;
 import xyz.wongs.weathertop.palant.utils.ElasticUtil;
 import xyz.wongs.weathertop.palant.vo.ElasticDataVo;
 import xyz.wongs.weathertop.palant.vo.QueryVo;
@@ -81,20 +80,6 @@ public class ElasticMgrController {
                 elasticEntity.setData(gson.toJson(_loca));
                 baseElasticService.insertOrUpdateOne(index, elasticEntity);
             }
-
-        } catch (Exception e) {
-            response.setCode(ResponseCode.ERROR.getCode());
-            response.setMsg("服务忙，请稍后再试");
-            response.setStatus(false);
-        }
-        return response;
-    }
-
-    @RequestMapping(value = "/insert")
-    public ResponseResult insert(){
-        ResponseResult response = getResponseResult();
-        try {
-            locationElasticService.insertLocation();
         } catch (Exception e) {
             response.setCode(ResponseCode.ERROR.getCode());
             response.setMsg("服务忙，请稍后再试");
