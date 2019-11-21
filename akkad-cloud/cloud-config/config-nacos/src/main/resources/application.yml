@@ -1,0 +1,4 @@
+nacos:
+  config:
+    server-addr: 192.168.147.132:8848
+    group: DEFAULT_GROUP

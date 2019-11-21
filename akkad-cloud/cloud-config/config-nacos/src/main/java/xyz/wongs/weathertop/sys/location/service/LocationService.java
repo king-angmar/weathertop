@@ -1,6 +1,7 @@
 package xyz.wongs.weathertop.sys.location.service;
 
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,9 @@ import xyz.wongs.weathertop.base.persistence.mybatis.service.BaseService;
 import xyz.wongs.weathertop.sys.location.entity.Location;
 import xyz.wongs.weathertop.sys.location.mapper.LocationMapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(value="locationService")
 @Transactional(readOnly = true)

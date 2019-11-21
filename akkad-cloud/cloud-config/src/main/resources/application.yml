@@ -1,6 +1,0 @@
-server:
-  port: 10021
-#\u4F7F\u7528\u7684\u73AF\u5883\u540D\u79F0
-spring:
-  profiles:
-    active: dev

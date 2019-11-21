@@ -20,7 +20,7 @@ public class ConfigController {
 
     @GetMapping("/test")
     public String test(){
-        log.error("driverClassName={},url={}",driverClassName,url);
+        log.error("testProperties={},url={}",testProperties,url);
         return url;
     }
 }

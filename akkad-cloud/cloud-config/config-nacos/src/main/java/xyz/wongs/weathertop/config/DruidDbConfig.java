@@ -19,7 +19,6 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
-@NacosPropertySource(dataId = "xyz.wongs.weathertop", autoRefreshed = true)
 public class DruidDbConfig {
 
     @NacosValue(value = "${spring.datasource.driver-class-name:com.mysql.jdbc.Driver}", autoRefreshed = true)
@@ -70,8 +69,6 @@ public class DruidDbConfig {
     @NacosValue(value = "${spring.datasource.druid.max-pool-prepared-statement-per-connection-size:20}", autoRefreshed = true)
     private int maxPoolPreparedStatementPerConnectionSize;
 
-    @NacosValue(value = "${spring.datasource.druid.filters:'stat,wall,log4j'}", autoRefreshed = true)
-    private String filters;
 
     @NacosValue(value = "{spring.datasource.druid.connectionProperties:'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=6000'}", autoRefreshed = true)
     private String connectionProperties;
@@ -104,11 +101,7 @@ public class DruidDbConfig {
         datasource.setTestOnReturn(testOnReturn);
         datasource.setPoolPreparedStatements(poolPreparedStatements);
         datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
-        try {
-            datasource.setFilters(filters);
-        } catch (SQLException e) {
 
-        }
         datasource.setConnectionProperties(connectionProperties);
         return datasource;
     }

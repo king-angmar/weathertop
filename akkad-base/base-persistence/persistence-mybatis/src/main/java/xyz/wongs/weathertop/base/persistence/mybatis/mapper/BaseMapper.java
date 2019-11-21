@@ -8,27 +8,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *  ┏┓　　　┏┓
- *┏┛┻━━━┛┻┓
- *┃　　　　　　　┃ 　
- *┃　　　━　　　┃
- *┃　┳┛　┗┳　┃
- *┃　　　　　　　┃
- *┃　　　┻　　　┃
- *┃　　　　　　　┃
- *┗━┓　　　┏━┛
- *　　┃　　　┃神兽保佑
- *　　┃　　　┃代码无BUG！
- *　　┃　　　┗━━━┓
- *　　┃　　　　　　　┣┓
- *　　┃　　　　　　　┏┛
- *　　┗┓┓┏━┳┓┏┛
- *　　　┃┫┫　┃┫┫
- *　　　┗┻┛　┗┻┛
  * @ClassName BaseMapper
  * @Description 通用Mapper
  * @author WCNGS@QQ.COM
- * @date 2019/6/30 21:52
+ * @Github <a>https://github.com/rothschil</a>
+ * @date 2019/11/21 17:40
  * @Version 1.0.0
 */
 public interface BaseMapper<T extends BaseEntity,ID extends Serializable> {

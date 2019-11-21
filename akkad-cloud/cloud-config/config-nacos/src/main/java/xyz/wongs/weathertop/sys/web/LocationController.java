@@ -58,7 +58,6 @@ public class LocationController {
     )
     @RequestMapping(value = "/{lv}", method = RequestMethod.GET)
     public List<Location> getLocationListByLevel(@PathVariable(value = "lv") Integer lv) {
-
         List<Location> r = locationService.getLocationListByLevel(lv);
         return r;
     }

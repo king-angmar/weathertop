@@ -6,9 +6,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan(basePackages = {"xyz.wongs.weathertop.**.mapper"})
 @SpringBootApplication
-@EnableNacosConfig
+@MapperScan(basePackages = {"xyz.wongs.weathertop.**.mapper"})
+@NacosPropertySource(dataId = "weathertop-nacos", autoRefreshed = true)
 public class ConfigApp {
     public static void main(String[] args) {
         SpringApplication.run(ConfigApp.class,args);

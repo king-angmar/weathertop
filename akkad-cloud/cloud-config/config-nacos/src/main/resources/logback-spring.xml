@@ -31,11 +31,11 @@
         </encoder>
     </appender>
 
-    <logger name="xyz.wongs.weathertop" level="WARN" additivity="false">
+    <logger name="xyz.wongs.weathertop" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <root level="WARN">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 
