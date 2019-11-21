@@ -15,6 +15,7 @@ import xyz.wongs.weathertop.base.service.BaseElasticService;
 import xyz.wongs.weathertop.base.entiy.ElasticEntity;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
+import xyz.wongs.weathertop.base.utils.StringUtils;
 import xyz.wongs.weathertop.location.entity.Location;
 import xyz.wongs.weathertop.location.service.LocationService;
 import xyz.wongs.weathertop.palant.utils.ElasticUtil;
@@ -44,7 +45,7 @@ public class ElasticMgrController {
 
 
     /**
-     * @Description
+     * @Description 新增数据
      * @param elasticDataVo
      * @return xyz.wongs.weathertop.base.message.response.ResponseResult
      * @throws
@@ -54,6 +55,13 @@ public class ElasticMgrController {
     public ResponseResult add(@RequestBody ElasticDataVo elasticDataVo){
         ResponseResult response = getResponseResult();
         try {
+            if(!StringUtils.isNotEmpty(elasticDataVo.getIdxName())){
+                response.setCode(ResponseCode.PARAM_ERROR_CODE.getCode());
+                response.setMsg("索引为空，不允许提交");
+                response.setStatus(false);
+                log.warn("索引为空");
+                return response;
+            }
             ElasticEntity elasticEntity = new ElasticEntity();
             elasticEntity.setId(elasticDataVo.getElasticEntity().getId());
             elasticEntity.setData(elasticDataVo.getElasticEntity().getData());
@@ -67,6 +75,33 @@ public class ElasticMgrController {
             log.error("插入数据异常，metadataVo={},异常信息={}", elasticDataVo.toString(),e.getMessage());
         }
         return response;
+    }
+
+
+    /**
+     * @Description 删除
+     * @param elasticDataVo
+     * @return xyz.wongs.weathertop.base.message.response.ResponseResult
+     * @throws
+     * @date 2019/11/21 9:56
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public ResponseResult delete(@RequestBody ElasticDataVo elasticDataVo){
+        ResponseResult response = getResponseResult();
+        try {
+            if(!StringUtils.isNotEmpty(elasticDataVo.getIdxName())){
+                response.setCode(ResponseCode.PARAM_ERROR_CODE.getCode());
+                response.setMsg("索引为空，不允许提交");
+                response.setStatus(false);
+                log.warn("索引为空");
+                return response;
+            }
+            baseElasticService.deleteOne(elasticDataVo.getIdxName(),elasticDataVo.getElasticEntity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+
     }
 
     /**
@@ -117,16 +152,33 @@ public class ElasticMgrController {
         for(Location _loca:locations){
             ElasticEntity elasticEntity = new ElasticEntity();
             elasticEntity.setId(_loca.getId().toString());
-            elasticEntity.setData(gson.toJson(_loca));
-            elasticEntitys.add(elasticEntity);
+//            elasticEntity.setData(gson.toJson(_loca));
+//            elasticEntitys.add(elasticEntity);
 //            log.error(_loca.toString());
         }
         baseElasticService.insertBatch(idxName,elasticEntitys);
     }
 
+    /**
+     * @Description
+     * @param queryVo 查询实体对象
+     * @return xyz.wongs.weathertop.base.message.response.ResponseResult
+     * @throws
+     * @date 2019/11/21 9:31
+     */
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResponseResult get(@RequestBody QueryVo queryVo){
+
         ResponseResult response = getResponseResult();
+
+        if(!StringUtils.isNotEmpty(queryVo.getIdxName())){
+            response.setCode(ResponseCode.PARAM_ERROR_CODE.getCode());
+            response.setMsg("索引为空，不允许提交");
+            response.setStatus(false);
+            log.warn("索引为空");
+            return response;
+        }
+
         try {
             Class<?> clazz = ElasticUtil.getClazz(queryVo.getClassName());
             Map<String,Object> params = queryVo.getQuery().get("match");
@@ -135,7 +187,6 @@ public class ElasticMgrController {
             for(String ke:keys){
                 queryBuilders = QueryBuilders.matchQuery(ke, params.get(ke));
             }
-
             if(null!=queryBuilders){
                 SearchSourceBuilder searchSourceBuilder = ElasticUtil.initSearchSourceBuilder(queryBuilders);
                 List<?> data = baseElasticService.search(queryVo.getIdxName(),searchSourceBuilder,clazz);

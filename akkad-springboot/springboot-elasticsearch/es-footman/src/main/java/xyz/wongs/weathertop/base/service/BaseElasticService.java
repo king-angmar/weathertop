@@ -126,8 +126,8 @@ public class BaseElasticService {
         IndexRequest request = new IndexRequest(idxName);
         log.error("Data : id={},entity={}",entity.getId(),JSON.toJSONString(entity.getData()));
         request.id(entity.getId());
-        request.source(entity.getData(), XContentType.JSON);
-//        request.source(JSON.toJSONString(entity.getData()), XContentType.JSON);
+//        request.source(entity.getData(), XContentType.JSON);
+        request.source(JSON.toJSONString(entity.getData()), XContentType.JSON);
         try {
             restHighLevelClient.index(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -135,6 +135,25 @@ public class BaseElasticService {
         }
     }
 
+    /**
+     * @author WCNGS@QQ.COM
+     * @See
+     * @date 2019/10/17 17:27
+     * @param idxName index
+     * @param entity    对象
+     * @return void
+     * @throws
+     * @since
+     */
+    public void deleteOne(String idxName, ElasticEntity entity) {
+        DeleteRequest request = new DeleteRequest(idxName);
+        request.id(entity.getId());
+        try {
+            restHighLevelClient.delete(request,RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /** 批量插入数据
      * @author WCNGS@QQ.COM
@@ -147,6 +166,27 @@ public class BaseElasticService {
      * @since
      */
     public void insertBatch(String idxName, List<ElasticEntity> list) {
+        BulkRequest request = new BulkRequest();
+        list.forEach(item -> request.add(new IndexRequest(idxName).id(item.getId())
+                .source(JSON.toJSONString(item.getData()), XContentType.JSON)));
+        try {
+            restHighLevelClient.bulk(request, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /** 批量插入数据
+     * @author WCNGS@QQ.COM
+     * @See
+     * @date 2019/10/17 17:26
+     * @param idxName index
+     * @param list 带插入列表
+     * @return void
+     * @throws
+     * @since
+     */
+    public void insertBatchTrueObj(String idxName, List<ElasticEntity> list) {
         BulkRequest request = new BulkRequest();
         list.forEach(item -> request.add(new IndexRequest(idxName).id(item.getId())
                 .source(item.getData(), XContentType.JSON)));

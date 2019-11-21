@@ -5,17 +5,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import xyz.wongs.weathertop.base.entiy.ElasticEntity;
 
+/**
+ * @ClassName ElasticDataVo
+ * @Description http交互Vo对象
+ * @author WCNGS@QQ.COM
+ * @Github <a>https://github.com/rothschil</a>
+ * @date 2019/11/21 9:10
+ * @Version 1.0.0
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ElasticDataVo<T> {
 
     /**
-     * idxName : idx_location
-     * elasticEntity : {"id":1,"location":{"location_id":"143831","flag":"Y","local_code":"11","local_name":"市","lv":2,"sup_local_code":"0","url":"11.html"}}
+     * 索引名
      */
-
     private String idxName;
+    /**
+     * 数据存储对象
+     */
     private ElasticEntity elasticEntity;
 
 }

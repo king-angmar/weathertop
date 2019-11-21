@@ -15,7 +15,7 @@
 
 # 1. SpringBoot集成
 
-以下三个版本一定排除掉，开始时候没注意发现这个坑，踩了好久
+以下三个版本一定排除掉，开始时候没注意发现这个坑，踩了好久，这里没有选择spring-boot-starter-data-elasticsearch，因为最新版的starter现在依然是6.x版本号，并没有集成elasticsearch7.4.0，导致使用过程中有很多版本冲突。
 
 ## 1.1. POM
 
