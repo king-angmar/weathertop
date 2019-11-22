@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.base.config;
+package xyz.wongs.weathertop.base.druid;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

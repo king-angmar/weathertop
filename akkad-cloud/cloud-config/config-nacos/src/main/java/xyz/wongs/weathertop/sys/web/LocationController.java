@@ -5,8 +5,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-import xyz.wongs.weathertop.sys.location.entity.Location;
-import xyz.wongs.weathertop.sys.location.service.LocationService;
+import xyz.wongs.weathertop.domain.location.entity.Location;
+import xyz.wongs.weathertop.domain.location.service.LocationService;
 
 import java.util.List;
 

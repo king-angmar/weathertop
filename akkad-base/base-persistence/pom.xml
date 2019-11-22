@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>persistence-mybatis</module>
+        <module>persistence-domain</module>
     </modules>
 
 </project>

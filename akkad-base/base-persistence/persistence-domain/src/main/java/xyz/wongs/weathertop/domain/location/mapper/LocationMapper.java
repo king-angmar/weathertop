@@ -1,11 +1,10 @@
-package xyz.wongs.weathertop.sys.location.mapper;
+package xyz.wongs.weathertop.domain.location.mapper;
 
 
 import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
-import xyz.wongs.weathertop.sys.location.entity.Location;
+import xyz.wongs.weathertop.domain.location.entity.Location;
 
 import java.util.List;
-import java.util.Map;
 
 public interface LocationMapper extends BaseMapper<Location,Long> {
 

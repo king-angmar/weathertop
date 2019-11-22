@@ -13,9 +13,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
         <dependency>
             <groupId>xyz.wongs.weathertop</groupId>
-            <artifactId>persistence-mybatis</artifactId>
+            <artifactId>persistence-domain</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba.boot</groupId>

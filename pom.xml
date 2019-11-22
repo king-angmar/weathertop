@@ -67,7 +67,11 @@
                 <artifactId>persistence-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>xyz.wongs.weathertop</groupId>
+                <artifactId>persistence-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>xyz.wongs.weathertop</groupId>
                 <artifactId>base-utils</artifactId>

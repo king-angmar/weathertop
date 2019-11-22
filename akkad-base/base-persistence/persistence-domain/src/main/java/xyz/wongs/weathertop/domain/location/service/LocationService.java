@@ -1,18 +1,16 @@
-package xyz.wongs.weathertop.sys.location.service;
+package xyz.wongs.weathertop.domain.location.service;
 
 
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
 import xyz.wongs.weathertop.base.persistence.mybatis.service.BaseService;
-import xyz.wongs.weathertop.sys.location.entity.Location;
-import xyz.wongs.weathertop.sys.location.mapper.LocationMapper;
+import xyz.wongs.weathertop.domain.location.entity.Location;
+import xyz.wongs.weathertop.domain.location.mapper.LocationMapper;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 @Service(value="locationService")
 @Transactional(readOnly = true)
@@ -27,9 +25,9 @@ public class LocationService extends BaseService<Location, Long> {
 	}
 
 	public List<Location> getLocationByLvAndFlag(int lv,String flag){
-		Location location = new Location();
-		location.setLv(lv);
-		location.setFlag(flag);
+		Location location = Location.builder().lv(lv).flag(flag).build();
+//		location.setLv(lv);
+//		location.setFlag(flag);
 		return locationtMapper.getList(location);
 	}
 

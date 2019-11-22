@@ -19,6 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
+@NacosPropertySource(dataId = "database_config",groupId = "CLOUD_GROUP",autoRefreshed = true)
 public class DruidDbConfig {
 
     @NacosValue(value = "${spring.datasource.driver-class-name:com.mysql.jdbc.Driver}", autoRefreshed = true)
