@@ -61,7 +61,6 @@ public class GitCommitController {
     @ResponseBody
     public String showGitCommitId() {
 
-        //git.properties
         ResourceBundle resourceBundle = ResourceBundle.getBundle("git", defaultIfNull(null, Locale.getDefault()));
         return resourceBundle.getString("git.commit.id");
     }
