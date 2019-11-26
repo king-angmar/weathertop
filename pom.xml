@@ -13,7 +13,8 @@
         -->
         <module>akkad-base</module>
         <module>akkad-cloud</module>
-<!--        <module>akkad-job</module>
+<!--
+<module>akkad-job</module>
         <module>akkad-handball</module>
         <module>akkad-springboot</module>-->
     </modules>
@@ -72,6 +73,13 @@
                 <artifactId>persistence-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>xyz.wongs.weathertop</groupId>
+                <artifactId>base-utils-non-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>xyz.wongs.weathertop</groupId>
                 <artifactId>base-utils</artifactId>
