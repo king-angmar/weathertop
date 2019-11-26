@@ -9,7 +9,6 @@ import xyz.wongs.weathertop.base.persistence.mybatis.service.BaseService;
 import xyz.wongs.weathertop.domain.location.entity.Location;
 import xyz.wongs.weathertop.domain.location.mapper.LocationMapper;
 
-
 import java.util.List;
 
 @Service(value="locationService")
@@ -57,5 +56,9 @@ public class LocationService extends BaseService<Location, Long> {
 	@Override
 	protected BaseMapper<Location, Long> getMapper() {
 		return locationtMapper;
+	}
+
+	public List<Location> getList2(Location location){
+		return locationtMapper.getList2(location);
 	}
 }

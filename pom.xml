@@ -12,8 +12,9 @@
         <module>akkad-cloud</module>
         <!--
         <module>akkad-handball</module>
-        <module>akkad-springboot</module>
         -->
+        <module>akkad-springboot</module>
+
     </modules>
 
     <packaging>pom</packaging>

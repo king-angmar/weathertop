@@ -16,8 +16,9 @@ import xyz.wongs.weathertop.base.entiy.ElasticEntity;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
 import xyz.wongs.weathertop.base.utils.StringUtils;
-import xyz.wongs.weathertop.location.entity.Location;
-import xyz.wongs.weathertop.location.service.LocationService;
+
+import xyz.wongs.weathertop.domain.location.entity.Location;
+import xyz.wongs.weathertop.domain.location.service.LocationService;
 import xyz.wongs.weathertop.palant.utils.ElasticUtil;
 import xyz.wongs.weathertop.palant.vo.ElasticDataVo;
 import xyz.wongs.weathertop.palant.vo.QueryVo;

@@ -15,7 +15,7 @@
         <!-- common -->
         <dependency>
             <groupId>xyz.wongs.weathertop</groupId>
-            <artifactId>persistence-mybatis</artifactId>
+            <artifactId>persistence-domain</artifactId>
         </dependency>
 
         <dependency>

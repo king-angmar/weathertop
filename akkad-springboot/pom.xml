@@ -15,7 +15,6 @@
         <module>springboot-jwt</module>
         <module>springboot-mq</module>
         <module>springboot-elasticsearch</module>
-		<module>springboot-shiro</module>
         <module>springboot-dist-lock</module>
     </modules>
 

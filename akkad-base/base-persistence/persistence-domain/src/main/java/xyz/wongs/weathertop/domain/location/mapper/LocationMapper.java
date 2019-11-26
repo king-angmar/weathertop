@@ -22,4 +22,6 @@ public interface LocationMapper extends BaseMapper<Location,Long> {
 
     List<Location> getList(Location location);
 
+    List<Location> getList2(Location location);
+
 }
