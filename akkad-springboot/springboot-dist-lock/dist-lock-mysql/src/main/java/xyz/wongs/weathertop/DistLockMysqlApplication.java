@@ -13,4 +13,8 @@ public class DistLockMysqlApplication {
     public static void main(String[] args) {
         SpringApplication.run(DistLockMysqlApplication.class,args);
     }
+
+    public void testDm(){
+
+    }
 }

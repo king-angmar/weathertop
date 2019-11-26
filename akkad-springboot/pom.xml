@@ -13,10 +13,7 @@
     <modules>
         <module>springboot-dist-trans</module>
         <module>springboot-jwt</module>
-        <module>springboot-async</module>
         <module>springboot-mq</module>
-        <module>springboot-generator</module>
-        <module>springboot-lsms</module>
         <module>springboot-elasticsearch</module>
 		<module>springboot-shiro</module>
         <module>springboot-dist-lock</module>

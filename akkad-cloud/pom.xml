@@ -11,7 +11,7 @@
     <artifactId>akkad-cloud</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>cloud-config</module>
+        <module>springboot-config</module>
     </modules>
 
     <dependencyManagement>
