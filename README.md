@@ -8,14 +8,12 @@
 - [2. persistence-mybatis](#2-persistence-mybatis)
 - [3. akkad-cloud入门](#3-akkad-cloud入门)
 - [4. akkad-handball【手球】](#4-akkad-handball手球)
-- [5. akkad-java](#5-akkad-java)
-    - [5.1. 设计模式akkad-design](#51-设计模式akkad-design)
-- [6. SpringBoot入门](#6-springboot入门)
-- [7. Linux说明](#7-linux说明)
-- [8. Kafka消息MQ](#8-kafka消息mq)
-- [9. elasticsearch](#9-elasticsearch)
-- [10. zookeeper安装](#10-zookeeper安装)
-- [11. hadoop学习](#11-hadoop学习)
+- [5. SpringBoot入门](#5-springboot入门)
+- [6. Linux说明](#6-linux说明)
+- [7. Kafka消息MQ](#7-kafka消息mq)
+- [8. elasticsearch](#8-elasticsearch)
+- [9. zookeeper安装](#9-zookeeper安装)
+- [10. hadoop学习](#10-hadoop学习)
 
 <!-- /TOC -->
 
@@ -67,32 +65,26 @@
 
 # 4. akkad-handball【手球】
 
-# 5. akkad-java
-
-## 5.1. 设计模式akkad-design
-
-点击即可查看[观察设计模式](akkad-java/akkad-design/Observer.md)详细介绍
-
-# 6. SpringBoot入门
+# 5. SpringBoot入门
 
 点击即可查看[Springboot](akkad-springboot/README.md)详细入门样例介绍
 
-# 7. Linux说明
+# 6. Linux说明
 
 点击即可查看[Linux入门](doc/Liunx/Linux基本命令.md)详细入门样例介绍
 
-# 8. Kafka消息MQ
+# 7. Kafka消息MQ
 
 点击即可查看[Kafka入门](doc/Liunx/02_kafka/README.md)详细入门样例介绍
 
-# 9. elasticsearch
+# 8. elasticsearch
 
 [详细查看elastic入门](akkad-springboot/springboot-elasticsearch/elastic.md)，介绍了安装，以及集成SpringBoot
 
-# 10. zookeeper安装
+# 9. zookeeper安装
 
 点击即可查看[zookeeper入门](doc/Liunx/03_zookeeper/README.md)详细入门样例介绍
 
-# 11. hadoop学习
+# 10. hadoop学习
 
 点击即可查看[Hadoop学习](doc/Liunx/04_haddop/README.md)详细入门样例介绍
