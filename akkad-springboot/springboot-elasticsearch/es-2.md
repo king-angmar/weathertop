@@ -1,25 +1,29 @@
+# 1. 目录
 <!-- TOC -->
 
-- [1. SpringBoot集成](#1-springboot集成)
-    - [1.1. POM配置](#11-pom配置)
-    - [1.2. yml配置](#12-yml配置)
-    - [1.3. 核心操作类](#13-核心操作类)
-- [2. 实战](#2-实战)
-    - [2.1. 索引管理](#21-索引管理)
-        - [2.1.1. 创建索引](#211-创建索引)
-        - [2.1.2. 查看索引](#212-查看索引)
-        - [2.1.3. 删除索引](#213-删除索引)
-- [3. 源码](#3-源码)
+- [1. 目录](#1-目录)
+- [2. SpringBoot集成](#2-springboot集成)
+    - [2.1. POM配置](#21-pom配置)
+    - [2.2. yml配置](#22-yml配置)
+    - [2.3. 核心操作类](#23-核心操作类)
+- [3. 实战](#3-实战)
+    - [3.1. 索引管理](#31-索引管理)
+        - [3.1.1. 创建索引](#311-创建索引)
+        - [3.1.2. 查看索引](#312-查看索引)
+        - [3.1.3. 删除索引](#313-删除索引)
+- [4. 源码](#4-源码)
 
 <!-- /TOC -->
 
-# 1. SpringBoot集成
+![20191205172258.png](https://i.loli.net/2019/12/05/lLXVdyOnWavqioM.png)
+
+# 2. SpringBoot集成
 
 开发工具，这里选择的是IDEA 2019.2，构建Maven工程等一堆通用操作，不清楚的自行百度。
 
 我这边选择**elasticsearch-rest-high-level-client**方式来集成，发现这有个坑，开始没注意，踩了好久，就是要排除掉**elasticsearch、elasticsearch-rest-client**，这里没有选择spring-boot-starter-data-elasticsearch，因为最新版的starter现在依然是6.x版本号，并没有集成elasticsearch7.4.0，导致使用过程中有很多版本冲突，读者在选择的时候多加留意。
 
-## 1.1. POM配置
+## 2.1. POM配置
 
 ~~~
 <dependency>
@@ -49,7 +53,7 @@
 </dependency>
 ~~~
 
-## 1.2. yml配置
+## 2.2. yml配置
 
 ~~~
 server:
@@ -94,7 +98,7 @@ es:
   scheme: http
 ~~~
 
-## 1.3. 核心操作类
+## 2.3. 核心操作类
 
 ~~~
 package xyz.wongs.weathertop.base.dao;
@@ -343,19 +347,21 @@ public class BaseElasticDao {
 
 ~~~
 
-# 2. 实战
+# 3. 实战
 
-如官网截图：
-
-![官方说明](https://i.loli.net/2019/11/19/5QCdq691l7EOwnf.png)
-
-## 2.1. 索引管理
+## 3.1. 索引管理
 
 由于在**BaseElasticDao**类中**createIndex**方法，我在Controller层将索引名称和索引SQL封装过，详细见[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/doc/image/elastich) 中**xyz.wongs.weathertop.palant.vo.IdxVo**
 
-### 2.1.1. 创建索引
+### 3.1.1. 创建索引
 
-我们在创建索引过程中需要先判断是否有这个索引，否则不允许创建，由于我案例采用的是手动指定indexName和Settings，大家看的过程中要特别注意下。详细的代码实现见如下：
+我们在创建索引过程中需要先判断是否有这个索引，否则不允许创建，由于我案例采用的是手动指定indexName和Settings，大家看的过程中要特别注意下，而且还有一点indexName必须是小写，如果是大写在创建过程中会有错误
+
+![官方索引创建说明](https://i.loli.net/2019/11/19/5QCdq691l7EOwnf.png)
+
+![索引名大写](https://i.loli.net/2019/12/05/W7YevidXZyQxSVK.png)
+
+。详细的代码实现见如下：
 
 ~~~
 
@@ -390,6 +396,29 @@ public ResponseResult createIndex(@RequestBody IdxVo idxVo){
 
 ~~~
 
+创建索引需要设置分片，这里采用**Settings.Builder**方式，当然也可以JSON自定义方式，本文篇幅有限，不做演示。查看**xyz.wongs.weathertop.base.service.BaseElasticService.buildSetting**方法，这里是默认值。
+
+> index.number_of_shards：分片数
+
+> number_of_replicas：副本数
+
+~~~
+
+/** 设置分片
+    * @author WCNGS@QQ.COM
+    * @See
+    * @date 2019/10/17 19:27
+    * @param request
+    * @return void
+    * @throws
+    * @since
+    */
+public void buildSetting(CreateIndexRequest request){
+    request.settings(Settings.builder().put("index.number_of_shards",3)
+            .put("index.number_of_replicas",2));
+
+~~~
+
 这时候我们通过Postman工具调用**Controller**，发现创建索引成功。
 
 ![新增索引](https://i.loli.net/2019/11/19/VwKLQceuNHA6vTJ.png)
@@ -410,7 +439,7 @@ yellow open   idx_copy_to  HouC9s6LSjiwrJtDicgY3Q   3   2          1            
 
 说明创建成功，这里总是通过命令行来验证，有点繁琐，既然我都有WEB服务，为什么不直接通过HTTP验证了？
 
-### 2.1.2. 查看索引
+### 3.1.2. 查看索引
 
 我们写一个对外以HTTP+GET方式对外提供查询的服务。存在为TRUE，否则False.
 
@@ -443,7 +472,7 @@ public ResponseResult indexExist(@PathVariable(value = "index") String index){
 }
 ~~~
 
-### 2.1.3. 删除索引
+### 3.1.3. 删除索引
 
 删除的逻辑就比较简单，这里就不多说。
 
@@ -470,6 +499,6 @@ public void deleteIndex(String idxName) {
 }
 ~~~
 
-# 3. 源码
+# 4. 源码
 
 [Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
