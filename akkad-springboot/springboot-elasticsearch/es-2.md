@@ -1,7 +1,7 @@
 <!-- TOC -->
 
 - [1. SpringBoot集成](#1-springboot集成)
-    - [1.1. POM](#11-pom)
+    - [1.1. POM配置](#11-pom配置)
     - [1.2. yml配置](#12-yml配置)
     - [1.3. 核心操作类](#13-核心操作类)
 - [2. 实战](#2-实战)
@@ -15,9 +15,11 @@
 
 # 1. SpringBoot集成
 
-以下三个版本一定排除掉，开始时候没注意发现这个坑，踩了好久，这里没有选择spring-boot-starter-data-elasticsearch，因为最新版的starter现在依然是6.x版本号，并没有集成elasticsearch7.4.0，导致使用过程中有很多版本冲突。
+开发工具，这里选择的是IDEA 2019.2，构建Maven工程等一堆通用操作，不清楚的自行百度。
 
-## 1.1. POM
+我这边选择**elasticsearch-rest-high-level-client**方式来集成，发现这有个坑，开始没注意，踩了好久，就是要排除掉**elasticsearch、elasticsearch-rest-client**，这里没有选择spring-boot-starter-data-elasticsearch，因为最新版的starter现在依然是6.x版本号，并没有集成elasticsearch7.4.0，导致使用过程中有很多版本冲突，读者在选择的时候多加留意。
+
+## 1.1. POM配置
 
 ~~~
 <dependency>

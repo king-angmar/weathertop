@@ -1,6 +1,6 @@
 package xyz.wongs.weathertop.palant.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class ElasticIndexController {
     @Autowired
     BaseElasticService baseElasticService;
 
-    @RequestMapping(value = "/}")
+    @GetMapping(value = "/")
     public ResponseResult index(String index){
         ResponseResult response = new ResponseResult();
         return response;
@@ -38,13 +38,13 @@ public class ElasticIndexController {
      * @throws
      * @date 2019/11/19 11:07
      */
-    @RequestMapping(value = "/createIndex",method = RequestMethod.POST)
+    @PostMapping(value = "/createIndex")
     public ResponseResult createIndex(@RequestBody IdxVo idxVo){
         ResponseResult response = new ResponseResult();
         try {
             //索引不存在，再创建，否则不允许创建
             if(!baseElasticService.isExistsIndex(idxVo.getIdxName())){
-                String idxSql = JSONObject.toJSONString(idxVo.getIdxSql());
+                String idxSql = JSON.toJSONString(idxVo.getIdxSql());
                 log.warn(" idxName={}, idxSql={}",idxVo.getIdxName(),idxSql);
                 baseElasticService.createIndex(idxVo.getIdxName(),idxSql);
             } else{
@@ -68,7 +68,7 @@ public class ElasticIndexController {
      * @throws
      * @date 2019/11/19 18:48
      */
-    @RequestMapping(value = "/exist/{index}")
+    @GetMapping(value = "/exist/{index}")
     public ResponseResult indexExist(@PathVariable(value = "index") String index){
 
         ResponseResult response = new ResponseResult();
@@ -88,7 +88,7 @@ public class ElasticIndexController {
         return response;
     }
 
-    @RequestMapping(value = "/del/{index}")
+    @GetMapping(value = "/del/{index}")
     public ResponseResult indexDel(@PathVariable(value = "index") String index){
         ResponseResult response = new ResponseResult();
         try {

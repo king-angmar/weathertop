@@ -52,7 +52,7 @@ public class ElasticMgrController {
      * @throws
      * @date 2019/11/20 17:10
      */
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @PostMapping(value = "/add")
     public ResponseResult add(@RequestBody ElasticDataVo elasticDataVo){
         ResponseResult response = getResponseResult();
         try {
@@ -71,7 +71,7 @@ public class ElasticMgrController {
 
         } catch (Exception e) {
             response.setCode(ResponseCode.ERROR.getCode());
-            response.setMsg("服务忙，请稍后再试");
+            response.setMsg(ResponseCode.ERROR.getMsg());
             response.setStatus(false);
             log.error("插入数据异常，metadataVo={},异常信息={}", elasticDataVo.toString(),e.getMessage());
         }
@@ -86,7 +86,7 @@ public class ElasticMgrController {
      * @throws
      * @date 2019/11/21 9:56
      */
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @PostMapping(value = "/delete")
     public ResponseResult delete(@RequestBody ElasticDataVo elasticDataVo){
         ResponseResult response = getResponseResult();
         try {
@@ -99,7 +99,7 @@ public class ElasticMgrController {
             }
             baseElasticService.deleteOne(elasticDataVo.getIdxName(),elasticDataVo.getElasticEntity());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("删除数据失败");
         }
         return response;
 
@@ -112,14 +112,11 @@ public class ElasticMgrController {
      * @throws
      * @date 2019/11/20 17:10
      */
-    @RequestMapping(value = "/addLocation/{index}")
+    @GetMapping(value = "/addLocation/{index}")
     public ResponseResult addLocation(@PathVariable(value = "index") String index){
         ResponseResult response = getResponseResult();
         try {
             for(int lv=0;lv<4;lv++){
-//                if(lv==2){
-//                    return response;
-//                }
                 addLocationPage(1,100,index,lv);
             }
 
@@ -148,7 +145,6 @@ public class ElasticMgrController {
 
 
     public void insertDatas(String idxName,List<Location> locations){
-        Gson gson = new Gson();
         List<ElasticEntity> elasticEntitys = new ArrayList<ElasticEntity>(locations.size());
         for(Location _loca:locations){
             ElasticEntity elasticEntity = new ElasticEntity();
@@ -167,7 +163,7 @@ public class ElasticMgrController {
      * @throws
      * @date 2019/11/21 9:31
      */
-    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    @GetMapping(value = "/get")
     public ResponseResult get(@RequestBody QueryVo queryVo){
 
         ResponseResult response = getResponseResult();
