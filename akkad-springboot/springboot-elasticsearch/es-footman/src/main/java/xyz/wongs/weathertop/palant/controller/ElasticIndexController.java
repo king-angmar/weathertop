@@ -27,8 +27,7 @@ public class ElasticIndexController {
 
     @GetMapping(value = "/")
     public ResponseResult index(String index){
-        ResponseResult response = new ResponseResult();
-        return response;
+        return new ResponseResult();
     }
 
     /**

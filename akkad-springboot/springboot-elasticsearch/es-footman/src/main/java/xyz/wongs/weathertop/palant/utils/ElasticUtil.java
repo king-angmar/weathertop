@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ElasticUtil {
 
+    private ElasticUtil(){}
+
     public static Class<?> getClazz(String clazzName){
         try {
             return Class.forName(clazzName);

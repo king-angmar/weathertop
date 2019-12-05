@@ -2,28 +2,27 @@ package xyz.wongs.weathertop.palant.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageParams;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xyz.wongs.weathertop.base.persistence.mybatis.page.PaginationInfo;
-import xyz.wongs.weathertop.base.service.BaseElasticService;
 import xyz.wongs.weathertop.base.entiy.ElasticEntity;
 import xyz.wongs.weathertop.base.message.enums.ResponseCode;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
+import xyz.wongs.weathertop.base.service.BaseElasticService;
 import xyz.wongs.weathertop.base.utils.StringUtils;
-
 import xyz.wongs.weathertop.domain.location.entity.Location;
 import xyz.wongs.weathertop.domain.location.service.LocationService;
 import xyz.wongs.weathertop.palant.utils.ElasticUtil;
 import xyz.wongs.weathertop.palant.vo.ElasticDataVo;
 import xyz.wongs.weathertop.palant.vo.QueryVo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /** 数据管理
  * @ClassName ElasticMgrController

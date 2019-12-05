@@ -27,8 +27,7 @@ public class ElasticConfig {
 
     @Bean
     public RestClient elasticsearchRestClient(){
-        RestClient restClient = RestClient.builder(new HttpHost(host, port, scheme)).build();
-        return restClient;
+        return RestClient.builder(new HttpHost(host, port, scheme)).build();
     }
 
     private HttpHost makeHttpHost() {
