@@ -171,4 +171,4 @@ public class CloudConfigNacosApp {
 
 # 7. 源码
 
-[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
+[Github演示源码](https://github.com/king-angmar/weathertop/tree/master/akkad-cloud/cloud-config-nacos) ，记得给Star
