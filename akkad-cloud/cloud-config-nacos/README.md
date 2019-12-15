@@ -32,9 +32,56 @@
 
 # 3. 添加依赖
 
-## 3.1. 父级依赖
-
 因为Springboot最新2.1.X版本集成spring-cloud-alibaba-dependencies会有一些问题，所以SpringBoot版本需要降级到2.0.X。这也是个坑呀，折腾了好久。
+
+Spring Cloud Version|Spring Cloud Alibaba Version|Spring Boot Version
+--|:--:|--:
+Spring Cloud Greenwich|2.1.1.RELEASE|2.1.X.RELEASE
+Spring Cloud Finchley|2.0.1.RELEASE|2.0.X.RELEASE
+Spring Cloud Edgware|1.5.1.RELEASE|1.5.X.RELEASE
+
+Spring Cloud Alibaba，包含了它所使用的所有依赖的版本。版本之间的依赖列表
+
+- Spring Cloud Greenwich
+
+如果需要使用Spring Cloud Greenwich版本，在POM中的<dependencyManagement> 添加
+~~~
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+    <version>2.1.1.RELEASE</version>
+    <type>pom</type>
+    <scope>import</scope>
+</dependency>
+~~~
+
+- Spring Cloud Finchley
+
+如果需要使用Spring Cloud Finchley版本，在POM中的<dependencyManagement> 添加
+~~~
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+    <version>2.0.1.RELEASE</version>
+    <type>pom</type>
+    <scope>import</scope>
+</dependency>
+~~~
+
+- Spring Cloud Edgware
+
+如果需要使用Spring Cloud Edgware版本，在POM中的<dependencyManagement> 添加
+~~~
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+    <version>1.5.1.RELEASE</version>
+    <type>pom</type>
+    <scope>import</scope>
+</dependency>
+~~~
+
+## 3.1. 父级依赖
 
 ~~~
 <properties>

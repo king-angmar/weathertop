@@ -29,5 +29,4 @@ public class LocationController extends BaseController {
     public ResponseResult echo(@PathVariable(value = "lv") Integer lv) {
         return restTemplate.getForObject("http://discovery-nacos-provider/locations/" + lv, ResponseResult.class);
     }
-
 }
