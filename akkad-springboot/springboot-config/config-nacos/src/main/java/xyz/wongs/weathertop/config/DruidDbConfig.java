@@ -43,7 +43,7 @@ public class DruidDbConfig {
     @NacosValue(value = "${spring.datasource.druid.max-active:200}", autoRefreshed = true)
     private int maxActive;
 
-    @NacosValue(value = "${spring.datasource.druid. max-wait:30000}", autoRefreshed = true)
+    @NacosValue(value = "${spring.datasource.druid.max-wait:30000}", autoRefreshed = true)
     private int maxWait;
 
     @NacosValue(value = "${spring.datasource.druid.time-between-eviction-runs-millis:60000}", autoRefreshed = true)

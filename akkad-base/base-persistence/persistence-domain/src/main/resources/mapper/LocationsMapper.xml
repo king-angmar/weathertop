@@ -40,7 +40,7 @@
       </if>
     </trim>
   </select>
-  <select id="getList2" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.location.entity.Location" >
+  <select id="getList2" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.domain.location.entity.Location" >
     select
     <include refid="Base_Column_List" />
     from tb_locations

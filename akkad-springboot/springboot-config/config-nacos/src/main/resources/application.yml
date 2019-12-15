@@ -1,0 +1,10 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: cofig-nacos
+  profiles:
+    active: dev
+nacos:
+  config:
+    server-addr: 192.168.147.132:8848
