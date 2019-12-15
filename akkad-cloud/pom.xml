@@ -11,6 +11,7 @@
 
     <modules>
         <module>cloud-config-nacos</module>
+        <module>cloud-discovery</module>
     </modules>
 
     <properties>

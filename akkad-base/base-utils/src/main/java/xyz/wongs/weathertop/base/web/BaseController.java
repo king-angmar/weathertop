@@ -1,7 +1,8 @@
-package xyz.wongs.weathertop.base.persistence.mybatis.web;
+package xyz.wongs.weathertop.base.web;
 
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import xyz.wongs.weathertop.base.message.response.ResponseResult;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -35,6 +36,17 @@ public abstract class BaseController {
     @ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class})
     public String bindException() {
         return "error/400";
+    }
+
+    /**
+     * @Description 初始化统一返回信息
+     * @param
+     * @return cn.ffcs.np.common.util.response.ResponseResult
+     * @throws
+     * @date 2019/11/7 9:58
+     */
+    public ResponseResult getResponseResult() {
+        return new ResponseResult();
     }
 
 }

@@ -3,22 +3,22 @@ package xyz.wongs.weathertop.sys.web;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.wongs.weathertop.base.message.response.ResponseResult;
 import xyz.wongs.weathertop.base.web.BaseController;
+import xyz.wongs.weathertop.domain.location.entity.Location;
 import xyz.wongs.weathertop.domain.location.service.LocationService;
+
+import java.util.List;
 
 /**
  * @ClassName LocationController
- * @Description
+ * @Description 
  * @author WCNGS@QQ.COM
  * @Github <a>https://github.com/rothschil</a>
  * @date 2019/12/15 16:58
  * @Version 1.0.0
- */
+*/
 @Api(value = "location")
 @RestController
 @RequestMapping(value = "/locations")

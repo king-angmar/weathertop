@@ -165,7 +165,6 @@ public class CloudConfigNacosApp {
     public static void main(String[] args) {
         SpringApplication.run(CloudConfigNacosApp.class,args);
     }
-
 }
 ~~~
 
