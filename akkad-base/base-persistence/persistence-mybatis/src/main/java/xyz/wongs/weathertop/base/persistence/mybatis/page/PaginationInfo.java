@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Data
 @Component
-@PropertySource("classpath:application.yml")
+@PropertySource("classpath:config.properties")
 @ConfigurationProperties(prefix = "page")
 public class PaginationInfo {
 
