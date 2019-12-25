@@ -10,9 +10,6 @@
 
         <module>akkad-base</module>
         <module>akkad-cloud</module>
-        <!--
-        <module>akkad-handball</module>
-        -->
         <module>akkad-springboot</module>
 
     </modules>
@@ -44,6 +41,7 @@
         <joda.time.version>2.10.2</joda.time.version>
         <webmagic.core.version>0.7.3</webmagic.core.version>
         <swagger2.version>2.9.2</swagger2.version>
+        <spring.boot.version>2.1.8.RELEASE</spring.boot.version>
     </properties>
 
     <dependencies>
@@ -56,6 +54,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
