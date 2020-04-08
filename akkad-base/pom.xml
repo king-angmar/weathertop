@@ -14,7 +14,6 @@
         <module>base-persistence</module>
         <module>base-utils</module>
         <module>base-utils-non-db</module>
-        <module>weathertop-spring-boot-starter</module>
     </modules>
 
 </project>
