@@ -7,11 +7,10 @@
     <artifactId>weathertop</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-
+        <module>akkad-apache</module>
         <module>akkad-base</module>
         <module>akkad-cloud</module>
         <module>akkad-springboot</module>
-
     </modules>
 
     <packaging>pom</packaging>
