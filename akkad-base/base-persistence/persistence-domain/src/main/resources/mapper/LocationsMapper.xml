@@ -59,6 +59,27 @@
       </if>
     </trim>
   </select>
+
+  <select id="getCount" resultType="java.lang.Integer" parameterType="xyz.wongs.weathertop.domain.location.entity.Location" >
+    select
+    COUNT(id)
+    from tb_locations
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="localCode != null">
+        and local_code = #{localCode,jdbcType=VARCHAR}
+      </if>
+      <if test="localName != null">
+        and local_name = #{localName,jdbcType=VARCHAR}
+      </if>
+      <if test="lv != '' and lv != null or lv==0 ">
+        and lv = #{lv}
+      </if>
+      <if test="supLocalCode != null">
+        and sup_local_code = #{supLocalCode,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tb_locations
     where id = #{id,jdbcType=BIGINT}
@@ -121,6 +142,14 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertBatchByOn" parameterType="java.util.List">
+    insert into tb_locations (id, flag, local_code, local_name, lv, sup_local_code, url) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.flag,jdbcType=VARCHAR}, #{item.localCode,jdbcType=VARCHAR}, #{item.localName,jdbcType=VARCHAR},
+      #{item.lv,jdbcType=INTEGER}, #{item.supLocalCode,jdbcType=VARCHAR}, #{item.url,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.domain.location.entity.Location">
     update tb_locations
     <set>

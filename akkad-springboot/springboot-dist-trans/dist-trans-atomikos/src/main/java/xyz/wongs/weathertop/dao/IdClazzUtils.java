@@ -14,5 +14,4 @@ public class IdClazzUtils {
         return Long.valueOf(redisUidService.generate(clazz.getSimpleName().toUpperCase()));
     }
 
-    
 }

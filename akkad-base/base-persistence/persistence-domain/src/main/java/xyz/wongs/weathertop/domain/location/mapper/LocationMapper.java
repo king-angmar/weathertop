@@ -24,4 +24,7 @@ public interface LocationMapper extends BaseMapper<Location,Long> {
 
     List<Location> getList2(Location location);
 
+    int insertBatchByOn(List<Location> locations);
+
+    int getCount(Location location);
 }
