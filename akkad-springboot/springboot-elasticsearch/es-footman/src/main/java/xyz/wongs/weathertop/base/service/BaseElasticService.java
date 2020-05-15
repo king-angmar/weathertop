@@ -65,7 +65,7 @@ public class BaseElasticService {
         }
     }
 
-    /** 断某个index是否存在
+    /** 制定配置项的判断索引是否存在，注意与 isExistsIndex 区别
      * @author WCNGS@QQ.COM
      * @See
      * @date 2019/10/17 17:27
@@ -76,9 +76,13 @@ public class BaseElasticService {
      */
     public boolean indexExist(String idxName) throws Exception {
         GetIndexRequest request = new GetIndexRequest(idxName);
+        //TRUE-返回本地信息检索状态，FALSE-还是从主节点检索状态
         request.local(false);
+        //是否适应被人可读的格式返回
         request.humanReadable(true);
+        //是否为每个索引返回所有默认设置
         request.includeDefaults(false);
+        //控制如何解决不可用的索引以及如何扩展通配符表达式,忽略不可用索引的索引选项，仅将通配符扩展为开放索引，并且不允许从通配符表达式解析任何索引
         request.indicesOptions(IndicesOptions.lenientExpandOpen());
         return restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
     }
