@@ -74,8 +74,8 @@
 				<label class="col-sm-3 control-label">菜单状态：</label>
 				<div class="col-sm-8">
 					<div class="radio-box" th:each="dict : ${@dict.getType('sys_show_hide')}">
-						<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:field="*{visible}">
-						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						<input type="radio" th:id="${dict.id}" name="visible" th:value="${dict.dictValue}" th:field="*{visible}">
+						<label th:for="${dict.id}" th:text="${dict.dictLabel}"></label>
 					</div>
 				</div>
 			</div>

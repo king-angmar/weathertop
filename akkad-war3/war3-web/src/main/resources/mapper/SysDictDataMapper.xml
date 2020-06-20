@@ -46,7 +46,7 @@
   <insert id="insertSelective" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictData" >
     insert into sys_dict_data
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="dictCode != null" >
+      <if test="id != null" >
         dict_code,
       </if>
       <if test="dictSort != null" >
@@ -90,7 +90,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="dictCode != null" >
+      <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
       <if test="dictSort != null" >
@@ -179,6 +179,12 @@
     </set>
     where dict_code = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectDictLabel" resultType="String">
+		select dict_label from sys_dict_data
+		where dict_type = #{dictType} and dict_value = #{dictValue}
+	</select>
+
   <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictData" >
     update sys_dict_data
     set dict_sort = #{dictSort,jdbcType=INTEGER},
@@ -196,4 +202,11 @@
       remark = #{remark,jdbcType=VARCHAR}
     where dict_code = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectDictDataByType" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictData" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_data
+    where status = '0' and dict_type = #{dictType} order by dict_sort asc
+  </select>
 </mapper>

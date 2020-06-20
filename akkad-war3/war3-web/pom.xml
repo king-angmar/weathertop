@@ -13,6 +13,15 @@
 
     <dependencies>
 
+        <!--devtools热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>2.1.8.RELEASE</version>
+            <optional>true</optional>
+            <scope>true</scope>
+        </dependency>
+
         <!-- excel工具 -->
         <dependency>
             <groupId>org.apache.poi</groupId>

@@ -167,10 +167,18 @@
     WHERE r.del_flag = '0' and ur.user_id = #{userId}
   </select>
 
+
+  <sql id="selectRoleContactVo">
+        select distinct r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope,
+            r.status, r.del_flag, r.create_time, r.remark
+        from sys_role r
+	        left join sys_user_role ur on ur.role_id = r.role_id
+	        left join sys_user u on u.user_id = ur.user_id
+	        left join sys_dept d on u.dept_id = d.dept_id
+    </sql>
+
   <select id="selectRoleList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysRole" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sys_role
+    <include refid="selectRoleContactVo" />
     where r.del_flag = '0'
     <if test="roleName != null and roleName != ''">
       AND r.role_name like concat('%', #{roleName}, '%')
@@ -190,8 +198,6 @@
     <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
       and date_format(r.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
     </if>
-    <!-- 数据范围过滤 -->
-    ${params.dataScope}
   </select>
 
   <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.war3.system.entity.SysRole" >

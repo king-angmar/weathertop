@@ -54,8 +54,8 @@
         <if test="status != null and status != ''">
             AND u.status = #{status}
         </if>
-        <if test="phonenumber != null and phonenumber != ''">
-            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        <if test="phoneNumber != null and phoneNumber != ''">
+            AND u.phonenumber like concat('%', #{phoneNumber}, '%')
         </if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
             AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
@@ -116,7 +116,7 @@
                 and email = #{email}
             </if>
             <if test="phoneNumber != null and phoneNumber != ''">
-                and phonenumber = #{phonenumber}
+                and phonenumber = #{phoneNumber}
             </if>
             <if test="sex != null and sex != ''">
                 and sex = #{sex}
@@ -186,7 +186,7 @@
                 email = #{email},
             </if>
             <if test="phoneNumber != null and phoneNumber != ''">
-                phonenumber = #{phonenumber},
+                phonenumber = #{phoneNumber},
             </if>
             <if test="sex != null and sex != ''">
                 sex = #{sex},

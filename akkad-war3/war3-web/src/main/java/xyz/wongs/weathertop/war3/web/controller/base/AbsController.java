@@ -1,11 +1,47 @@
 package xyz.wongs.weathertop.war3.web.controller.base;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import xyz.wongs.weathertop.base.utils.StringUtils;
 import xyz.wongs.weathertop.base.web.BaseController;
+import xyz.wongs.weathertop.war3.common.core.page.PageDomain;
+import xyz.wongs.weathertop.war3.common.core.page.TableDataInfo;
+import xyz.wongs.weathertop.war3.common.core.page.TableSupport;
 import xyz.wongs.weathertop.war3.common.domain.AjaxResult;
 import xyz.wongs.weathertop.war3.common.domain.AjaxResult.*;
+import xyz.wongs.weathertop.war3.common.utils.sql.SqlUtil;
+
+import java.util.List;
 
 public abstract class AbsController extends BaseController {
+
+    /**
+     * 设置请求分页数据
+     */
+    protected void startPage()
+    {
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize))
+        {
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            PageHelper.startPage(pageNum, pageSize, orderBy);
+        }
+    }
+
+    /**
+     * 响应请求分页数据
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected TableDataInfo getDataTable(List<?> list)
+    {
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(0);
+        rspData.setRows(list);
+        rspData.setTotal(new PageInfo(list).getTotal());
+        return rspData;
+    }
 
     /**
      * 响应返回结果

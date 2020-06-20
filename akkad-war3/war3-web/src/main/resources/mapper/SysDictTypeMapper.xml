@@ -139,4 +139,11 @@
       remark = #{remark,jdbcType=VARCHAR}
     where dict_id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectDictTypeAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_type
+  </select>
+
 </mapper>

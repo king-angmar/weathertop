@@ -4,6 +4,7 @@ import lombok.Data;
 import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 用户信息表(SysUser)实体类

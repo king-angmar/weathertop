@@ -31,6 +31,11 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     private static final String CHARSET_NAME = "UTF-8";
     private static final String PARR="<([a-zA-Z]+)[^<>]*>";
 
+	@SuppressWarnings("unchecked")
+	public static <T> T cast(Object obj)
+	{
+		return (T) obj;
+	}
 
 	/**
 	 * 格式化文本, {} 表示占位符<br>

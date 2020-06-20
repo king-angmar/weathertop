@@ -5,6 +5,7 @@ import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @ClassName SysDept
@@ -72,5 +73,8 @@ public class SysDept extends BaseEntity<Long> {
     * 更新时间
     */
     private Date updateTime;
+
+    /** 父部门名称 */
+    private String parentName;
 
 }

@@ -41,9 +41,6 @@ public class SysMenu extends BaseEntity<Long> {
 
     private String remark;
 
-    /** 请求参数 */
-    private Map<String, Object> params;
-
     /** 子菜单 */
     private List<SysMenu> children = new ArrayList<SysMenu>();
 }

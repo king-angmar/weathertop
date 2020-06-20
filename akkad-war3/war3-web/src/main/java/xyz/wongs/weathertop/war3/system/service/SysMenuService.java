@@ -11,6 +11,7 @@ import xyz.wongs.weathertop.war3.system.entity.SysMenu;
 import xyz.wongs.weathertop.war3.system.entity.SysRole;
 import xyz.wongs.weathertop.war3.system.entity.SysUser;
 import xyz.wongs.weathertop.war3.system.mapper.SysMenuMapper;
+import xyz.wongs.weathertop.war3.system.mapper.SysRoleMenuMapper;
 
 import java.util.*;
 
@@ -27,6 +28,9 @@ public class SysMenuService extends BaseService<SysMenu, Long> {
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
+
+    @Autowired
+    private SysRoleMenuMapper sysRoleMenuMapper;
 
 
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId) {

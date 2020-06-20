@@ -33,10 +33,10 @@ import javax.validation.ValidationException;
 */
 public abstract class BaseController {
 
-    @ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class})
-    public String bindException() {
-        return "error/400";
-    }
+//    @ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class})
+//    public String bindException() {
+//        return "error/400";
+//    }
 
     /**
      * @Description 初始化统一返回信息

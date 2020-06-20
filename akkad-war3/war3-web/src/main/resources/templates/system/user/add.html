@@ -95,7 +95,7 @@
                         <label class="col-xs-2 control-label">岗位：</label>
                         <div class="col-xs-4">
                             <select id="post" class="form-control select2-multiple" multiple>
-								<option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:disabled="${post.status == '1'}"></option>
+								<option th:each="post:${posts}" th:value="${post.id}" th:text="${post.postName}" th:disabled="${post.status == '1'}"></option>
 							</select>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         <label class="col-xs-2 control-label">角色：</label>
                         <div class="col-xs-10">
                             <label th:each="role:${roles}" class="check-box">
-								<input name="role" type="checkbox" th:value="${role.roleId}" th:text="${role.roleName}" th:disabled="${role.status == '1'}">
+								<input name="role" type="checkbox" th:value="${role.id}" th:text="${role.roleName}" th:disabled="${role.status == '1'}">
 							</label>
                         </div>
                     </div>

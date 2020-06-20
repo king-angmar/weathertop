@@ -49,7 +49,7 @@
   <insert id="insertSelective" parameterType="xyz.wongs.weathertop.war3.system.entity.SysMenu" >
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="menuId != null" >
+      <if test="id != null" >
         menu_id,
       </if>
       <if test="menuName != null" >
@@ -96,7 +96,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="menuId != null" >
+      <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
       <if test="menuName != null" >
