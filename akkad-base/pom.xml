@@ -13,7 +13,7 @@
     <modules>
         <module>base-persistence</module>
         <module>base-utils</module>
-        <module>base-utils-non-db</module>
+<!--        <module>base-utils-non-db</module>-->
     </modules>
 
 </project>

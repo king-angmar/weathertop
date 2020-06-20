@@ -10,9 +10,9 @@ public interface LocationMapper extends BaseMapper<Location,Long> {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(Location record);
+    Long insert(Location record);
 
-    int insertSelective(Location record);
+    Long insertSelective(Location record);
 
     Location selectByPrimaryKey(Long id);
 

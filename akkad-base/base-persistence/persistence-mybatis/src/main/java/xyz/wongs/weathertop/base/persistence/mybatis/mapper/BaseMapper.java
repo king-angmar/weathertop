@@ -34,9 +34,9 @@ public interface BaseMapper<T extends BaseEntity,ID extends Serializable> {
 
     int deleteByPrimaryKey(ID id);
 
-    int insert(T t);
+    Long insert(T t);
 
-    int insertSelective(T t);
+    Long insertSelective(T t);
 
     T selectByPrimaryKey(ID id);
 

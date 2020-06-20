@@ -1,7 +1,6 @@
 package xyz.wongs.weathertop.task;
 
 import com.github.pagehelper.PageInfo;
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import xyz.wongs.weathertop.base.BaseTest;
 import xyz.wongs.weathertop.domain.location.entity.Location;
 import xyz.wongs.weathertop.domain.location.service.LocationService;
-import xyz.wongs.weathertop.war3.area.utils.ZoneCodeStringUtils;
-import xyz.wongs.weathertop.war3.area.zonecode.task.ProcessService;
+import xyz.wongs.weathertop.war3.web.utils.ZoneCodeStringUtils;
+import xyz.wongs.weathertop.war3.web.zonecode.task.ProcessService;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;

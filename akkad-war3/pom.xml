@@ -11,7 +11,8 @@
     <artifactId>akkad-war3</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>war3-area</module>
+<!--        <module>war3-area</module>-->
+        <module>war3-web</module>
     </modules>
 
 

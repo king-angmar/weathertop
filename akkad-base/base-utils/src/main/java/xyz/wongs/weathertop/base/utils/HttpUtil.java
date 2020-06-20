@@ -131,37 +131,37 @@ public class HttpUtil {
    * 		该方法仅用于宽带认证系统接口，通过httpClient的方式调用门户部署在202.101.128.200上的工程
    * 		最终调用宽带认证系统开放在外网的webservice服务，该接口使用的客户端类为bdPwdChangeClient
    */
-  public static String respByHttpClient(String paramter,int timeOut,String  url,String methodName) throws Exception{
-
-    String responseMessage="";
-    final HttpClient httpClient = new HttpClient();
-    httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(
-            timeOut);
-    httpClient.getHttpConnectionManager().getParams().setSoTimeout(timeOut);
-    PostMethod postMethod = new PostMethod(url);
-    // 填入各个表单域的值
-    final NameValuePair[] datas = new NameValuePair[3];
-    final NameValuePair methodPair = new NameValuePair("methodName",methodName);
-    final NameValuePair xmlPair = new NameValuePair("reqParams",
-            paramter);
-    final NameValuePair clientNamepair = new NameValuePair("clientName",
-            "bdPwdChangeClient");
-
-    datas[0] = methodPair;
-    datas[1] = xmlPair;
-    datas[2] = clientNamepair;
-    // 将表单的值放入postMethod中
-    postMethod.setRequestBody(datas);
-
-    int  statusCode = httpClient.executeMethod(postMethod);
-    if (statusCode == HttpStatus.SC_OK) {
-      responseMessage =new String(CryptTool.decrypt(CryptTool.base64DecodeToBytes(new String(postMethod.getResponseBody()))));
-    } else {
-      log.error("调用外网接口代理服务错误，返回码:"+statusCode);
-    }
-
-    return responseMessage;
-  }
+//  public static String respByHttpClient(String paramter,int timeOut,String  url,String methodName) throws Exception{
+//
+//    String responseMessage="";
+//    final HttpClient httpClient = new HttpClient();
+//    httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(
+//            timeOut);
+//    httpClient.getHttpConnectionManager().getParams().setSoTimeout(timeOut);
+//    PostMethod postMethod = new PostMethod(url);
+//    // 填入各个表单域的值
+//    final NameValuePair[] datas = new NameValuePair[3];
+//    final NameValuePair methodPair = new NameValuePair("methodName",methodName);
+//    final NameValuePair xmlPair = new NameValuePair("reqParams",
+//            paramter);
+//    final NameValuePair clientNamepair = new NameValuePair("clientName",
+//            "bdPwdChangeClient");
+//
+//    datas[0] = methodPair;
+//    datas[1] = xmlPair;
+//    datas[2] = clientNamepair;
+//    // 将表单的值放入postMethod中
+//    postMethod.setRequestBody(datas);
+//
+//    int  statusCode = httpClient.executeMethod(postMethod);
+//    if (statusCode == HttpStatus.SC_OK) {
+//      responseMessage =new String(CryptTool.decrypt(CryptTool.base64DecodeToBytes(new String(postMethod.getResponseBody()))));
+//    } else {
+//      log.error("调用外网接口代理服务错误，返回码:"+statusCode);
+//    }
+//
+//    return responseMessage;
+//  }
 
 
   /**
