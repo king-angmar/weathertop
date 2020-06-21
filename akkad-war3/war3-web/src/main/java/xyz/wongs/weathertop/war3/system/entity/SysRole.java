@@ -13,7 +13,12 @@ import java.util.Date;
  */
 @Data
 public class SysRole extends BaseEntity<Long> {
-    private static final long serialVersionUID = 159257944261137401L;
+
+    public SysRole(){}
+
+    public SysRole(Long id){
+        this.id = id ;
+    }
     /**
     * 角色ID
     */
@@ -66,5 +71,17 @@ public class SysRole extends BaseEntity<Long> {
     /** 用户是否存在此角色标识 默认不存在 */
     private boolean flag = false;
 
+    /** 部门组（数据权限） */
+    private Long[] deptIds;
+
+    public boolean isAdmin()
+    {
+        return isAdmin(this.id);
+    }
+
+    public static boolean isAdmin(Long roleId)
+    {
+        return roleId != null && 1L == roleId;
+    }
 
 }

@@ -150,4 +150,31 @@
       remark = #{remark,jdbcType=VARCHAR}
     where notice_id = #{id,jdbcType=INTEGER}
   </update>
+
+  <sql id="selectNoticeVo">
+        select notice_id, notice_title, notice_type, notice_content, status, create_by, create_time, update_by, update_time, remark
+		from sys_notice
+    </sql>
+
+  <select id="selectNoticeList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysNotice" resultMap="BaseResultMap">
+    <include refid="selectNoticeVo"/>
+    <where>
+      <if test="noticeTitle != null and noticeTitle != ''">
+        AND notice_title like concat('%', #{noticeTitle}, '%')
+      </if>
+      <if test="noticeType != null and noticeType != ''">
+        AND notice_type = #{noticeType}
+      </if>
+      <if test="createBy != null and createBy != ''">
+        AND create_by like concat('%', #{createBy}, '%')
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteNoticeByIds" parameterType="String">
+    delete from sys_notice where notice_id in
+    <foreach item="noticeId" collection="array" open="(" separator="," close=")">
+      #{noticeId}
+    </foreach>
+  </delete>
 </mapper>

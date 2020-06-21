@@ -3,6 +3,7 @@ package xyz.wongs.weathertop.war3.system.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
 import xyz.wongs.weathertop.base.persistence.mybatis.service.BaseService;
 import xyz.wongs.weathertop.base.utils.StringUtils;
@@ -10,14 +11,8 @@ import xyz.wongs.weathertop.base.utils.security.Md5Utils;
 import xyz.wongs.weathertop.base.utils.text.Convert;
 import xyz.wongs.weathertop.war3.common.constant.UserConstants;
 import xyz.wongs.weathertop.war3.exception.user.BusinessException;
-import xyz.wongs.weathertop.war3.system.entity.SysPost;
-import xyz.wongs.weathertop.war3.system.entity.SysRole;
-import xyz.wongs.weathertop.war3.system.entity.SysUser;
-import xyz.wongs.weathertop.war3.system.entity.SysUserRole;
-import xyz.wongs.weathertop.war3.system.mapper.SysPostMapper;
-import xyz.wongs.weathertop.war3.system.mapper.SysRoleMapper;
-import xyz.wongs.weathertop.war3.system.mapper.SysUserMapper;
-import xyz.wongs.weathertop.war3.system.mapper.SysUserRoleMapper;
+import xyz.wongs.weathertop.war3.system.entity.*;
+import xyz.wongs.weathertop.war3.system.mapper.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +36,49 @@ public class SysUserService extends BaseService<SysUser, Long> {
     private SysConfigService sysConfigService;
 
     @Autowired
-    private SysUserRoleMapper sysUserRoleMapper;
-
-    @Autowired
     private SysRoleMapper sysRoleMapper;
 
     @Autowired
     private SysPostMapper sysPostMapper;
+
+    @Autowired
+    private SysUserPostService sysUserPostService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
+
+    @Transactional(readOnly = false)
+    public Long insertUser(SysUser user) {
+        // 新增用户信息
+        Long id = sysUserMapper.insertSelective(user);
+        user.setId(id);
+        // 新增用户岗位关联
+        sysUserPostService.insertUserPost(user);
+        // 新增用户与角色管理
+        sysUserRoleService.insertUserRole(id, user.getRoleIds());
+        return id;
+    }
+
+
+    /**
+     * 根据条件分页查询未分配用户角色列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUnallocatedList(SysUser user) {
+        return sysUserMapper.selectUnallocatedList(user);
+    }
+
+    /**
+     * 根据条件分页查询已分配用户角色列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectAllocatedList(SysUser user) {
+        return sysUserMapper.selectAllocatedList(user);
+    }
 
     /**
      * 查询用户所属角色组
@@ -91,6 +122,7 @@ public class SysUserService extends BaseService<SysUser, Long> {
      * @param user 用户信息
      * @return 结果
      */
+    @Transactional
     public int changeStatus(SysUser user) {
         return sysUserMapper.update(user);
     }
@@ -101,6 +133,7 @@ public class SysUserService extends BaseService<SysUser, Long> {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
+    @Transactional
     public int deleteUserByIds(String ids) throws BusinessException {
         Long[] userIds = Convert.toLongArray(ids);
         for (Long userId : userIds) {
@@ -115,31 +148,12 @@ public class SysUserService extends BaseService<SysUser, Long> {
      * @param userId  用户ID
      * @param roleIds 角色组
      */
+    @Transactional
     public void insertUserAuth(Long userId, Long[] roleIds) {
-        sysUserRoleMapper.deleteUserRoleByUserId(userId);
-        insertUserRole(userId, roleIds);
+        sysUserRoleService.deleteUserRoleByUserId(userId);
+        sysUserRoleService.insertUserRole(userId, roleIds);
     }
 
-    /**
-     * 新增用户角色信息
-     *
-     * @param user 用户对象
-     */
-    public void insertUserRole(Long userId, Long[] roleIds) {
-        if (StringUtils.isNotNull(roleIds)) {
-            // 新增用户与角色管理
-            List<SysUserRole> list = new ArrayList<SysUserRole>();
-            for (Long roleId : roleIds) {
-                SysUserRole ur = new SysUserRole();
-                ur.setUserId(userId);
-                ur.setRoleId(roleId);
-                list.add(ur);
-            }
-            if (list.size() > 0) {
-                sysUserRoleMapper.batchUserRole(list);
-            }
-        }
-    }
 
     /**
      * 通过用户ID查询用户和角色关联
@@ -157,10 +171,12 @@ public class SysUserService extends BaseService<SysUser, Long> {
      * @param user 用户信息
      * @return 结果
      */
+    @Transactional
     public int resetUserPwd(SysUser user) {
         return updateUserInfo(user);
     }
 
+    @Transactional
     public int updateUserInfo(SysUser user) {
         return sysUserMapper.update(user);
     }
@@ -257,8 +273,10 @@ public class SysUserService extends BaseService<SysUser, Long> {
         return UserConstants.USER_NAME_UNIQUE;
     }
 
+    @Transactional
     public boolean registerUser(SysUser sysUser) {
-        return true;
+        sysUser.setUserType(UserConstants.REGISTER_USER_TYPE);
+        return sysUserMapper.insertSelective(sysUser) > 0;
     }
 
     @Override

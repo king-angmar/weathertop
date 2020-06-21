@@ -185,6 +185,11 @@
 		where dict_type = #{dictType} and dict_value = #{dictValue}
 	</select>
 
+
+  <select id="countDictDataByType" resultType="Integer">
+	    select count(1) from sys_dict_data where dict_type=#{dictType}
+	</select>
+
   <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictData" >
     update sys_dict_data
     set dict_sort = #{dictSort,jdbcType=INTEGER},
@@ -202,6 +207,30 @@
       remark = #{remark,jdbcType=VARCHAR}
     where dict_code = #{id,jdbcType=BIGINT}
   </update>
+
+  <delete id="deleteDictDataByIds" parameterType="String">
+    delete from sys_dict_data where dict_code in
+    <foreach collection="array" item="dictCode" open="(" separator="," close=")">
+      #{dictCode}
+    </foreach>
+  </delete>
+
+  <select id="selectDictDataList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictData" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_data
+    <where>
+      <if test="dictType != null and dictType != ''">
+        AND dict_type = #{dictType}
+      </if>
+      <if test="dictLabel != null and dictLabel != ''">
+        AND dict_label like concat('%', #{dictLabel}, '%')
+      </if>
+      <if test="status != null and status != ''">
+        AND status = #{status}
+      </if>
+    </where>
+  </select>
 
   <select id="selectDictDataByType" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictData" resultMap="BaseResultMap">
     select

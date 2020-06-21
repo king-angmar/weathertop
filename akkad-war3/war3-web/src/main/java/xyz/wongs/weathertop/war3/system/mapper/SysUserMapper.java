@@ -19,6 +19,22 @@ public interface SysUserMapper extends BaseMapper<SysUser,Long> {
 
 
     /**
+     * 根据条件分页查询未分配用户角色列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUnallocatedList(SysUser user);
+
+    /**
+     * 根据条件分页查询未已配用户角色列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    List<SysUser> selectAllocatedList(SysUser user);
+
+    /**
      * 批量删除用户信息
      *
      * @param ids 需要删除的数据ID
@@ -84,13 +100,6 @@ public interface SysUserMapper extends BaseMapper<SysUser,Long> {
      */
     List<SysUser> queryAll(SysUser sysUser);
 
-    /**
-     * 新增数据
-     *
-     * @param sysUser 实例对象
-     * @return 影响行数
-     */
-    Long insert(SysUser sysUser);
 
     /**
      * 修改数据

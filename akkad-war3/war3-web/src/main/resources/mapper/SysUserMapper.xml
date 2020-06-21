@@ -23,6 +23,26 @@
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <association property="dept"    column="dept_id" javaType="xyz.wongs.weathertop.war3.system.entity.SysDept" resultMap="deptResult" />
+        <collection  property="roles"   javaType="java.util.List"   resultMap="RoleResult" />
+    </resultMap>
+
+    <resultMap id="RoleResult" type="xyz.wongs.weathertop.war3.system.entity.SysRole">
+        <id     property="id"       column="role_id"        />
+        <result property="roleName"     column="role_name"      />
+        <result property="roleKey"      column="role_key"       />
+        <result property="roleSort"     column="role_sort"      />
+        <result property="dataScope"    column="data_scope"     />
+        <result property="status"       column="role_status"    />
+    </resultMap>
+
+    <resultMap id="deptResult" type="xyz.wongs.weathertop.war3.system.entity.SysDept">
+        <id     property="id"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"      />
+        <result property="status"   column="dept_status" />
     </resultMap>
 
     <delete id="deleteUserByIds" parameterType="Long">
@@ -31,6 +51,44 @@
             #{userId}
         </foreach>
     </delete>
+
+    <select id="selectByPrimaryKey" resultMap="SysUserMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAllocatedList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUser" resultMap="SysUserMap">
+        select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.status, u.create_time
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where u.del_flag = '0' and r.role_id = #{roleId}
+        <if test="loginName != null and loginName != ''">
+            AND u.login_name like concat('%', #{loginName}, '%')
+        </if>
+        <if test="phoneNumber != null and phoneNumber != ''">
+            AND u.phonenumber like concat('%', #{phoneNumber}, '%')
+        </if>
+    </select>
+
+    <select id="selectUnallocatedList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUser" resultMap="SysUserMap">
+        select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.status, u.create_time
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where u.del_flag = '0' and (r.role_id != #{roleId} or r.role_id IS NULL)
+        and u.user_id not in (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and ur.role_id = #{roleId})
+        <if test="loginName != null and loginName != ''">
+            AND u.login_name like concat('%', #{loginName}, '%')
+        </if>
+        <if test="phoneNumber != null and phoneNumber != ''">
+            AND u.phonenumber like concat('%', #{phoneNumber}, '%')
+        </if>
+    </select>
 
     <select id="selectUserRoleByUserId" parameterType="Long" resultMap="SysUserMap">
 		select user_id, role_id from sys_user_role where user_id = #{userId}
@@ -64,10 +122,9 @@
             AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
         </if>
         <if test="deptId != null and deptId != 0">
-            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+            AND (u.dept_id = #{deptId} OR u.dept_id IN
+            ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
         </if>
-        <!-- 数据范围过滤 -->
-        ${params.dataScope}
     </select>
 
     <sql id="Base_Column_List" >
@@ -75,7 +132,6 @@
         password, salt, status, del_flag, login_ip, login_date, create_by, create_time, update_by,
         update_time, remark
     </sql>
-    <!--查询单个-->
     <select id="queryById" resultMap="SysUserMap">
         select
           user_id, dept_id, login_name, user_name, user_type, email, phonenumber, sex, avatar, password, salt, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark
@@ -160,75 +216,194 @@
         </where>
     </select>
 
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into sys_user(dept_id, login_name, user_name, user_type, email, phonenumber, sex, avatar, password, salt, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
-        values (#{deptId}, #{loginName}, #{userName}, #{userType}, #{email}, #{phoneNumber}, #{sex}, #{avatar}, #{password}, #{salt}, #{status}, #{delFlag}, #{loginIp}, #{loginDate}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{remark})
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUser" >
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                user_id,
+            </if>
+            <if test="deptId != null" >
+                dept_id,
+            </if>
+            <if test="loginName != null" >
+                login_name,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="userType != null" >
+                user_type,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="phoneNumber != null" >
+                phonenumber,
+            </if>
+            <if test="sex != null" >
+                sex,
+            </if>
+            <if test="avatar != null" >
+                avatar,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="salt != null" >
+                salt,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="delFlag != null" >
+                del_flag,
+            </if>
+            <if test="loginIp != null" >
+                login_ip,
+            </if>
+            <if test="loginDate != null" >
+                login_date,
+            </if>
+            <if test="createBy != null" >
+                create_by,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateBy != null" >
+                update_by,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="deptId != null" >
+                #{deptId,jdbcType=BIGINT},
+            </if>
+            <if test="loginName != null" >
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null" >
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null" >
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                #{sex,jdbcType=CHAR},
+            </if>
+            <if test="avatar != null" >
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null" >
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="delFlag != null" >
+                #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="loginIp != null" >
+                #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginDate != null" >
+                #{loginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null" >
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
     </insert>
 
-    <!--通过主键修改数据-->
-    <update id="update">
+    <update id="update" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUser" >
         update sys_user
-        <set>
-            <if test="deptId != null">
-                dept_id = #{deptId},
+        <set >
+            <if test="deptId != null" >
+                dept_id = #{deptId,jdbcType=BIGINT},
             </if>
-            <if test="loginName != null and loginName != ''">
-                login_name = #{loginName},
+            <if test="loginName != null" >
+                login_name = #{loginName,jdbcType=VARCHAR},
             </if>
-            <if test="userName != null and userName != ''">
-                user_name = #{userName},
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
             </if>
-            <if test="userType != null and userType != ''">
-                user_type = #{userType},
+            <if test="userType != null" >
+                user_type = #{userType,jdbcType=VARCHAR},
             </if>
-            <if test="email != null and email != ''">
-                email = #{email},
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
             </if>
-            <if test="phoneNumber != null and phoneNumber != ''">
-                phonenumber = #{phoneNumber},
+            <if test="phoneNumber != null" >
+                phonenumber = #{phoneNumber,jdbcType=VARCHAR},
             </if>
-            <if test="sex != null and sex != ''">
-                sex = #{sex},
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=CHAR},
             </if>
-            <if test="avatar != null and avatar != ''">
-                avatar = #{avatar},
+            <if test="avatar != null" >
+                avatar = #{avatar,jdbcType=VARCHAR},
             </if>
-            <if test="password != null and password != ''">
-                password = #{password},
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="salt != null and salt != ''">
-                salt = #{salt},
+            <if test="salt != null" >
+                salt = #{salt,jdbcType=VARCHAR},
             </if>
-            <if test="status != null and status != ''">
-                status = #{status},
+            <if test="status != null" >
+                status = #{status,jdbcType=CHAR},
             </if>
-            <if test="delFlag != null and delFlag != ''">
-                del_flag = #{delFlag},
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
             </if>
-            <if test="loginIp != null and loginIp != ''">
-                login_ip = #{loginIp},
+            <if test="loginIp != null" >
+                login_ip = #{loginIp,jdbcType=VARCHAR},
             </if>
-            <if test="loginDate != null">
-                login_date = #{loginDate},
+            <if test="loginDate != null" >
+                login_date = #{loginDate,jdbcType=TIMESTAMP},
             </if>
-            <if test="createBy != null and createBy != ''">
-                create_by = #{createBy},
+            <if test="createBy != null" >
+                create_by = #{createBy,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="updateBy != null and updateBy != ''">
-                update_by = #{updateBy},
+            <if test="updateBy != null" >
+                update_by = #{updateBy,jdbcType=VARCHAR},
             </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime},
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="remark != null and remark != ''">
-                remark = #{remark},
-            </if>
+            update_time = sysdate()
         </set>
-        where user_id = #{id)
+        where user_id = #{id,jdbcType=BIGINT}
     </update>
 
     <!--通过主键删除-->

@@ -25,6 +25,39 @@
     from sys_user_online
     where user_online_id = #{id,jdbcType=BIGINT}
   </select>
+
+  <delete id="deleteOnlineBySessionId" parameterType="String">
+ 		delete from sys_user_online where sessionId = #{sessionId}
+ 	</delete>
+
+  <delete id="deleteOnlineBySessionIds" parameterType="String">
+    delete from sys_user_online where sessionId in
+    <foreach collection="array" item="sessionId" open="(" separator="," close=")">
+      #{sessionId}
+    </foreach>
+  </delete>
+
+  <select id="selectOnlineBySessionId" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user_online
+    where sessionid = #{sessionId}
+  </select>
+
+  <select id="selectUserOnlineList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUserOnline" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user_online
+    <where>
+      <if test="ipaddr != null and ipaddr != ''">
+        AND ipaddr like concat('%', #{ipaddr}, '%')
+      </if>
+      <if test="loginName != null and loginName != ''">
+        AND login_name like concat('%', #{loginName}, '%')
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sys_user_online
     where user_online_id = #{id,jdbcType=BIGINT}

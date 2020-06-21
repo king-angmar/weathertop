@@ -127,6 +127,55 @@
     </set>
     where dict_id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectDictTypeList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_type
+    <where>
+      <if test="dictName != null and dictName != ''">
+        AND dict_name like concat('%', #{dictName}, '%')
+      </if>
+      <if test="status != null and status != ''">
+        AND status = #{status}
+      </if>
+      <if test="dictType != null and dictType != ''">
+        AND dict_type like concat('%', #{dictType}, '%')
+      </if>
+      <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+      </if>
+      <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+      </if>
+    </where>
+  </select>
+
+  <select id="checkDictTypeUnique" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_type
+    where dict_type = #{dictType}
+  </select>
+
+  <update id="updateDictDataType" parameterType="String">
+ 		update sys_dict_data set dict_type = #{newDictType} where dict_type = #{oldDictType}
+	</update>
+
+  <delete id="deleteDictTypeByIds" parameterType="Long">
+    delete from sys_dict_type where dict_id in
+    <foreach collection="array" item="dictId" open="(" separator="," close=")">
+      #{dictId}
+    </foreach>
+  </delete>
+
+  <select id="selectDictTypeByType" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_type
+    where dict_type = #{dictType}
+  </select>
+
   <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.war3.system.entity.SysDictType" >
     update sys_dict_type
     set dict_name = #{dictName,jdbcType=VARCHAR},

@@ -23,7 +23,7 @@ import xyz.wongs.weathertop.war3.common.utils.ShiroUtils;
  * @Version 1.0.0
 */
 @Controller
-public class IndexController extends BaseController {
+public class SysIndexController extends BaseController {
     @Autowired
     private SysMenuService sysMenuService;
 

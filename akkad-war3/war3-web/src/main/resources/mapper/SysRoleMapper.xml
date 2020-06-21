@@ -19,6 +19,7 @@
     role_id, role_name, role_key, role_sort, data_scope, status, del_flag, create_by, 
     create_time, update_by, update_time, remark
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -160,13 +161,31 @@
     where role_id = #{id,jdbcType=BIGINT}
   </update>
 
+  <delete id="deleteRoleByIds" parameterType="Long">
+    update sys_role set del_flag = '2' where role_id in
+    <foreach collection="array" item="roleId" open="(" separator="," close=")">
+      #{roleId}
+    </foreach>
+  </delete>
+
   <select id="selectRolesByUserId" parameterType="Long" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sys_role
+    <include refid="selectRoleContactVo" />
     WHERE r.del_flag = '0' and ur.user_id = #{userId}
   </select>
 
+  <select id="checkRoleNameUnique" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    where role_name=#{roleName}
+  </select>
+
+  <select id="checkRoleKeyUnique" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    where role_key=#{roleKey}
+  </select>
 
   <sql id="selectRoleContactVo">
         select distinct r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope,

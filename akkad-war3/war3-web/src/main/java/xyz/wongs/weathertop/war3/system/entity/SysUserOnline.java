@@ -2,6 +2,7 @@ package xyz.wongs.weathertop.war3.system.entity;
 
 import lombok.Data;
 import xyz.wongs.weathertop.base.persistence.mybatis.entity.BaseEntity;
+import xyz.wongs.weathertop.war3.common.enums.OnlineStatus;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -48,7 +49,7 @@ public class SysUserOnline extends BaseEntity<Long> {
     /**
     * 在线状态on_line在线off_line离线
     */
-    private String status;
+    private OnlineStatus status = OnlineStatus.on_line;
     /**
     * session创建时间
     */

@@ -17,6 +17,8 @@ import xyz.wongs.weathertop.war3.system.entity.SysUserOnline;
 import xyz.wongs.weathertop.war3.system.service.SysLoginInfoService;
 import xyz.wongs.weathertop.war3.system.service.SysOperLogService;
 import xyz.wongs.weathertop.war3.system.service.SysUserOnlineService;
+
+import java.util.Date;
 import java.util.TimerTask;
 
 /**
@@ -51,7 +53,7 @@ public class AsyncFactory {
                 online.setLoginLocation(AddressUtils.getRealAddressByIP(session.getHost()));
                 online.setBrowser(session.getBrowser());
                 online.setOs(session.getOs());
-                online.setStatus(session.getStatus().getInfo());
+                online.setStatus(session.getStatus());
                 SpringContextHolder.getBean(SysUserOnlineService.class).insert(online);
 
             }
@@ -111,6 +113,7 @@ public class AsyncFactory {
                 sysLoginInfo.setBrowser(browser);
                 sysLoginInfo.setOs(os);
                 sysLoginInfo.setMsg(message);
+                sysLoginInfo.setLoginTime(new Date());
                 // 日志状态
                 if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
                     sysLoginInfo.setStatus(Constants.SUCCESS);

@@ -35,4 +35,28 @@ public interface SysRoleMapper extends BaseMapper<SysRole,Long> {
      * @return 角色列表
      */
     public List<SysRole> selectRolesByUserId(Long userId);
+
+    /**
+     * 批量角色用户信息
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    int deleteRoleByIds(Long[] ids);
+
+    /**
+     * 校验角色名称是否唯一
+     *
+     * @param roleName 角色名称
+     * @return 角色信息
+     */
+    SysRole checkRoleNameUnique(String roleName);
+
+    /**
+     * 校验角色权限是否唯一
+     *
+     * @param roleKey 角色权限
+     * @return 角色信息
+     */
+    SysRole checkRoleKeyUnique(String roleKey);
 }

@@ -51,16 +51,20 @@ public abstract class BaseService<T extends BaseEntity,ID extends Serializable> 
     @Transactional(readOnly = false)
     @Override
     public Long insert(T t) {
-        Long id = Long.valueOf(redisUidService.generate(t.getClass().getSimpleName().toUpperCase()));
+        Long id = getPrimaryKey(t);
         t.setId(id);
         getMapper().insert(t);
         return id;
     }
 
+    public Long getPrimaryKey(T t){
+        return Long.valueOf(redisUidService.generate(t.getClass().getSimpleName().toUpperCase()));
+    }
+
     @Transactional(readOnly = false)
     @Override
     public Long insertSelective(T t) {
-        Long id = Long.valueOf(redisUidService.generate(t.getClass().getSimpleName().toUpperCase()));
+        Long id = getPrimaryKey(t);
         t.setId(id);
         getMapper().insertSelective(t);
         return id;

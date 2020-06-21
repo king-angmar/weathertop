@@ -104,6 +104,45 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectPostList" parameterType="xyz.wongs.weathertop.war3.system.entity.SysPost" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_post
+    <where>
+      <if test="postCode != null and postCode != ''">
+        AND post_code like concat('%', #{postCode}, '%')
+      </if>
+      <if test="status != null and status != ''">
+        AND status = #{status}
+      </if>
+      <if test="postName != null and postName != ''">
+        AND post_name like concat('%', #{postName}, '%')
+      </if>
+    </where>
+  </select>
+
+  <delete id="deletePostByIds" parameterType="Long">
+    delete from sys_post where post_id in
+    <foreach collection="array" item="postId" open="(" separator="," close=")">
+      #{postId}
+    </foreach>
+  </delete>
+
+  <select id="checkPostNameUnique" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_post
+    where post_name=#{postName}
+  </select>
+
+  <select id="checkPostCodeUnique" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_post
+    where post_code=#{postCode}
+  </select>
+
   <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.war3.system.entity.SysPost" >
     update sys_post
     <set >

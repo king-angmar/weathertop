@@ -126,7 +126,7 @@ public class SysUserController extends AbsController {
         user.setSalt(ShiroUtils.randomSalt());
         user.setPassword(sysPasswordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
         user.setCreateBy(ShiroUtils.getLoginName());
-        return toAjax(Integer.parseInt(sysUserService.insert(user).toString()));
+        return toAjax(Integer.parseInt(sysUserService.insertUser(user).toString()));
     }
 
     /**

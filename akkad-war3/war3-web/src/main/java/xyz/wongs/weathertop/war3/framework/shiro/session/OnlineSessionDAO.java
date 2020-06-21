@@ -14,9 +14,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 针对自定义的ShiroSession的db操作
- *
- * @author ruoyi
+ * @author WCNGS@QQ.COM
+ * @ClassName OnlineSessionDAO
+ * @Description 针对自定义的ShiroSession的db操作
+ * @Github <a>https://github.com/rothschil</a>
+ * @date 2020/6/20 23:20
+ * @Version 1.0.0
  */
 public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
     /**

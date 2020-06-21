@@ -46,6 +46,7 @@
         <shiro.version>1.4.2</shiro.version>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
         <poi.version>3.17</poi.version>
+        <oshi.version>3.9.1</oshi.version>
     </properties>
 
     <dependencies>
@@ -58,6 +59,13 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
             <!-- excel工具 -->
             <dependency>
                 <groupId>org.apache.poi</groupId>
