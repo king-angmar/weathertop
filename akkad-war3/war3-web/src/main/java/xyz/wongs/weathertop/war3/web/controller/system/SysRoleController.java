@@ -18,6 +18,7 @@ import xyz.wongs.weathertop.war3.system.entity.SysRole;
 import xyz.wongs.weathertop.war3.system.entity.SysUser;
 import xyz.wongs.weathertop.war3.system.entity.SysUserRole;
 import xyz.wongs.weathertop.war3.system.service.SysRoleService;
+import xyz.wongs.weathertop.war3.system.service.SysUserRoleService;
 import xyz.wongs.weathertop.war3.system.service.SysUserService;
 import xyz.wongs.weathertop.war3.web.controller.base.AbsController;
 
@@ -39,6 +40,9 @@ public class SysRoleController extends AbsController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     @RequiresPermissions("system:role:view")
     @GetMapping()
@@ -266,6 +270,6 @@ public class SysRoleController extends AbsController {
     @PostMapping("/authUser/selectAll")
     @ResponseBody
     public AjaxResult selectAuthUserAll(Long roleId, String userIds) {
-        return toAjax(sysRoleService.insertAuthUsers(roleId, userIds));
+        return toAjax(sysUserRoleService.insertAuthUsers(roleId, userIds));
     }
 }

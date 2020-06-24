@@ -155,7 +155,7 @@ public class SysUserController extends AbsController {
             return error("修改用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         user.setUpdateBy(ShiroUtils.getLoginName());
-        return toAjax(sysUserService.updateByPrimaryKey(user));
+        return toAjax(sysUserService.updateUser(user));
     }
 
     @RequiresPermissions("system:user:resetPwd")

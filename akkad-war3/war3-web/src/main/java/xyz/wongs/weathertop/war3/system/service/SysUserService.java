@@ -11,10 +11,14 @@ import xyz.wongs.weathertop.base.utils.security.Md5Utils;
 import xyz.wongs.weathertop.base.utils.text.Convert;
 import xyz.wongs.weathertop.war3.common.constant.UserConstants;
 import xyz.wongs.weathertop.war3.exception.user.BusinessException;
-import xyz.wongs.weathertop.war3.system.entity.*;
-import xyz.wongs.weathertop.war3.system.mapper.*;
+import xyz.wongs.weathertop.war3.system.entity.SysPost;
+import xyz.wongs.weathertop.war3.system.entity.SysRole;
+import xyz.wongs.weathertop.war3.system.entity.SysUser;
+import xyz.wongs.weathertop.war3.system.entity.SysUserRole;
+import xyz.wongs.weathertop.war3.system.mapper.SysPostMapper;
+import xyz.wongs.weathertop.war3.system.mapper.SysRoleMapper;
+import xyz.wongs.weathertop.war3.system.mapper.SysUserMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +63,21 @@ public class SysUserService extends BaseService<SysUser, Long> {
         return id;
     }
 
+    @Transactional(readOnly = false)
+    public int updateUser(SysUser user) {
+        int i = 1;
+        try {
+            // 新增用户信息
+            sysUserMapper.updateByPrimaryKey(user);
+            // 删除用户岗位关系，新增用户岗位关联
+            sysUserPostService.updateUserPost(user);
+            // 删除用户角色关系，新增用户与角色管理
+            sysUserRoleService.updateUserRole(user);
+        } catch (Exception e) {
+            i = 0;
+        }
+        return i;
+    }
 
     /**
      * 根据条件分页查询未分配用户角色列表

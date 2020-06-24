@@ -66,7 +66,7 @@
 		            checkbox: true
 		        },
 		        {
-		            field: 'userId',
+		            field: 'id',
 		            title: '用户ID',
 		            visible: false
 		        },
@@ -84,7 +84,7 @@
 		            title: '邮箱'
 		        },
 		        {
-		            field: 'phonenumber',
+		            field: 'phoneNumber',
 		            title: '手机'
 		        },
 		        {
@@ -105,7 +105,7 @@
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		                var actions = [];
-		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="cancelAuthUser(\'' + row.userId + '\')"><i class="fa fa-remove"></i>取消授权</a> ');
+		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="cancelAuthUser(\'' + row.id + '\')"><i class="fa fa-remove"></i>取消授权</a> ');
 		                return actions.join('');
 		            }
 		        }]

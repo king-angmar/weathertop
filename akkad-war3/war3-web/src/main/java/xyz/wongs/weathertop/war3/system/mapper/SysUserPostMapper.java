@@ -37,4 +37,12 @@ public interface SysUserPostMapper extends BaseMapper<SysUserPost,Long> {
      * @return 结果
      */
     int countUserPostById(Long postId);
+
+    /**
+     * 通过岗位ID查询岗位使用数量
+     *
+     * @param postId 岗位ID
+     * @return 结果
+     */
+    int deleteUserPostByUserId(Long userId);
 }

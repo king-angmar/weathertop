@@ -438,10 +438,52 @@
     </select>
 
     <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUser" >
-    update sys_user
-    set
-      login_ip = #{loginIp,jdbcType=VARCHAR},
-      login_date = #{loginDate,jdbcType=TIMESTAMP}
-    where user_id = #{id,jdbcType=BIGINT}
-  </update>
+        update sys_user
+        <set >
+            <if test="deptId != null" >
+                dept_id = #{deptId,jdbcType=BIGINT},
+            </if>
+            <if test="loginName != null" >
+                login_name = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null" >
+                phonenumber = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=CHAR},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null" >
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="loginIp != null" >
+                login_ip = #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginDate != null" >
+                login_date = #{loginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            update_time = sysdate()
+        </set>
+        where user_id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

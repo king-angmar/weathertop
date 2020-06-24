@@ -25,6 +25,12 @@ public class SysUserPostService extends BaseService<SysUserPost, Long> {
         return sysUserPostMapper;
     }
 
+
+    @Transactional
+    public void updateUserPost(SysUser user) {
+        sysUserPostMapper.deleteUserPostByUserId(user.getId());
+        insertUserPost(user);
+    }
     /**
      * 新增用户岗位信息
      *

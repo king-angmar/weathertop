@@ -42,25 +42,6 @@ public class SysRoleService extends BaseService<SysRole, Long> {
     @Autowired
     private SysRoleDeptMapper sysRoleDeptMapper;
 
-    /**
-     * 批量选择授权用户角色
-     *
-     * @param roleId  角色ID
-     * @param userIds 需要删除的用户数据ID
-     * @return 结果
-     */
-    public int insertAuthUsers(Long roleId, String userIds) {
-        Long[] users = Convert.toLongArray(userIds);
-        // 新增用户与角色管理
-        List<SysUserRole> list = new ArrayList<SysUserRole>();
-        for (Long userId : users) {
-            SysUserRole ur = new SysUserRole();
-            ur.setUserId(userId);
-            ur.setRoleId(roleId);
-            list.add(ur);
-        }
-        return sysUserRoleMapper.batchUserRole(list);
-    }
 
     /**
      * 取消授权用户角色
@@ -68,6 +49,7 @@ public class SysRoleService extends BaseService<SysRole, Long> {
      * @param userRole 用户和角色关联信息
      * @return 结果
      */
+    @Transactional
     public int deleteAuthUser(SysUserRole userRole) {
         return sysUserRoleMapper.deleteUserRoleInfo(userRole);
     }
@@ -169,6 +151,7 @@ public class SysRoleService extends BaseService<SysRole, Long> {
      * @param userIds 需要删除的用户数据ID
      * @return 结果
      */
+    @Transactional
     public int deleteAuthUsers(Long roleId, String userIds) {
         return sysUserRoleMapper.deleteUserRoleInfos(roleId, Convert.toLongArray(userIds));
     }
