@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xyz.wongs.weathertop.war3.system.mapper.SysConfigMapper" >
     <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.war3.system.entity.SysConfig" >
-        <id column="config_id" property="id" jdbcType="INTEGER" />
+        <id column="config_id" property="id" jdbcType="BIGINT" />
         <result column="config_name" property="configName" jdbcType="VARCHAR" />
         <result column="config_key" property="configKey" jdbcType="VARCHAR" />
         <result column="config_value" property="configValue" jdbcType="VARCHAR" />
@@ -17,22 +17,22 @@
     config_id, config_name, config_key, config_value, config_type, create_by, create_time,
     update_by, update_time, remark
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
         select
         <include refid="Base_Column_List" />
         from sys_config
-        where config_id = #{id,jdbcType=INTEGER}
+        where config_id = #{id,jdbcType=BIGINT}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sys_config
-    where config_id = #{id,jdbcType=INTEGER}
+    where config_id = #{id,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="xyz.wongs.weathertop.war3.system.entity.SysConfig" >
     insert into sys_config (config_id, config_name, config_key,
       config_value, config_type, create_by,
       create_time, update_by, update_time,
       remark)
-    values (#{id,jdbcType=INTEGER}, #{configName,jdbcType=VARCHAR}, #{configKey,jdbcType=VARCHAR},
+    values (#{id,jdbcType=BIGINT}, #{configName,jdbcType=VARCHAR}, #{configKey,jdbcType=VARCHAR},
       #{configValue,jdbcType=VARCHAR}, #{configType,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
       #{remark,jdbcType=VARCHAR})
@@ -73,7 +73,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
-                #{id,jdbcType=INTEGER},
+                #{id,jdbcType=BIGINT},
             </if>
             <if test="configName != null" >
                 #{configName,jdbcType=VARCHAR},
@@ -135,7 +135,7 @@
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
         </set>
-        where config_id = #{id,jdbcType=INTEGER}
+        where config_id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.war3.system.entity.SysConfig" >
     update sys_config
@@ -148,13 +148,13 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
-    where config_id = #{id,jdbcType=INTEGER}
+    where config_id = #{id,jdbcType=BIGINT}
   </update>
 
     <sql id="sqlwhereSearch">
         <where>
             <if test="id !=null">
-                and config_id = #{id}
+                and config_id = #{id,jdbcType=BIGINT}
             </if>
             <if test="configKey !=null and configKey != ''">
                 and config_key = #{configKey}

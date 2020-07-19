@@ -34,15 +34,15 @@ public interface SysUserOnlineMapper extends BaseMapper<SysUserOnline,Long> {
      * @param sessionId 会话ID
      * @return 在线用户信息
      */
-    SysUserOnline selectOnlineBySessionId(String sessionId);
+    List<SysUserOnline> selectOnlineBySessionId(String sessionId);
 
-    int deleteByPrimaryKey(Long userOnlineId);
+    int deleteByPrimaryKey(String sessionId);
 
     Long insert(SysUserOnline record);
 
     Long insertSelective(SysUserOnline record);
 
-    SysUserOnline selectByPrimaryKey(Long userOnlineId);
+    SysUserOnline selectByPrimaryKey(String userOnlineId);
 
     int updateByPrimaryKeySelective(SysUserOnline record);
 

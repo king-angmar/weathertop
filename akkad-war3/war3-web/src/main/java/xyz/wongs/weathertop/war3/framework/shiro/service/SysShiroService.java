@@ -9,6 +9,7 @@ import xyz.wongs.weathertop.war3.system.entity.SysUserOnline;
 import xyz.wongs.weathertop.war3.system.service.SysUserOnlineService;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 会话db操作处理
@@ -36,8 +37,11 @@ public class SysShiroService {
      * @return
      */
     public Session getSession(Serializable sessionId) {
-        SysUserOnline userOnline = sysUserOnlineService.selectOnlineBySessionId(String.valueOf(sessionId));
-        return StringUtils.isNull(userOnline) ? null : createSession(userOnline);
+        List<SysUserOnline> userOnline = sysUserOnlineService.selectOnlineBySessionId(String.valueOf(sessionId));
+        if(userOnline.isEmpty()){
+            return null;
+        }
+        return StringUtils.isNull(userOnline) ? null : createSession(userOnline.get(0));
     }
 
     public Session createSession(SysUserOnline userOnline) {

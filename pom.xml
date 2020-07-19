@@ -10,8 +10,8 @@
 
         <module>akkad-base</module>
 <!--        <module>akkad-cloud</module>
-        <module>akkad-apache</module>
-        <module>akkad-springboot</module>-->
+        <module>akkad-apache</module>-->
+        <module>akkad-springboot</module>
         <module>akkad-war3</module>
     </modules>
 

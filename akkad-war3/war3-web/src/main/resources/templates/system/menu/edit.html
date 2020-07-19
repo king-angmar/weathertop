@@ -6,7 +6,7 @@
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-menu-edit" th:object="${menu}">
-			<input name="menuId"   type="hidden" th:field="*{menuId}"   />
+			<input name="menuId"   type="hidden" th:field="*{id}"   />
 			<input id="treeId" name="parentId" type="hidden" th:field="*{parentId}" />
 			<div class="form-group">
 				<label class="col-sm-3 control-label">上级菜单：</label>

@@ -66,11 +66,11 @@ public class SysUserOnlineController extends AbsController {
     @ResponseBody
     public AjaxResult batchForceLogout(String ids) {
         for (String sessionId : Convert.toStrArray(ids)) {
-            SysUserOnline online = sysUserOnlineService.selectOnlineBySessionId(sessionId);
-            if (online == null) {
+            List<SysUserOnline> onlines = sysUserOnlineService.selectOnlineBySessionId(sessionId);
+            if (onlines.isEmpty()) {
                 return error("用户已下线");
             }
-            OnlineSession onlineSession = (OnlineSession) onlineSessionDAO.readSession(online.getSessionId());
+            OnlineSession onlineSession = (OnlineSession) onlineSessionDAO.readSession(onlines.get(0).getSessionId());
             if (onlineSession == null) {
                 return error("用户已下线");
             }
@@ -79,8 +79,8 @@ public class SysUserOnlineController extends AbsController {
             }
             onlineSession.setStatus(OnlineStatus.off_line);
             onlineSessionDAO.update(onlineSession);
-            online.setStatus(OnlineStatus.off_line);
-            sysUserOnlineService.insert(online);
+            onlines.get(0).setStatus(OnlineStatus.off_line);
+            sysUserOnlineService.insert(onlines.get(0));
         }
         return success();
     }

@@ -6,7 +6,7 @@
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-config-edit" th:object="${config}">
-            <input id="configId" name="configId" th:field="*{configId}"  type="hidden">
+            <input id="configId" name="configId" th:field="*{id}"  type="hidden">
             <div class="form-group">	
                 <label class="col-sm-3 control-label is-required">参数名称：</label>
                 <div class="col-sm-8">
@@ -55,7 +55,7 @@
 	                    type: "post",
 	                    dataType: "json",
 	                    data: {
-	                        "configId": function() {
+	                        "id": function() {
 	                        	return $("#configId").val();
 	                        },
 	                        "configKey": function() {

@@ -25,13 +25,13 @@ public interface SysConfigMapper extends BaseMapper<SysConfig,Long> {
      */
     SysConfig checkConfigKeyUnique(String configKey);
 
-    int deleteByPrimaryKey(Integer configId);
+    int deleteByPrimaryKey(Long configId);
 
     Long insert(SysConfig record);
 
     Long insertSelective(SysConfig record);
 
-    SysConfig selectByPrimaryKey(Integer configId);
+    SysConfig selectByPrimaryKey(Long configId);
 
     int updateByPrimaryKeySelective(SysConfig record);
 

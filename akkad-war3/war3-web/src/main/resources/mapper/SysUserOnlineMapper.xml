@@ -14,16 +14,17 @@
     <result column="start_timestamp" property="startTimestamp" jdbcType="TIMESTAMP" />
     <result column="last_access_time" property="lastAccessTime" jdbcType="TIMESTAMP" />
     <result column="expire_time" property="expireTime" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     user_online_id, sessionId, login_name, dept_name, ipaddr, login_location, browser, 
     os, status, start_timestamp, last_access_time, expire_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sys_user_online
-    where user_online_id = #{id,jdbcType=BIGINT}
+    where sessionId = #{sessionId,jdbcType=VARCHAR}
   </select>
 
   <delete id="deleteOnlineBySessionId" parameterType="String">
@@ -63,16 +64,21 @@
     where user_online_id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUserOnline" >
-    insert into sys_user_online (user_online_id, sessionId, login_name, 
-      dept_name, ipaddr, login_location, 
-      browser, os, status, 
+    <selectKey keyProperty="count" resultType="int" order="BEFORE">
+      select count(*) from sys_user_online where sessionId = #{sessionId,jdbcType=VARCHAR}
+    </selectKey>
+    <if test="count == null and count==0">
+      insert into sys_user_online (user_online_id, sessionId, login_name,
+      dept_name, ipaddr, login_location,
+      browser, os, status,
       start_timestamp, last_access_time, expire_time
       )
-    values (#{id,jdbcType=BIGINT}, #{sessionId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR},
-      #{deptName,jdbcType=VARCHAR}, #{ipaddr,jdbcType=VARCHAR}, #{loginLocation,jdbcType=VARCHAR}, 
-      #{browser,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      values (#{id,jdbcType=BIGINT}, #{sessionId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR},
+      #{deptName,jdbcType=VARCHAR}, #{ipaddr,jdbcType=VARCHAR}, #{loginLocation,jdbcType=VARCHAR},
+      #{browser,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
       #{startTimestamp,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=INTEGER}
       )
+    </if>
   </insert>
   <insert id="insertSelective" parameterType="xyz.wongs.weathertop.war3.system.entity.SysUserOnline" >
     insert into sys_user_online

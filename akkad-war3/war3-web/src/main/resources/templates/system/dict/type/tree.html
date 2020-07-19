@@ -10,7 +10,7 @@
 </style>
 <body class="hold-transition box box-main">
 	<input id="columnId" type="hidden" th:value="${columnId}"/>
-	<input id="treeId"   type="hidden" th:value="${dict?.dictId}"/>
+	<input id="treeId"   type="hidden" th:value="${dict?.id}"/>
 	<input id="dictType" type="hidden" th:value="${dict?.dictType}"/>
 	<div class="wrapper"><div class="treeShowHideButton" onclick="$.tree.toggleSearch();">
 		<label id="btnShow" title="显示搜索" style="display:none;">︾</label>

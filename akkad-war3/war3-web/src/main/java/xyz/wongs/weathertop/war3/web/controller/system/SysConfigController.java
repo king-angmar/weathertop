@@ -88,9 +88,9 @@ public class SysConfigController extends AbsController {
     /**
      * 修改参数配置
      */
-    @GetMapping("/edit/{configId}")
-    public String edit(@PathVariable("configId") Long configId, ModelMap mmap) {
-        mmap.put("config", sysConfigService.selectByPrimaryKey(configId));
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
+        mmap.put("config", sysConfigService.selectByPrimaryKey(id));
         return prefix + "/edit";
     }
 

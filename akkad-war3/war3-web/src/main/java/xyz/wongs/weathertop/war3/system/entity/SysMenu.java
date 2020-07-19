@@ -15,6 +15,9 @@ public class SysMenu extends BaseEntity<Long> {
 
     private String menuName;
 
+    /** 父菜单名称 */
+    private String parentName;
+
     private Long parentId;
 
     private Integer orderNum;

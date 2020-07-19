@@ -5,13 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.wongs.weathertop.base.persistence.mybatis.mapper.BaseMapper;
 import xyz.wongs.weathertop.base.persistence.mybatis.service.BaseService;
-import xyz.wongs.weathertop.base.utils.StringUtils;
 import xyz.wongs.weathertop.war3.system.entity.SysUserOnline;
 import xyz.wongs.weathertop.war3.system.mapper.SysUserOnlineMapper;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -29,10 +26,21 @@ public class SysUserOnlineService extends BaseService<SysUserOnline, Long> {
      */
     @Transactional(readOnly = false)
     public void deleteOnlineBySessionId(String sessionId) {
-        SysUserOnline userOnline = selectOnlineBySessionId(sessionId);
-        if (StringUtils.isNotNull(userOnline)) {
-            sysUserOnlineMapper.deleteOnlineBySessionId(sessionId);
+        List<SysUserOnline> userOnlines = selectOnlineBySessionId(sessionId);
+        if (!userOnlines.isEmpty()) {
+//            sysUserOnlineMapper.deleteOnlineBySessionId(sessionId);
+            List<String> sessionIds = getSeesionId(userOnlines);
+            batchDeleteOnline(sessionIds);
         }
+    }
+
+    public List<String> getSeesionId(List<SysUserOnline> userOnlines){
+        List<String> list = new ArrayList<String>(userOnlines.size());
+        Iterator<SysUserOnline> iterator = userOnlines.iterator();
+        while (iterator.hasNext()) {
+            list.add(iterator.next().getSessionId());
+        }
+        return list;
     }
     /**
      * 查询会话集合
@@ -43,7 +51,7 @@ public class SysUserOnlineService extends BaseService<SysUserOnline, Long> {
         return sysUserOnlineMapper.selectUserOnlineList(userOnline);
     }
 
-    public SysUserOnline selectOnlineBySessionId(String sessionId) {
+    public List<SysUserOnline> selectOnlineBySessionId(String sessionId) {
         return sysUserOnlineMapper.selectOnlineBySessionId(sessionId);
     }
 

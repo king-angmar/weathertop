@@ -227,8 +227,11 @@
 
   <select id="selectMenuListByUserId" parameterType="xyz.wongs.weathertop.war3.system.entity.SysMenu" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from sys_menu
+
+    m.menu_id, m.menu_name, m.parent_id, m.order_num, m.url, m.target, m.menu_type, m.visible, m.perms,
+    m.icon, m.create_by, m.create_time, m.update_by, m.update_time,m.remark
+
+    from sys_menu m
     left join sys_role_menu rm on m.menu_id = rm.menu_id
     left join sys_user_role ur on rm.role_id = ur.role_id
     LEFT JOIN sys_role ro on ur.role_id = ro.role_id

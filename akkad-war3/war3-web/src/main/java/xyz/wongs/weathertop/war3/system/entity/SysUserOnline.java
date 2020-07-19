@@ -15,7 +15,6 @@ import java.io.Serializable;
  */
 @Data
 public class SysUserOnline extends BaseEntity<Long> {
-    private static final long serialVersionUID = 720127322756933605L;
 
     private Long id;
     /**
@@ -62,5 +61,7 @@ public class SysUserOnline extends BaseEntity<Long> {
     * 超时时间，单位为分钟
     */
     private Long expireTime;
+
+    private int count;
 
 }

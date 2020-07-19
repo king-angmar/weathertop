@@ -6,7 +6,7 @@
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-dept-edit" th:object="${dept}">
-			<input name="deptId" type="hidden" th:field="*{deptId}" />
+			<input name="deptId" type="hidden" th:field="*{id}" />
 			<input id="treeId" name="parentId" type="hidden" th:field="*{parentId}" />
 			<div class="form-group">
 				<label class="col-sm-3 control-label">上级部门：</label>
@@ -71,7 +71,7 @@
 		                type: "post",
 		                dataType: "json",
 		                data: {
-		                	"deptId": function() {
+		                	"id": function() {
 		                        return $("#deptId").val();
 		                    },
 		                    "parentId": function() {
