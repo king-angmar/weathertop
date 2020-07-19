@@ -17,6 +17,7 @@
         <module>springboot-mq</module>
         <module>springboot-elasticsearch</module>
         <module>springboot-dist-lock</module>
+        <module>springboot-nosql</module>
     </modules>
 
 

@@ -8,9 +8,9 @@ public interface TLockMapper extends BaseMapper<TLock,Integer> {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(TLock record);
+    Long insert(TLock record);
 
-    int insertSelective(TLock record);
+    Long insertSelective(TLock record);
 
     TLock selectByPrimaryKey(Integer id);
 

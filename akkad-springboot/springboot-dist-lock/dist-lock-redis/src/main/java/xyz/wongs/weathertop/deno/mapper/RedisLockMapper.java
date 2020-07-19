@@ -6,9 +6,9 @@ import xyz.wongs.weathertop.deno.entity.RedisLock;
 public interface RedisLockMapper extends BaseMapper<RedisLock,Integer> {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(RedisLock record);
+    Long insert(RedisLock record);
 
-    int insertSelective(RedisLock record);
+    Long insertSelective(RedisLock record);
 
     RedisLock selectByPrimaryKey(Integer id);
 

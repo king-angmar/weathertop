@@ -11,7 +11,7 @@ import java.util.List;
 public interface LocationMapper extends BaseMapper<Location,Long> {
     int deleteByPrimaryKey(Long id);
 
-    int insertSelective(Location record);
+    Long insertSelective(Location record);
 
     Location selectByPrimaryKey(Long id);
 
