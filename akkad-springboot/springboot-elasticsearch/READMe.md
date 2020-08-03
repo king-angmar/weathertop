@@ -764,4 +764,4 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 
 # 3. 源码
 
-[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
+[Github演示源码](https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
