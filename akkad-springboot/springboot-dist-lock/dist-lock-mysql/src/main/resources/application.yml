@@ -28,9 +28,6 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=6000
 
 mysql-lock:
-#  url: jdbc:mysql://192.168.55.229:15501/hlsmsdb?characterEncoding=utf8&useSSL=false
-#  username: hlsms_data
-#  password: Ffxy_np_2019
   tableName: opt_lock
   expireSeconds: 70
 
