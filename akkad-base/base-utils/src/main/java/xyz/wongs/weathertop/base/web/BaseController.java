@@ -41,7 +41,7 @@ public abstract class BaseController {
     /**
      * @Description 初始化统一返回信息
      * @param
-     * @return cn.ffcs.np.common.util.response.ResponseResult
+     * @return xyz.wongs.weathertop.common.util.response.ResponseResult
      * @throws
      * @date 2019/11/7 9:58
      */

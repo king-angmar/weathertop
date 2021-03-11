@@ -1,4 +1,4 @@
-package xyz.wongs.weathertop.base.config;//package cn.ffcs.np.common.config;
+package xyz.wongs.weathertop.base.config;//package xyz.wongs.weathertop.common.config;
 //
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;

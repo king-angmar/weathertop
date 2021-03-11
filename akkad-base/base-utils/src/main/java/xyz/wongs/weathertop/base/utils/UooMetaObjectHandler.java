@@ -1,4 +1,4 @@
-//package cn.ffcs.np.base.utils;
+//package xyz.wongs.weathertop.base.utils;
 //
 //import com.baomidou.mybatisplus.mapping.MetaObjectHandler;
 //import org.apache.ibatis.reflection.MetaObject;
