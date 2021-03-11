@@ -46,6 +46,7 @@
             - [1.5.3.5. dynamic](#1535-dynamic)
 - [2. 构建集群模式](#2-构建集群模式)
 - [3. 源码](#3-源码)
+- [4. 相关章节](#4-相关章节)
 
 <!-- /TOC -->
 
@@ -921,3 +922,13 @@ copy_to允许你创造自定义超级字段_all. 也就是说，多字段的取�
 # 3. 源码
 
 [Github演示源码](https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
+
+[Gitee演示源码](https://gitee.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch)，记得给Star
+
+# 4. 相关章节
+
+[一、SpringBoot集成Elasticsearch7.4 实战（一）](https://www.jianshu.com/p/1fbfde2aefa5)
+
+[二、SpringBoot集成Elasticsearch7.4 实战（二）](https://www.jianshu.com/p/acc8e86cc772)
+
+[三、SpringBoot集成Elasticsearch7.4 实战（三）](https://www.jianshu.com/p/c02e5b412675)

@@ -21,9 +21,7 @@ spring:
 curator:
   retryCount: 5
   elapsedTimeMs: 5000
-  # 10.128.190.120:10014,10.128.190.121:10014,10.128.190.122:10014
-  connectString: 192.168.147.132:2181
-#  connectString: 10.128.190.120:10014
+  connectString: 192.168.0.1:2181
   # session超时时间
   sessionTimeoutMs: 60000
   # 连接超时时间

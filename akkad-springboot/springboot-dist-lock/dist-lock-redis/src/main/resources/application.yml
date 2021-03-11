@@ -9,9 +9,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/springboot?characterEncoding=utf-8&useSSL=true
     username: root
     password: 123456
-    #    url: jdbc:mysql://192.168.55.229:15501/hlsmsdb?characterEncoding=utf8&useSSL=false
-    #    username: hlsms_data
-    #    password: ENC(/ebvUZFA4km9Yt1lU5T9Qu/svII4SBlz)
     druid:
       initial-size: 5
       min-idle: 5

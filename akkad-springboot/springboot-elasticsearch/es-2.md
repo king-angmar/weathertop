@@ -12,6 +12,7 @@
         - [3.1.2. 查看索引](#312-查看索引)
         - [3.1.3. 删除索引](#313-删除索引)
 - [4. 源码](#4-源码)
+- [5. 相关章节](#5-相关章节)
 
 <!-- /TOC -->
 
@@ -21,11 +22,11 @@
 
 开发工具，这里选择的是IDEA 2019.2，构建Maven工程等一堆通用操作，不清楚的自行百度。
 
-我这边选择**elasticsearch-rest-high-level-client**方式来集成，发现这有个坑，开始没注意，踩了好久，就是要排除掉**elasticsearch、elasticsearch-rest-client**，这里没有选择spring-boot-starter-data-elasticsearch，因为最新版的starter现在依然是6.x版本号，并没有集成elasticsearch7.4.0，导致使用过程中有很多版本冲突，读者在选择的时候多加留意。
-
 ## 2.1. POM配置
 
-~~~
+我这边选择 **elasticsearch-rest-high-level-client** 方式来集成，发现这有个坑，开始没注意，踩了好久，就是要排除掉 **elasticsearch、elasticsearch-rest-client** ，这里没有选择 `spring-boot-starter-data-elasticsearch` ，因为最新版的 `starter` 现在依然是6.x版本号，并没有集成 `elasticsearch7.4.0`，导致使用过程中有很多版本冲突，读者在选择的时候多加留意。
+
+~~~xml
 <dependency>
     <groupId>org.elasticsearch.client</groupId>
     <artifactId>elasticsearch-rest-high-level-client</artifactId>
@@ -55,7 +56,7 @@
 
 ## 2.2. yml配置
 
-~~~
+~~~yml
 server:
   port: 9090
 spring:
@@ -89,18 +90,13 @@ mybatis:
   mapperLocations: classpath:mapper/**/*.xml
 ~~~
 
-这里定义
-
-~~~
-es:
-  host: 192.168.147.132
-  port: 9200
-  scheme: http
-~~~
+这里定义 `es` 节点下即 `elasticsearch` 的地址端口信息，修改为自己的即可。
 
 ## 2.3. 核心操作类
 
-~~~
+为了规范索引管理，这里将所有的操作都封装成一个基类，实现对索引的增删改查。同时还集成了对数据的单个以及批量的插入以及删除。避免针对每个索引都自己写一套实现，杜绝代码的冗余，同时这样的集成对代码的结构本身也是低侵入性。
+
+~~~java
 package xyz.wongs.weathertop.base.dao;
 
 import com.alibaba.fastjson.JSON;
@@ -349,6 +345,8 @@ public class BaseElasticDao {
 
 # 3. 实战
 
+通过以上的集成，我们看到完成在项目中对 `elasticsearch` 的集成，同时也用基类，将所有可能的操作都封装起来。下来我们通过对基类的讲解，来逐个说明！
+
 ## 3.1. 索引管理
 
 由于在**BaseElasticDao**类中**createIndex**方法，我在Controller层将索引名称和索引SQL封装过，详细见[Github演示源码]([https://github.com/king-angmar/weathertop/tree/master/doc/image/elastich) 中**xyz.wongs.weathertop.palant.vo.IdxVo**
@@ -363,7 +361,7 @@ public class BaseElasticDao {
 
 。详细的代码实现见如下：
 
-~~~
+~~~java
 
 /**
     * @Description 创建Elastic索引
@@ -402,7 +400,7 @@ public ResponseResult createIndex(@RequestBody IdxVo idxVo){
 
 > number_of_replicas：副本数
 
-~~~
+~~~java
 
 /** 设置分片
     * @author WCNGS@QQ.COM
@@ -425,7 +423,7 @@ public void buildSetting(CreateIndexRequest request){
 
 再命令行执行**curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"**，效果如图：
 
-~~~
+~~~shell
 
 [elastic@localhost elastic]$ curl -H "Content-Type: application/json" -X GET "http://localhost:9200/_cat/indices?v"
 health status index        uuid                   pri rep docs.count docs.deleted store.size pri.store.size
@@ -443,7 +441,7 @@ yellow open   idx_copy_to  HouC9s6LSjiwrJtDicgY3Q   3   2          1            
 
 我们写一个对外以HTTP+GET方式对外提供查询的服务。存在为TRUE，否则False.
 
-~~~
+~~~java
 /**
     * @Description 判断索引是否存在；存在-TRUE，否则-FALSE
     * @param index
@@ -476,7 +474,7 @@ public ResponseResult indexExist(@PathVariable(value = "index") String index){
 
 删除的逻辑就比较简单，这里就不多说。
 
-~~~
+~~~java
 /** 删除index
     * @author WCNGS@QQ.COM
     * @See
@@ -502,3 +500,13 @@ public void deleteIndex(String idxName) {
 # 4. 源码
 
 [Github演示源码](https://github.com/king-angmar/weathertop/tree/master/akkad-springboot/springboot-elasticsearch) ，记得给Star
+
+[Gitee演示源码](https://gitee.com/rothschil/weathertop/tree/master/akkad-springboot/springboot-elasticsearch)，记得给Star
+
+# 5. 相关章节
+
+[一、SpringBoot集成Elasticsearch7.4 实战（一）](https://www.jianshu.com/p/1fbfde2aefa5)
+
+[二、SpringBoot集成Elasticsearch7.4 实战（二）](https://www.jianshu.com/p/acc8e86cc772)
+
+[三、SpringBoot集成Elasticsearch7.4 实战（三）](https://www.jianshu.com/p/c02e5b412675)
