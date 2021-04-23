@@ -9,8 +9,7 @@
     <modules>
 
         <module>akkad-base</module>
-<!--        <module>akkad-cloud</module>
-        <module>akkad-apache</module>-->
+<!--        <module>akkad-cloud</module>-->
         <module>akkad-springboot</module>
         <module>akkad-war3</module>
     </modules>
@@ -211,7 +210,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>24.1.1</version>
+                <version>30.1.1-jre</version>
             </dependency>
             <dependency>
                 <groupId>com.xuxueli</groupId>
