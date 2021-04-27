@@ -14,7 +14,17 @@
     <dependencies>
         <dependency>
             <groupId>xyz.wongs.weathertop</groupId>
-            <artifactId>base-utils-non-db</artifactId>
+            <artifactId>base-utils</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>druid-spring-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.zookeeper</groupId>

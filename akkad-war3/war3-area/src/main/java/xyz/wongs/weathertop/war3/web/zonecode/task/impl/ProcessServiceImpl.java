@@ -38,7 +38,6 @@ import java.util.Random;
  * @date:   2017年7月28日 上午11:31:30  *
  * @Copyright: 2017 WCNGS Inc. All rights reserved.
  */
-@Slf4j
 @Service("processService")
 public class ProcessServiceImpl implements ProcessService {
 

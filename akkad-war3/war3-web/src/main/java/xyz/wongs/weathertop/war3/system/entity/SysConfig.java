@@ -55,4 +55,6 @@ public class SysConfig extends BaseEntity<Long> {
     * 备注
     */
     private String remark;
+
+
 }
