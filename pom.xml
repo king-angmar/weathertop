@@ -41,7 +41,7 @@
         <webmagic.core.version>0.7.3</webmagic.core.version>
         <swagger2.version>2.9.2</swagger2.version>
         <spring.boot.version>2.1.8.RELEASE</spring.boot.version>
-        <shiro.version>1.7.1</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
         <poi.version>3.17</poi.version>
         <oshi.version>3.9.1</oshi.version>
