@@ -1,7 +1,0 @@
-nacos:
-  config:
-    server-addr: 192.168.147.132:8848
-
-spring:
-  profiles:
-    active: dev

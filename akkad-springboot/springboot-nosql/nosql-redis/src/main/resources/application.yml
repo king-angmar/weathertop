@@ -1,8 +1,0 @@
-server:
-  port: 9090
-# mysql数据源配置
-spring:
-  redis:
-    database: 0
-    host: 192.168.125.128
-    port: 6379

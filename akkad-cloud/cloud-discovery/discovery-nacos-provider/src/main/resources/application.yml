@@ -1,6 +1,0 @@
-server:
-  port: 9001
-
-# mybatis配置
-mybatis:
-  mapperLocations: classpath:mapper/**/*.xml
