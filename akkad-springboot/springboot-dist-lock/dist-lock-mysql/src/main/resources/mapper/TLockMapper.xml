@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.wongs.weathertop.mapper.TLockMapper" >
+  <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.entity.TLock" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="lock_key" property="lockKey" jdbcType="VARCHAR" />
+    <result column="owner" property="owner" jdbcType="CHAR" />
+    <result column="expire_seconds" property="expireSeconds" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, lock_key, owner, expire_seconds, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_lock
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_lock
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xyz.wongs.weathertop.entity.TLock" >
+    insert into t_lock (id, lock_key, owner, 
+      expire_seconds, create_time)
+    values (#{id,jdbcType=INTEGER}, #{lockKey,jdbcType=VARCHAR}, #{owner,jdbcType=CHAR}, 
+      #{expireSeconds,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.wongs.weathertop.entity.TLock" >
+    insert into t_lock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="lockKey != null" >
+        lock_key,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="expireSeconds != null" >
+        expire_seconds,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lockKey != null" >
+        #{lockKey,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=CHAR},
+      </if>
+      <if test="expireSeconds != null" >
+        #{expireSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.entity.TLock" >
+    update t_lock
+    <set >
+      <if test="lockKey != null" >
+        lock_key = #{lockKey,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=CHAR},
+      </if>
+      <if test="expireSeconds != null" >
+        expire_seconds = #{expireSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.entity.TLock" >
+    update t_lock
+    set lock_key = #{lockKey,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=CHAR},
+      expire_seconds = #{expireSeconds,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
