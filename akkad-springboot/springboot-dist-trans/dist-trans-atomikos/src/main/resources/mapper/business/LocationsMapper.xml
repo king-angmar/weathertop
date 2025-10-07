@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.wongs.weathertop.mapper.location.LocationMapper">
+  <resultMap id="BaseResultMap" type="xyz.wongs.weathertop.entity.location.Location">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="local_code" jdbcType="VARCHAR" property="localCode" />
+    <result column="local_name" jdbcType="VARCHAR" property="localName" />
+    <result column="lv" jdbcType="INTEGER" property="lv" />
+    <result column="sup_local_code" jdbcType="VARCHAR" property="supLocalCode" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, flag, local_code, local_name, lv, sup_local_code, url
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_locations
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getList" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.entity.location.Location" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_locations
+    <where>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="localCode != null">
+        local_code = #{localCode,jdbcType=VARCHAR},
+      </if>
+      <if test="localName != null">
+        local_name = #{localName,jdbcType=VARCHAR},
+      </if>
+      <if test="lv != null">
+        lv = #{lv,jdbcType=INTEGER},
+      </if>
+      <if test="supLocalCode != null">
+        sup_local_code = #{supLocalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </where>
+  </select>
+
+  <select id="getList2" resultMap="BaseResultMap" parameterType="xyz.wongs.weathertop.entity.location.Location" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_locations where flag is null and url is not null
+      <if test="localCode != null">
+        and local_code = #{localCode,jdbcType=VARCHAR}
+      </if>
+      <if test="localName != null">
+        and local_name = #{localName,jdbcType=VARCHAR}
+      </if>
+      <if test="lv != null">
+        and lv = #{lv,jdbcType=INTEGER}
+      </if>
+      <if test="supLocalCode != null">
+        and sup_local_code = #{supLocalCode,jdbcType=VARCHAR}
+      </if>
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_locations
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertBatchByOn" parameterType="java.util.List">
+    insert into tb_locations (id, flag, local_code, local_name, lv, sup_local_code, url) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.flag,jdbcType=VARCHAR}, #{item.localCode,jdbcType=VARCHAR}, #{item.localName,jdbcType=VARCHAR},
+      #{item.lv,jdbcType=INTEGER}, #{item.supLocalCode,jdbcType=VARCHAR}, #{item.url,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+  <insert id="insert" parameterType="xyz.wongs.weathertop.entity.location.Location">
+    insert into tb_locations (id, flag, local_code, 
+      local_name, lv, sup_local_code, 
+      url)
+    values (#{id,jdbcType=BIGINT}, #{flag,jdbcType=VARCHAR}, #{localCode,jdbcType=VARCHAR}, 
+      #{localName,jdbcType=VARCHAR}, #{lv,jdbcType=INTEGER}, #{supLocalCode,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.wongs.weathertop.entity.location.Location">
+    insert into tb_locations
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="localCode != null">
+        local_code,
+      </if>
+      <if test="localName != null">
+        local_name,
+      </if>
+      <if test="lv != null">
+        lv,
+      </if>
+      <if test="supLocalCode != null">
+        sup_local_code,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="localCode != null">
+        #{localCode,jdbcType=VARCHAR},
+      </if>
+      <if test="localName != null">
+        #{localName,jdbcType=VARCHAR},
+      </if>
+      <if test="lv != null">
+        #{lv,jdbcType=INTEGER},
+      </if>
+      <if test="supLocalCode != null">
+        #{supLocalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.wongs.weathertop.entity.location.Location">
+    update tb_locations
+    <set>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="localCode != null">
+        local_code = #{localCode,jdbcType=VARCHAR},
+      </if>
+      <if test="localName != null">
+        local_name = #{localName,jdbcType=VARCHAR},
+      </if>
+      <if test="lv != null">
+        lv = #{lv,jdbcType=INTEGER},
+      </if>
+      <if test="supLocalCode != null">
+        sup_local_code = #{supLocalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.wongs.weathertop.entity.location.Location">
+    update tb_locations
+    set flag = #{flag,jdbcType=VARCHAR},
+      local_code = #{localCode,jdbcType=VARCHAR},
+      local_name = #{localName,jdbcType=VARCHAR},
+      lv = #{lv,jdbcType=INTEGER},
+      sup_local_code = #{supLocalCode,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>
